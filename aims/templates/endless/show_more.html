@@ -1,0 +1,39 @@
+{% load i18n %}
+{% if querystring %}
+    {% if label == 'as_div' %}
+        <div class="panel panel-default organisation animated fadeInDown endless_container">
+            <a class="endless_more" href="{{ path }}{{ querystring }}" rel="{{ querystring_key }}"></a>
+            <div class="endless_loading" style="display: none;">
+                <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+        </div> <!-- / panel-->
+    {% else %}
+        <tr class="endless_container">
+            <td> <a class="endless_more" href="{{ path }}{{ querystring }}" rel="{{ querystring_key }}">{% if label %}
+                {{ label }}{% endif %}</a>
+            </td>
+            <td></td>
+            <td class="endless_loading" style="display: none;">
+                <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>           
+                {{ loading|safe }}
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    {% endif %}
+{% endif %}

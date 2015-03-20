@@ -1,0 +1,11 @@
+{% if field.help_text %}
+    {% if help_text_inline %}
+        <span id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</span>
+    {% else %}
+        <a id="hint_{{ field.auto_id }}" class="ion-information-circled form-info" rel="popover" data-trigger="hover" data-content="{{ field.help_text|safe }}" ></a>
+        <script>  
+            $(function ()  { $("#hint_{{ field.auto_id }}").popover({placement:'right'});});  
+        </script>
+    {% endif %}
+{% endif %}
+

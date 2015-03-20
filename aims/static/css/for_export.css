@@ -1,0 +1,35 @@
+/* @override 
+	http://127.0.0.1:8000/static/css/for_export.css */
+
+body {
+     padding-top: 10px!important;
+     background: #fff!important;
+}
+
+.table_data_section{
+    display: none;
+}
+
+.navbar.navbar-default.navbar-fixed-top {
+    display: none;
+}
+
+.tools {
+    display: none!important;
+}
+
+.input-date{
+    border: none!important;
+}
+
+div.container.footer {
+	display: none;	
+}
+
+.dash-info {
+    display: none;
+}
+
+.btn-filter {
+    display: none;
+}

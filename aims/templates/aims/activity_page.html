@@ -1,0 +1,39 @@
+{% load humanize %}
+{% load endless %}
+{% load tag_library %}
+
+
+{% lazy_paginate 20 object_list %}
+
+{% for activity in object_list %}
+    <tr>
+       <td class="no-wrap" {% if activity.id|to_int %} sorttable_customkey = "{{activity.id|to_int}}" {% endif %}><a href="{% url 'activity_profile' iati_identifier=activity.id %}"> {{activity.id}} </a></td>
+       <td> {{activity.title}} </td>
+       <td> {{activity.sector.all.0}} </td>
+       <td> {{activity.activity_status.name}} </td>
+       <td class="no-wrap" style="text-align: right">
+         {% if activity.total_budget %}
+          {{activity.total_budget|floatformat:"0"|intcomma}} 
+         {% endif %}
+         {% if activity.total_budget_currency %}
+          ({{ activity.total_budget_currency.code }})
+         {% endif %}
+       </td>
+       <td> 
+       {{ activity|financing_organisation }}
+       </td>
+   {% if activity.start_actual %}
+        <td class="no-wrap" sorttable_customkey="{{activity.start_actual|to_date}}" title="{{activity.start_actual|date:'F d Y'}}"> {{activity.start_actual|date:"M `y"}} </td>
+   {% else %}
+        <td class="no-wrap" sorttable_customkey="{{activity.start_planned|to_date}}" title="{{activity.start_planned|date:'F d Y'}}"> {{activity.start_planned|date:"M `y" }} </td>
+   {% endif %}
+   {% if activity.end_actual %}
+        <td class="no-wrap" sorttable_customkey="{{activity.end_actual|to_date}}" title="{{activity.end_actual|date:'F d Y'}}"> {{activity.end_actual|date:"M `y"}} </td>
+   {% else %}
+        <td class="no-wrap" sorttable_customkey="{{activity.end_planned|to_date}}"  title="{{activity.end_planned|date:'F d Y'}}"> {{activity.end_planned|date:"M `y"}} </td>
+   {% endif %}
+    </tr>
+
+{% endfor %}
+
+{% show_more %}

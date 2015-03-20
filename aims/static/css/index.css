@@ -1,0 +1,994 @@
+/* @override 
+    http://127.0.0.1:8000/static/css/index.css
+	http://127.0.0.1:8001/static/css/index.css */
+
+
+body {
+    padding-top: 0;
+    background: #fff!important;
+}
+
+
+p {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 15px;
+    line-height: 20px;
+    margin-top: 20px;
+    margin-left: 0;
+    margin-right: 0;
+    color: #636262;
+}
+
+p.center {
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+h3 {
+    font-weight: 400;
+    font-size: 28px;
+}
+
+h5 {
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+
+h6 {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    padding-top: 20px;
+}
+
+
+h6:after {
+    display: block;
+    height: 1px;
+    background-color: #515252;
+    content: " ";
+    width: 50px;
+    margin-top: 9px;
+    margin-left: 0 !important;
+}
+
+
+/*====  SETTINGS AND LOGN NAV ===== */
+
+
+.home.navbar {
+    margin-bottom: 0 !important;
+}
+
+.home_settings_nav li {
+    margin-top: 20px;
+    margin-left: 20px !important;
+    color: #f7f7f7;
+    font-size: 14px;
+    line-height: 21px;
+    text-transform: uppercase;
+}
+
+.home_settings_nav li a {
+    color: #f7f7f7;
+    font-size: 14px;
+    padding-top: 0;
+    padding-right: 0;
+}
+
+.home_settings_nav li a:hover {
+    background: none;
+}
+
+
+.home_settings_nav li.active {
+    color: #fff;
+    font-weight: 600;
+    
+}
+
+.btn-login {
+    background: none;
+    color: #fff !important;
+    border: 2px solid #fff !important;
+    padding: 5px 20px !important;
+    margin-top: -6px;
+    text-transform: uppercase;
+}
+
+
+/* ======== LOGO & MAIN NAV BAR STYLING  ======= */
+
+
+.logoIndex {
+    background: url(/static/img/mohinga_logo_index.png) no-repeat;
+    width: 220px;
+    background-size: 100%;
+    display: block;
+    margin: 13px 0 0;
+    padding: 0;
+    position: absolute;
+    top: -10px;
+
+    -webkit-transition: opacity .1s ease-out;
+/* Chrome 1-25, Safari 3.2+ */
+    -moz-transition: opacity .1s ease-out;
+/* Firefox 4-15 */
+    -o-transition: opacity .1s ease-out;
+/* Opera 10.50–12.00 */
+    transition: opacity .1s ease-out;
+/* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
+}
+
+#navbar-collapse {
+    background-color: #fff;
+}
+
+a.navbar-brand {
+    font-size: 40px;
+    height: 50px;
+    font-weight: 900;
+    padding-left: 0px;
+    text-indent: 85px;
+    margin-top: 22px;
+    color: #fff;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+    line-height: 60px;
+    z-index: 9999;
+    
+}
+
+.navbar-default {
+    background-color: #f9faf9;
+    border-bottom: 2px solid #e2e2e2;
+    border-radius: 0;
+    z-index:9998;
+    width: 100%;
+    -moz-box-shadow: 0 0 1px #a7a7a7;
+     
+}
+
+.navbar-nav {
+    margin: 0 auto;
+    display: table;
+    table-layout: fixed;
+    float: none;
+}
+
+ul.nav.navbar-nav {
+    display: block !important;
+    width: 80% !important;
+    margin-left: Auto !important;
+    margin-right: auto !important;
+}
+
+ul.nav.navbar-nav li a {
+    color: #666;
+    text-transform: uppercase;
+}
+
+ul.nav.navbar-nav li {
+    height: 40px;
+    border-right: 1px solid #ececec;
+}
+
+ul.nav.navbar-nav li:last-child {
+    border: none;
+}
+
+.navbar .navbar-inner {
+    padding: 0;
+}
+
+.navbar .nav {
+    margin: 0;
+    display: table;
+    width: 100%;
+}
+
+.navbar .nav li {
+    display: table-cell;
+    width: 1%;
+    float: none;
+}
+
+.navbar .nav li a {
+    text-align: center;
+    height: 60px;
+    white-space: nowrap;
+    color: #7A7E85;
+    line-height: 30px;
+}
+
+.navbar .nav li:first-child a {
+    border-left: 0;
+    border-radius: 0px 0 0 0px;
+}
+
+.navbar .nav li:last-child a {
+    border-right: 0;
+    border-radius: 0 0px 0px 0;
+}
+
+.navbar-nav li.active a {
+    background: none!important;
+    border-bottom: 3px solid #1eabed;
+    color: #1eabed!important;
+}
+
+/*Mobile Navigation Modal*/
+
+.ion-close-round,
+.ion-navicon-round {
+    color: #fff;
+    font-size: 25px;
+}
+
+.ion-navicon-round {
+    position: relative;
+    top: 2px;
+}
+
+.ion-close-round{
+    position: relative;
+    top: -27px;
+}
+
+.btn-mob-menu {
+    background: none;
+    position: relative;
+    right: -20px;
+}
+
+.btn-mob-menu:active {
+    box-shadow: none;
+}
+
+.modal.in {
+   background-color: rgba(59, 68, 71, 0.82);
+}
+
+.close {
+    opacity: 1;
+   
+}
+
+.modal_nav {
+    background: none!important;
+    box-shadow: none!important;
+    border: none!important;
+    padding-top: 30px;
+}
+
+ul.lang_tog_mobile {
+    margin-top: 20px;
+    border-top: 1px solid #828282 !important;
+}
+
+.lang_tog_mobile li a {
+    color: white;
+    font-weight: 400;
+    font-size: 14px!important;   
+}
+
+/*.first_lang_tog {
+    border-right: 1px solid #828282;
+    padding-right: 20px;
+}*/
+
+ul.modal_nav_index {
+    padding-left: 0;
+}
+
+.modal_nav_index li {
+    list-style: none;
+    text-align: center;
+
+}
+
+.modal_nav_index li a {
+    color: white;
+    font-weight: 400;
+    font-size: 25px;
+}
+
+.modal-header {
+    border: none;
+}
+
+
+
+/*  === Home Page Content === */
+
+
+.home_page_block {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px 10px;
+    width: 100%;
+}
+
+
+.media-heading {
+    font-weight: 600;
+    font-style: normal;
+    font-size: 15px;
+    text-align: left;
+}
+
+.media-body p {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+    line-height: 20px;
+    margin-top: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    color: #515252;
+}
+
+.front-block {
+    padding-left: 60px;
+}
+
+hr {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+h3.home_page {
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: -1px;
+    font-size: 30px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.home_page_sub {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 300;
+    color: #727070;
+    
+}
+
+/*  ======== Jumbatron ========= */
+
+
+.jumbotron.large_jumbo {
+    min-height: 500px;
+    background: url(/static/img/farm_banner.jpeg) center center / cover no-repeat scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://media02.hongkiat.com/oversized-background-image-design/bg.jpg', sizingMethod='scale')";
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.http://media02.hongkiat.com/oversized-background-image-design/bg.jpg',sizingMethod='scale');
+    border-radius: 0;
+    margin-bottom: 0;
+    padding-top: 7px;
+}
+
+.jumbotron.smaller_jumbo {
+    min-height: 300px;
+    background: url(/static/img/city_scape.jpeg) center center / cover no-repeat scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://media02.hongkiat.com/oversized-background-image-design/bg.jpg', sizingMethod='scale')";
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.http://media02.hongkiat.com/oversized-background-image-design/bg.jpg',sizingMethod='scale');
+    border-radius: 0;
+    margin-top: 35px;
+    margin-bottom: -39px;
+}
+
+.jumbotron.smaller_jumbo2 {
+    min-height: 300px;
+    background: url(/static/img/looking_up.jpeg) center center / cover no-repeat scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://media02.hongkiat.com/oversized-background-image-design/bg.jpg', sizingMethod='scale')";
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.http://media02.hongkiat.com/oversized-background-image-design/bg.jpg',sizingMethod='scale');
+    border-radius: 0;
+    margin-top: 35px;
+    margin-bottom: -39px;
+}
+
+
+
+.jumbotron h1 {
+    color: #fff;
+    font-weight: 900!important;
+    width: 50% !important;
+    text-align: right;
+    margin-top: 0;
+    display: block;
+    text-transform: uppercase;
+    float: right;
+    clear: right;
+    line-height: 49px;
+    font-size: 55px;
+    text-shadow: none;
+    
+}
+
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 992px) {
+    .jumbotron h1 {
+        width: 75% !important;       
+    }
+}
+
+.jumbotron h1:after {
+    display: block;
+    height: 2px;
+    background-color: #fff;
+    content: " ";
+    width: 455px;
+    margin-top: 23px;
+    float: right;
+}
+
+
+.jumbotron h2 {
+    color: #fff;
+    font-weight: 900;
+    width: 500px !important;
+    text-align: center;
+    font-size: 28px;
+    display: block;
+    text-transform: uppercase;
+    padding: 15px;
+    border-style: solid;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: rgba(41, 38, 38, 0.38);
+    margin-top: 10px;
+    border-width: 4px;
+    text-shadow: 0 0 20px rgba(0,0,0,.8);
+    border-radius: ;    
+}
+
+.btn-home {
+    margin-top: 20px;
+    width: 381px;
+    height: 40px;
+    float: right;
+    text-transform: uppercase;
+    clear: both;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+    line-height: 37px;
+}
+
+.img_document {
+    width: 31%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.centered {
+    text-align: center;
+}
+
+.stats_sub {
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: right;
+    margin-top: 0;
+    font-size: 12px;
+}
+
+.stats_block.pull-right {
+    clear: right;
+    padding: 5px 10px 0;
+    display: block;
+    display: none !important;
+}
+
+.big_stats_one {
+    display: inline-block;
+    width: 169px;
+}
+
+/* ==== Banner Block ==== */
+
+
+.banner_block {
+    margin-top: 40px;
+    float: right;
+    clear: right;
+    text-shadow: 0 0 1px #7b7878;
+}
+
+.home_txt {
+    font-size: 15px;
+    line-height: 21px;
+}
+
+.stats_two {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
+    width: 150px;
+/*  text-shadow: 0 1px 6px rgba(0,0,0,0.4);*/
+}
+
+.stats {
+    font-size: 16px;
+    font-weight: 600!important;
+    color: #fff;
+    text-align: right;
+/*  text-shadow: 0 1px 6px rgba(0,0,0,0.4);*/
+    margin-bottom: 0;
+    padding-bottom: 2px!important;  
+    
+}
+
+.small {
+    color: #f7f6f6!important;
+    margin-bottom: 2px !important;
+    font-weight: 400!important;
+    text-align: right;
+    text-transform: uppercase;
+    font-size: 21px;
+    text-shadow: 0 0 20px rgba(0,0,0,.8);
+}
+
+
+.big_stats {
+    font-size: 45px;
+    font-weight: 600;
+    color: #fff;
+    text-align: right;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 0;
+    
+}
+
+.footnote {
+    font-size: 25px;
+    position: relative;
+    top: -15px;
+}
+
+
+.popover-content p{
+    font-size: 13px!important;
+    line-height: 16px !important;
+    text-align: center;
+    margin-top: 0;
+}
+
+.big_stats_sub {
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: right;
+    margin-top: 5px;
+    line-height: 17px!important;
+    font-size: 16px;
+    text-shadow: 0 0 2px #7b7878;
+}
+
+
+
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (max-width : 480px){
+    a.navbar-brand.logoIndex {
+        margin-left: 0px !important;
+        width: 190px;
+        margin-top: 18px;
+    }
+    
+    .jumbotron.large_jumbo {
+        min-height: 470px;
+    }
+    
+    .row {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+    }
+    
+    .center {
+        width: 70%;
+        margin-bottom: 30px;
+    }
+    
+    .banner_block {
+         margin-top: 130px;
+         clear: none!important;  
+    }
+    
+    .jumbotron h1 {
+        width: 100% !important;
+        text-align: left;
+        float: none;
+        line-height: 30px;
+        font-size: 33px;
+        text-shadow: 0 0 14px #262626;
+    }
+    
+    .jumbotron h1:after {
+        width: 100%;
+        margin-top: 23px;
+        float: none;
+    }
+    
+    .jumbotron h2{
+        width: 250px !important;
+    }
+    
+    .small {
+        text-align: left;
+        font-size: 13px;
+        clear: both;
+         text-shadow: 0 0 14px #262626;
+        font-weight: bold!important;
+    }
+    
+    .btn-home {
+        width: 100%;
+        font-size: 13px;
+        float: none;
+        clear: both;
+    
+    }
+    
+    h3.home_page {
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: -1px;
+        font-size: 28px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .home_page_sub {
+        font-size: 18px;
+    }
+    .home_txt {
+        text-align: center;
+    }
+    
+    .colour_band {
+        background-color: #f5f5f5!important;
+        padding-top: 10px!important;
+        padding-bottom: 10px!important;
+        margin-top: 10px;
+        margin-bottom: 10px!important;
+    }
+}
+
+/*retina iphone*/
+@media screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) {
+    a.navbar-brand.logoIndex {
+        margin-left: 0px !important;
+        width: 190px;
+        margin-top: 18px;
+    }
+
+    .jumbotron.large_jumbo {
+        min-height: 470px;
+    }
+
+    .row {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+    }
+    
+    .center {
+        width: 70%;
+        margin-bottom: 30px;
+    }
+
+    .banner_block {
+         margin-top: 130px;
+         clear: none!important;  
+    }
+    
+    .jumbotron h1 {
+        width: 100% !important;
+        text-align: left;
+        float: none;
+        line-height: 30px;
+        font-size: 33px;
+        text-shadow: 0 0 14px #262626;
+    }
+    
+    .jumbotron h1:after {
+        width: 100%;
+        margin-top: 23px;
+        float: none;
+    }
+    
+    .jumbotron h2{
+        width: 250px !important;
+    }
+   
+    .small {
+        text-align: left;
+        font-size: 13px;
+        clear: both;
+         text-shadow: 0 0 14px #262626;
+        font-weight: bold!important;
+    }
+    
+    .btn-home {
+        width: 100%;
+        font-size: 13px;
+        float: none;
+        clear: both;
+
+    }
+    
+    h3.home_page {
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: -1px;
+        font-size: 28px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .home_page_sub {
+        font-size: 18px;
+    }
+    .home_txt {
+        text-align: center;
+    }
+    
+    .colour_band {
+        background-color: #f5f5f5!important;
+        padding-top: 10px!important;
+        padding-bottom: 10px!important;
+        margin-top: 10px;
+        margin-bottom: 10px!important;
+    }
+}
+
+
+
+
+/*==========  HOME PAGE STYLES =============*/
+
+.sub_heading {
+    font-size: 15px;
+    margin-bottom: 0;
+    color: #fff;
+    text-align: right;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding-bottom: 13px;
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+
+.sub_heading:after {
+    display: block;
+    height: 1px;
+    background-color: #fff;
+    content: " ";
+    margin-left: auto;
+    width: 412px;
+    margin-top: 9px;
+}
+
+.colour_band {
+    background-color: #f5f5f5!important;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.resourcesCol {
+    margin-top: -20px;
+}
+
+.resource_menu {
+    position: absolute;
+    left: -110px;
+}
+
+.ion-ios7-people-outline,
+.ion-ios7-calculator-outline,
+.ion-ios7-bookmarks-outline {
+    font-size: 55px!important;
+    color: #898787;
+}
+
+.btn-group-wrap {
+    text-align: center;
+}
+
+.resource_link.btn-group {
+    margin: 0 auto; 
+    text-align: left;
+    width: inherit;
+    display: inline-block;
+}
+
+
+.resource_link {
+    font-weight: normal;
+    font-style: normal;
+    line-height: 34px;
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+i.ion-calendar {
+     padding-right: 10px;
+      font-size: 16px;
+}
+
+i.ion-ios7-email {
+    padding-right: 10px;
+    font-size: 20px;
+    position: relative;
+    top: 2px;
+}
+
+.ion-compass,
+.ion-ios7-email-outline,
+.ion-ios7-chatboxes-outline,
+.ion-ios7-copy-outline,
+.ion-ios7-calendar-outline {
+    position: relative;
+    top: 6px;
+    color: #2996cc;
+    font-size: 6em;
+    padding-right: 20px;
+}
+
+.ion-clipboard{
+    font-size: 5em;
+}
+
+.ion-compass,
+.ion-ios7-calendar-outline {
+    font-size: 5em;
+
+}
+.doc_link {
+    margin-left: 26px;
+}
+
+.caret {
+    padding-right: 1px;
+    margin-right: 20px!important;
+    margin-left: 20px!important;
+    border-bottom-color: #FFF!important;
+    border-top-color: #FFF!important;
+}
+
+i.ion-ios7-folder-outline {
+    font-size: 25px;
+    padding-right: 20px;
+    top: 4px;
+    position: relative;
+    color: #47a447;
+}
+
+.btn-success{
+    background-color: #A0D468;
+}
+
+h2.subscribe_form {
+    font-size: 14px!important;
+    text-transform: uppercase;
+}
+
+.calender_btn_wrapper {
+    padding-top: 60px;
+}
+
+.calender_btn_wrapper .btn {
+    font-size: 15px;
+}
+
+.text_seperator {
+    color: #bbb9b9;
+    font-size: 20px;
+    font-weight: 300;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.dropdown-toggle.resource_link {
+    padding-left: 40px;
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (max-width : 480px) {
+    .ion-ios7-people-outline,
+    .ion-ios7-calculator-outline,
+    .ion-ios7-bookmarks-outline {
+        font-size: 65px!important;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        width: 55px;
+        height: 60px;
+        margin-top: 18px;
+    }
+    
+    .ion-compass,
+    .ion-ios7-email-outline,
+    .ion-ios7-chatboxes-outline,
+    .ion-ios7-copy-outline,
+    .ion-ios7-calendar-outline {
+        position: relative;
+        top: 6px;
+        color: #2996cc;
+        font-size: 6em;
+        padding-right: 0px;
+    }
+    
+    .ion-ios7-calculator-outline{
+        padding-left: 8px;
+    }
+
+    h6 {
+        text-align: center;
+        font-size: 15px;
+    }
+    
+    h6:after {
+        display: block;
+        content: " ";
+        width: 50px;
+        height: 2px;
+        margin-right: auto !important;
+        margin-left: auto !important;
+        text-align: center;
+        margin-top: 13px;
+    }
+    
+    .resource_menu {
+        position: relative;
+        left: 0;
+    }
+    
+}
+
+img#eu_logo {
+    width: 104px;
+    padding-top: 3px;
+}
+
+
+/* =====  WEB FOOTER =========*/
+
+footer {
+    background-color: #b5bdc1;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    min-height: 100px;
+    margin-top: 100px;
+}
+
+footer p {
+    text-align: center;
+    color: #fff;
+}
+
+footer a {
+    color: #fff;
+    font-weight: bold;
+}

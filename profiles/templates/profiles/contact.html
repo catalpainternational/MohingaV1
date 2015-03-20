@@ -1,0 +1,20 @@
+<h5 class="Address title" data-type="text" data-pk="1">{{ contact.title|default:'' }}</h5>
+
+{% if contact.address != None and contact.address != '' %}
+    <p id="AddressRoad" class="Address address" data-type="text" data-pk="1">{{ contact.address|default:'' }}</p>
+{% endif %}
+
+{% if contact.phone_number != None and contact.phone_number != '' %}
+    <p id="phone" class="Address ContactInfo phone phone_number" data-type="text" data-pk="1">      {{ contact.phone_number|default:'' }}
+    </p>
+{% endif %}
+
+{% if contact.email != None and contact.email != '' %}
+    <p id="email" class="Address ContactInfo email" data-type="text" data-pk="1">
+        <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+    </p>
+{% endif %}
+
+{% if contact.fax != None and contact.fax != '' %}
+    <p id="fax" class="Address ContactInfo fax" data-type="text" data-pk="1">{{ contact.fax|default:'' }}</p>
+{% endif %}

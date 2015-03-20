@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load localeurl_tags %}
+
+{% block header %}
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid nav_block">
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-branding">
+                    <span class="logo"></span><a class="navbar-brand hidden-xs" href="{% url 'index' %}">{% trans 'MOHINGA' %}</a>
+                </div>
+                <div class="col-xs-7 col-sm-4 col-md-4 col-lg-5 col-search">
+                    <form role="search" action="{% url  'search' %}">
+                        <div class="inner-addon left-addon">
+                            <i class="ion-search"></i>
+                            <input type="text" name="q" value="{{ search_term }}" class="form-control search-bar-main" placeholder="{% trans 'Search' %}">
+                        </div>
+                    </form>
+                    <!-- <div class="nav-bar-item">
+                        <a href="/search" class="btn pull-right search-nav nav-bar-item border-right">{% trans 'Search' %}</a>
+                    </div> -->
+                </div>
+                <div class="col-xs-3 col-sm-6 col-md-6 col-lg-5 col-tools">
+                    
+                    <div class="dropdown pull-left hidden-xs nav-bar-item border-right">
+                        <a class="btn dropdown-toggle nav-bar-item" type="button" id="navigation-dropdown" data-toggle="dropdown">{% trans 'Aid Dashboard' %}</a>
+                        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="navigation-dropdown">
+                            <li class="nav-list-item" role="presentation"><a role="menuitem" tabindex="-1" href="/dashboard/CPU/location/">{% trans 'Aid by Location' %}</a></li>
+                            <li class="nav-list-item" role="presentation"><a role="menuitem" tabindex="-1" href="/dashboard/CPU/ministry/">{% trans 'Aid by Ministry' %}</a></li>
+                            <li class="nav-list-item" role="presentation"><a role="menuitem" tabindex="-1" href="/dashboard/CPU/sector/">{% trans 'Aid by Sector' %}</a></li>
+                            <li class="nav-list-item" role="presentation"><a role="menuitem" tabindex="-1" href="/dashboard/CPU/donor/">{% trans 'Aid by Donor' %}</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dropdown pull-left hidden-xs nav-bar-item">
+                        <a href="/activity/new/" class="btn dropdown-toggle nav-bar-item" type="button" >{% trans 'Create Activity' %}</a>
+                    </div>
+                    
+                    <a role="button" class="menu btn pull-left visible-xs" data-toggle="modal" data-target="#menu"><i class="ion-navicon"></i></a>
+                    
+                    <div id="account-dropdown" class="dropdown dropdown-btn pull-right">     
+                        <a class="dropdown-toggle hidden-xs" data-toggle="dropdown" href="#">
+                            <span >{% trans 'Hello' %},<b class="user-name">
+                            {% if request.user.first_name %}{{ request.user.first_name }}{% else %}{{ request.user }}{%endif %}
+                            </b>
+                            <div class="caret"></div>
+                            </span> 
+                        </a>
+                        <a class="dropdown-toggle visible-xs pull-right" data-toggle="dropdown" href="#"><i class="ion-gear-a settings_mobile"></i></a>
+                        <ul class="dropdown-menu settings pull-right">
+                            <!-- <li class="settings"><a href="#"><i class="ion-ios7-cog"></i> {% trans "Settings" %}</a></li> -->
+                            {% if request.user.userorganisation.organisations.all|length == 1 %}
+                                <li class="settings">
+                                    <a href="{% url 'donor_profile' request.user.userorganisation.organisations.all.0.code %}">
+                                        <i class="ion-home"></i>
+                                        {% trans "Donor Profile" %}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li class="tutorial-trigger"><a href="javascript:;">{% trans "Start tutorial" %}</a></li>
+                            <li class="drop_toggle">        
+                                {% for language in LANGUAGES %}
+                                    {% ifequal language.0 LANGUAGE_CODE %}
+                                        <p class="selected">{{ language.1 }}</p>
+                                    {% else %}
+                                        <p><a href="{{ request.path|chlocale:language.0 }}">{{ language.1 }}</a></p>
+                                    {% endifequal %}
+                                {% endfor %}   
+                            </li>    
+                            <li class="settings log_out"><a href="{% url 'auth_logout' %}">{% trans "Sign out" %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div> <!-- /row-->
+        </div><!-- /container-->
+    </nav> <!--/nav bar-->
+    
+<!--    Menu Modal-->
+    
+    <div class="modal fade" id="menu" tabindex="-1" role="dialog" aria-labelledby="menu-model" aria-hidden="true">
+        <div class="modal-dialog menu_dialog">
+            <div class="modal-content menu-content">
+                <div class="modal-header menu-header visible-xs">
+                    <button type="button" class="close menu-close" data-dismiss="modal"><span aria-hidden="true"><i class="ion-close-round"></i></span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body menu-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 menu-left dots_right">
+                            <h4 class="menu-header">{% trans "Explore" %}</h4>
+                            {# for section in sections #}
+                            <!--li class="main_nav animated fadeInLeft"><a href="{{section.url}}">{{section.title}}</a></li-->
+                            {# endfor #}
+                            <li class="main_nav animated fadeInLeft"><a href="/dashboard/CPU/location/">{% trans 'Aid By Location' %}</a></li>
+                            <li class="main_nav animated fadeInLeft"><a href="/dashboard/CPU/ministry/">{% trans 'Aid By Ministry' %}</a></li>
+                            <li class="main_nav animated fadeInLeft"><a href="/dashboard/CPU/sector/">{% trans 'Aid By Sector' %}</a></li>
+                            <li class="main_nav animated fadeInLeft"><a href="/dashboard/CPU/donor/">{% trans 'Aid By Donor' %}</a></li>
+                        </div>
+                        <div class="col-sm-6 col-md-6 menu-right">
+                        <a class="menu-close hidden-xs" data-dismiss="modal" aria-hidden="true">&times;</a>
+                        <h4 class="menu-header">{% trans "Edit" %}</h4>
+                            <ul class="activity_link animated fadeInRight">
+                                <li><a href="/search">{% trans 'Search for an activity' %}</a></li>
+                                <li><a href="/activity/new/">{% trans 'Create a new activity' %}</a></li>
+                            {% if userorganisation %}
+                                <li><a href="/{{ LANGUAGE_CODE }}/dashboard/CPU/donor/{{ userorganisation.pk }}#activities">{% trans 'Edit your activities' %}</a></li>
+                            {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissable animated bounceInDown">
+                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+    
+
+{% block footer %}
+{% endblock %}

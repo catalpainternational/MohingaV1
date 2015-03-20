@@ -1,0 +1,73 @@
+{% load endless %}
+{% load i18n %}
+{% load humanize %}
+
+{% paginate 10 object_list %}
+        {% for result in object_list %}
+
+            {% ifchanged %}
+                    {% if result.model_name == 'organisation' %}
+                        <h4 class="search_subheader">{% trans 'Organisations' %}</h4>
+                    {% else %}
+                        <h4 class="search_subheader">{% trans 'Activities' %}</h4>
+                    {% endif %}
+            {% endifchanged %}
+
+            {% if result.model_name == 'organisation' %}
+         <!--   <h5 class="align-center search_title">{% trans 'Organisations' %}</h5> -->      
+                <div class="panel panel-search panel-default organisation animated fadeInDown">
+                    <div class="panel-body">
+                        <div class="search_result">
+                            <a class="prj_nmbr" href="{% url 'donor_profile' iati_identifier=result.object.pk|urlencode:'' %}">
+                                <span class="prj_result "> {{ result.object }}</span>
+                                 <br />
+                                 {{ result.object.title }}
+                                 {{ result.object.abbreviation }}
+                            </a> 
+                        </div>
+                        <hr />
+                    </div> <!--/panel body-->
+                </div> <!-- / panel-->
+           
+            {% else %}
+                {% if result.object %}
+                    <!--       <h5 class="align-center search_title">{% trans 'Activities' %}</h5>-->
+                    <div class="panel panel-search panel-default activity animated fadeInDown">
+                        <div class="panel-body">
+                            <div class="search_result"> 
+                                <a class="prj_nmbr" href="{% url 'activity_profile' iati_identifier=result.object.pk %}">
+                                    <span class="prj_nmbr "> {{ result.object}}</span>
+                                     <br />
+                                     <span class="prj_result "> {{ result.object.title }}</span>
+                                </a> 
+                            </div>    
+                            <div class="prj_org">
+                                {% if result.object.reporting_organisation.code %}
+                                    <a href="{% url 'donor_profile' result.object.reporting_organisation.code %}">
+                                        {{ result.object.reporting_organisation }}
+                                    </a>
+                                {% else %}
+                                    {{ result.object.reporting_organisation }}
+                                {% endif %}
+                            </div>  
+                            
+                            <ul class="list-inline">
+                                <li class="list-group-item search_stats">Status: {{ result.object.activity_status }}</li>
+                                <span class="search_stats">|</span>
+                                <li class="list-group-item search_stats">Amount: {{ result.object.default_currency.code }} {{ result.object.total_budget|intcomma }}
+                                </li>
+                            </ul> 
+                            <hr />
+                        </div> <!--/panel body-->
+                         
+                    </div> <!-- / panel-->
+                   
+                {% endif %}
+            {% endif %}
+        {% empty %}
+            <p>{% trans 'No results found.' %}</p>
+        {% endfor %}
+        {% show_more 'as_div' %}
+
+     </div>
+</div><!-- end of row-->

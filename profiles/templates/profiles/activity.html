@@ -1,0 +1,789 @@
+{% extends 'aims/aid_by.html' %}
+{% load i18n %}
+{% load localeurl_tags %}
+{% load profiles_filters %}
+
+{% block content %}
+
+{% block extrahead %}
+<style>
+/*    path:hover {
+        fill: #1f77b4;
+        fill-opacity: .4;
+    }
+    .state {
+        fill: none;
+        stroke: #555;
+        stroke-linejoin: round;
+    }
+    .current {
+        fill: #00ff00;
+        stroke: 1px, #blue;
+    }*/
+    rect {
+        fill: none;
+        pointer-events: all;
+    }
+
+    .feature {
+        fill: #ebebee;
+        cursor: pointer;
+    }
+    .feature.active {
+        fill: #ff9500;
+    }
+    .mesh {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 1px;
+        stroke-linejoin: round;
+    }
+    .feature.current {
+        fill: #FF8D00;
+    }
+    .noshow{
+        fill: #ebebee;
+    }
+
+    .feature.chloro_0{fill:#F7FBFF}
+    .feature.chloro_1{fill:#d6dfe9}
+    .feature.chloro_2{fill:#aabdd0}
+    .feature.chloro_3{fill:#94acc4}
+    .feature.chloro_4{fill:#7e9bb8}
+    .feature.chloro_5{fill:#698aac}
+    .feature.chloro_6{fill:#56799d}
+    .feature.chloro_7{fill:#4a6887}
+    .feature.chloro_8{fill:#44607c}
+    .feature.chloro_9{fill:#384f66}
+    .feature.chloro_10{fill:#2c3e50}
+</style>
+{% endblock %}
+
+
+<link href="{{ STATIC_URL }}css/profile.css" rel="stylesheet" />
+
+<script src="{{ STATIC_URL }}js/activity.js"></script>
+
+    
+    <div id="user" class="container-fluid main_block">
+        <div class="row">
+            <div class="col-md-12 ProfileHead">
+            
+                <div class="ProfileBanner ActivityBanner">
+                
+                    <!--if correct logged in donor then show edit button-->
+                    <div class="banner-tools-wrapper hidden-xs">
+                        <a href="{% url 'edit_activity' activity.iati_identifier %}" class="btn btn-default btn-xs pull-right btn-profile">
+                        <i class="ion-edit btn_icon"></i>
+                            {% trans "Edit Activity Information" %}
+                        </a>
+                    </div>
+                    
+                    <h1 class="jumbo">
+                        {% if activity.hierarchy == 1 %}
+                            {% trans 'Project' %}
+                        {% else %}
+                            {% trans 'Program' %}
+                        {% endif %}
+                    </h1><!--Project or Program-->
+                    <h2 class="sub-jumbo">
+                        {{ activity_sector.first.sector.name|default:'' }}
+                    </h2> <!--Sector with the highest percentage-->
+                    
+                </div>
+            </div>
+        </div>
+        
+    
+<!--SIDE BAR-->     
+        <div class="row ProfileBody">
+            <div class="col-md-3 profile_sidebar profile_sidebar_activity">  
+                <h4 class="profile_org"> {{ activity.title }}</h4>
+                <br />
+                <ul class="list-unstyled">
+                    <li>{{ activity.iati_identifier }}</li>
+                    <li>
+                        {% if activity.hierarchy == 1 %}
+                            {% trans 'Project' %}
+                        {% else %}
+                            {% trans 'Program' %}
+                        {% endif %}
+                    </li>
+                    <li>{{ activity.collaboration_type|default:'' }}</li>
+                    <li>
+                        {% if activity.activity_status.code == 1 %}
+                            <span class="label label-default label-planned no_padding_label">Pipeline</span>
+                        {% endif %}
+
+                        {% if activity.activity_status.code == 2 %}
+                            <span class="label label-default label-implementing no_padding_label">Implementing</span>
+                        {% endif %}
+
+                        {% if activity.activity_status.code == 3 %}
+                            <span class="label label-default label-completed no_padding_label">Completed</span>
+                        {% endif %}
+
+                        {% if activity.activity_status.code == 4 %}
+                            <span class="label label-default label-completed">{% trans "Post-completed" %}</span>
+                        {% endif %}
+
+                        {% if activity.activity_status.code == 5 %}
+                            <span class="label label-default label-completed">{% trans "Cancelled" %}</span>
+                        {% endif %}
+
+                    </li>
+                    <li>
+                        {% if activity.is_draft %}
+                            <span class="label label-default label-draft no_padding_label">Draft</span>
+                        {% endif %}
+                    </li>
+                </ul>
+                
+                <span class="stats_divider"></span>
+                
+                <h5 class="sidebarSubtitle">{% trans "Financing" %}
+                    <a id="financing" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Financing" data-content="{% trans 'The countries(s) or institution(s) that provide the funds.' %}" ></a>
+                </h5>
+                {% for funding_organisation in funding_organisations %}
+                    {% if funding_organisation.organisation %}
+                        <div class="row financing-sidebar">
+                            <div class="col-sm-2">
+                                {% if funding_organisation.organisation.profile.first and funding_organisation.organisation.profile.first.logo %}
+                                    <img src="{{ funding_organisation.organisation.profile.first.logo.url }}" alt="{{ funding_organisation.organisation.name }}" class="img-circle logo-xs"></div>
+                                {% else %}
+                                    <img src="{{ STATIC_URL }}img/logo_donor_blank_xs.png" alt="{{ funding_organisation.organisation.name }}" class="img-circle logo-xs"></div>
+                                {% endif %}
+                                
+                            <div class="col-sm-10">
+                                <a href="{% url 'donor_profile' funding_organisation.organisation.code %}">
+                                    {{ funding_organisation.organisation.name }}
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+             
+                <span class="stats_divider"></span>
+                
+                <h5 class="sidebarSubtitle">{% trans "General" %}
+                    <a id="general" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Start and end dates" data-content="{% trans 'The dates below represents the planned and actual activity start and end dates.' %}" ></a>
+                </h5>
+                <ul class="list-unstyled">
+                    <li><strong>{% trans "Start planned:" %} </strong> {{ activity.start_planned|date:'d/m/Y' }}</li>
+                    <li><strong>{% trans "End planned:" %} </strong> {{ activity.end_planned|date:'d/m/Y' }}</li>
+                    <li><strong>{% trans "Start actual:" %} </strong> {{ activity.start_actual|date:'d/m/Y' }}</li>
+                    <li><strong>{% trans "End actual:" %} </strong> {{ activity.end_actual|date:'d/m/Y' }}</li>
+                </ul>
+                
+                {% if activity_sector %}
+                    <span class="stats_divider"></span>
+                    
+                    <h5 class="sidebarSubtitle">{% trans "Sectors" %}
+                        <a id="sectors" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Activity sectors" data-content="{% trans 'Specific areas of the recipients economic or social development that the transfer intends to foster, also known as the purpose codes. The sector labels and codes used are tertiary-level OECD-DAC sector codes.' %}" ></a>
+                    </h5>
+                    {% for sector in activity_sector %}
+                        <span class="sector_tag" title="{{ sector.sector.name }}">
+                            <span class="sector_name">{{ sector.sector.name }}</span>
+                            <span class="sector_value">
+                                {% if sector.percentage %}
+                                    {{ sector.percentage }}%
+                                {% else %}
+                                    n/a
+                                {% endif %}
+                            </span>
+                        </span>
+                    {% endfor %}
+                {% endif %}
+                
+                {% if activity.contact_info_set.first %}
+
+                    <span class="stats_divider"></span>
+
+                    <h5 class="sidebarSubtitle edit_button">{% trans "Contact Details" %}</h5>
+                    {% if activity.contact_info_set.first.organisation and activity.contact_info_set.first.organisation != "" %}
+                        <h5 class="Address">
+                            {{ activity.contact_info_set.first.organisation }}
+                        </h5> <!--Organisation-->
+                    {% endif %}
+                    {% if activity.contact_info_set.first.person_name and activity.contact_info_set.first.person_name != "" %}
+                        <h5 class="Person">
+                            {{ activity.contact_info_set.first.person_name }}
+                        </h5> <!--person name-->
+                    {% endif %}
+                    {% if activity.contact_info_set.first.mailing_address and activity.contact_info_set.first.mailing_address != "" %}
+                        <p class="Address">
+                            {{ activity.contact_info_set.first.mailing_address }}
+                        </p> <!--mailing address-->
+                    {% endif %}
+                    {% if activity.contact_info_set.first.telephone and activity.contact_info_set.first.telephone != "" %}
+                        <p class="Address ContactInfo phone">
+                            {{ activity.contact_info_set.first.telephone }}
+                        </p><!-- telephone number-->
+                    {% endif %}
+                    {% if activity.contact_info_set.first.email and activity.contact_info_set.first.email != "" %}
+                        <p class="Address ContactInfo email">
+                            <a href="http://{{ activity.contact_info_set.first.email }}">
+                                {{ activity.contact_info_set.first.email }}
+                            </a>
+                        </p> <!--email address-->
+                    {% endif %}
+                {% endif %}
+           
+            </div>
+            
+            <div class="col-md-9 profileContent">
+                <ul id="ProfileTabs" class="nav nav-tabs nav-justified">
+                    <li class="active"><a href="#About" data-toggle="tab">{% trans "About" %}</a></li>
+                    <li><a href="#Location" data-toggle="tab">{% trans "Location" %}</a></li>
+                    <li><a href="#Finances" data-toggle="tab">{% trans "Finances" %}</a></li>
+                    <li><a href="#Results" data-toggle="tab">{% trans "Results" %}</a></li>
+                </ul>
+                
+<!--ABOUT TAB-->
+                <div id="TabContent" class="tab-content">
+                    <div class="tab-pane fade active in" id="About">
+                        <div class="profileContent_tab">
+                            <h4 class="profile_header">{% trans "About" %}
+                            <a id="about" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="General activity information" data-content="{% trans 'Information below generally contains a description of the activity, as wells as activity objectives and target groups.' %}" ></a>
+                            </h4>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-5 pull-right border-left padding_bottom_xs">
+                                    {% if participating_organisations %}
+                                        <!--partners block-->
+                                        <h5 class="sidebarSubtitle">{% trans "Participating" %}
+                                            <a id="participating" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Participating organisations" data-content="{% trans 'A list of all organisations associated with this activity as either a extending or implementing partner.' %}" ></a> 
+                                        </h5>
+                                        <ul class="list-unstyled profile_txt">
+                                            {% for organisation in participating_organisations %}
+                                                <li>
+                                                    {{ organisation.organisation.name }} - 
+                                                    {% if organisation.role_id == 'Implementing' %}
+                                                        <span class="label label-default label-role no_padding_label" data-toggle="tooltip" data-placement="top" title="The implementer is principally responsible for delivering this activity">
+                                                    {% else %}
+                                                        <span class="label label-default label-role no_padding_label" data-toggle="tooltip" data-placement="top" title="The extending agency receiving funds from financing partner(s) for channeling to implementing partner(s)">
+                                                    {% endif %}
+                                                        {{ organisation.role_id }}
+                                                    </span>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <span class="stats_divider"></span>
+                                    {% endif %}
+                                
+                                    
+                                    {% if activity.reporting_organisation %}
+                                        <h5 class="sidebarSubtitle">{% trans "Reporting" %}
+                                            <a id="reporting" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Reporting Organisation" data-content="{% trans 'The organisation responsible for the accuracy, completeness, and timeliness of the information about this activity. The reporting organisation is not necessarily involved in the activity itself, though in practice it often will be a development partner providing funding. Please contact the development partner using the contract details provided in the bottom left column if you believe you have identified potential double-counting.' %}" ></a> 
+                                        </h5>
+                                        <ul class="list-unstyled profile_txt">
+                                            <li>{{ activity.reporting_organisation.name }}</li>
+                                        </ul>
+                                        <span class="stats_divider"></span>
+                                    {% endif %}
+                                
+                                
+                                    {% if ministry_organisations %}
+                                        <h5 class="sidebarSubtitle">{% trans "Government Partner" %}
+                                        <a id="ministry" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Government partner" data-content="{% trans 'The Government entity or entities with whom the activity has been agreed.' %}" ></a> 
+                                        </h5>
+                                        <ul class="list-unstyled profile_txt">
+                                            {% for organisation in ministry_organisations %}
+                                                <li>{{ organisation.organisation.name }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                
+                                    <span class="stats_divider visible-xs"></span>
+                                    
+                                </div>
+                                
+                                
+                                <div class="col-xs-12 col-md-7">
+                                    <!--activity description-->
+                                    <h4 class="profile_subheader visible-xs">{% trans "Description" %}</h4>
+                                    <p class="profile_txt">{{ activity.general_description|default:''|linebreaksbr }}</p>
+                         
+   
+                                    {% if activity.objective_description %}
+                                        <h4 class="profile_subheader">{% trans "Objectives" %}</h4>
+                                        <p class="profile_txt">{{ activity.objective_description|default:''|linebreaksbr }}</p>
+                                    {% endif %}
+                                  
+                                    <!--activity target groups-->
+                                    {% if activity.target_group_description %}
+                                        <h4 class="profile_subheader">{% trans "Target groups" %}</h4>
+                                        <p class="profile_txt">{{ activity.target_group_description|default:''|linebreaksbr }}</p>
+                                    {% endif %}
+                                        
+                                </div>                                
+                            </div>
+                        </div>
+                    </div> 
+                    
+<!--LOCATION TAB-->
+                    <div class="tab-pane fade in" id="Location">
+                        <div class="profileContent_tab">
+                            <h4 class="profile_header">{% trans "Location" %}
+                                <a id="location" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Activity location" data-content="{% trans 'The location where the activity is taking place. Activities are considered “Myanmar (Nationwide)” when their potential impact is broader than a sub-national geographic area.' %}" ></a>
+                            </h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                       <div id="map"></div>
+                                    </div>
+                                    <div class="col-md-5 border-left">
+                                        <div class="table-responsive">
+                                          <table class="table no-border profile-txt">
+                                              <tr>
+                                                  <th>{% trans "Location" %}</th>
+                                                  <th class="text-right">{% trans "Amount" %}</th>
+                                                  <th class="text-right">{% trans "Percent" %}</th>
+                                              </tr>
+                                              {% for location in locations %}
+                                                  <tr>
+                                                    <td>{{ location.name }}</td>
+                                                    <td class="text-right">
+                                                        ${{ location.total }}
+                                                    </td> 
+                                                    <td class="text-right">
+                                                        {% if location.percentage %}
+                                                            {{ location.percentage }}%
+                                                        {% endif %}
+                                                    </td>
+                                                  </tr>
+                                              {% endfor %}
+                                              
+                                          </table>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            
+    
+                            
+                       </div>
+                   </div>
+                   
+<!--FINANCES TAB-->                   
+                   <div class="tab-pane fade in" id="Finances">
+                        <div class="profileContent_tab">
+                            <h4 class="profile_header">{% trans "Finances" %}
+                                 <a id="finances" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Activity finances" data-content="{% trans 'The charts below present an overview of the financial information associated with the activity.' %}" ></a>
+                            </h4>
+                            <h4 class="profile_subheader">{% trans 'Financial summary' %}
+                            </h4>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6 border-right">
+                                    <ul class="list-unstyled profile_txt">
+                                    
+                                        <li><a id="flow_type" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Aid flow type" data-content="{% trans 'This identifies the aid flow type for the activity. For example official development assistance, other official flows, private flows etc. This corresponds to OECD-DAC standard.' %}"></a> <strong>{% trans "Flow type:" %} </strong>{{ activity.default_flow_type.name }}</li>
+                                        
+                                        <li><a id="aid_type" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Aid type" data-content="{% trans 'This identifies the type of assistance provided in the activity. For example budget support, sector budget support, core support, project support, etc. This corresponds to OECD-DAC standard.' %}" ></a> <strong>{% trans "Aid type:" %} </strong>{{ activity.default_aid_type.name }}</li>
+                                        
+                                        <li><a id="finance_type" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Finance type" data-content="{% trans 'This is used to distinguish the financial instrument, such as grants or loans.' %}" ></a> <strong>{% trans "Finance type:" %} </strong>{{ activity.default_finance_type.name }}</li>
+                                        
+                                        <li><a id="tied_status" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Tied status" data-content="{% trans 'This shows whether the assistance is untied, tied, or partially tied. Tied aid occurs when assistance is provided but with the caveat that the money must be spent on goods or services produced in a selected country.' %}" ></a> <strong>{% trans "Tied status:" %} </strong>{{ activity.default_tied_status.name }}</li>
+                                        
+                                        <li><a id="budget_currency" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Budget currency" data-content="{% trans 'The currency used in which the total planned budget is reported.' %}" ></a> <strong>{% trans "Budget currency:" %} </strong>{{ activity.total_budget_currency.code }} - {{ activity.total_budget_currency.name }}</li>
+                                        
+                                        <li><a id="planned_budget" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Total planned budget" data-content="{% trans 'The total estimated budget for the activity across the anticipated activity duration.' %}" ></a> <strong>{% trans "Total planned budget:" %} </strong>{{ total_budget }}</li>
+                                        
+                                        {% if activity.total_budget_currency.code != 'USD' %}
+                                            <li><a id="USD_equivalent" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="USD Conversion" data-content="{% trans 'Total planned budget converted from original currency into USD on the date specified, using the exchange rate identified.' %}" ></a> <strong>{% trans "USD Conversion:" %}</strong> US$ {{ total_budget_dollars }} (converted at {{activity.total_budget_in.rate.rate|floatformat:2}} on {{ activity.total_budget_in.rate.date|date:'d/m/Y'}})</li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="profile_subheader text-center">{% trans 'Percent disbursed' %}</h4>
+                                    
+                                    
+                                    </h4>
+                                    <div id="arcChart"></div>
+                                
+                                </div>
+                            </div>
+                            <hr />
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                <h4 class="profile_subheader">{% trans "Cumulative Commitments & Disbursements" %}
+                                <a id="cum_disb" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="How is this calculated?" data-content="{% trans 'This chart shows the total cumulative assistance for all transactions associated with this activity.' %}" ></a>
+                                </h4>
+                                <div id="lineChart"></div>
+                                </div>
+                            </div>
+                            <br /><br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="profile_subheader">{% trans "Transactions" %}
+                                    <a id="transactions" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Activity transactions" data-content="{% trans 'Transactions recording committed or actual funds flowing in or out of an aid activity.' %}" ></a>
+                                    </h4>
+                                     <br />
+                                    <div class="table-responsive">
+                                        <table class="table transactions-table table-striped">
+                                            <tr>
+                                                <th>{% trans "Aid Type" %}</th>
+                                                <!--<th>Disbursement Channel</th>-->
+                                                <th>{% trans "Finance Type" %}</th>
+                                                <!--<th>Flow Type</th>-->
+                                                <th>{% trans "Provider" %} <span class="visible-lg">{% trans "Organisation" %}</span></th>
+                                                <th>{% trans "Receiver" %} <span class="visible-lg">{% trans "Organisation" %}</span></th>
+                                                <th>{% trans "Tied" %} <span class="visible-lg">{% trans "Status" %}</span></th>
+                                                <th><span class="visible-lg">{% trans "Transaction" %}</span> {% trans "Date" %}</th>
+                                                <th><span class="visible-lg">{% trans "Transaction" %}</span> {% trans "Type" %}</th>
+                                                <th>{% trans "Value" %}</th>
+                                            </tr>
+                                            {% for transaction in transaction_queryset %}
+                                                <tr>
+                                                    <td>{{ transaction.aid_type }}</td>
+                                                    <!--<td>1 - Money is disbursed through the central Ministry of Finance or Treasury</td>-->
+                                                    <td>{{ transaction.finance_type }}</td> 
+                                                    <!--<td>10 - ODA</td>-->
+                                                    <td>{{ transaction.provider_organisation }}</td>
+                                                    <td>{{ transaction.receiver_organisation }}</td>
+                                                    <td>{{ transaction.tied_status|default:'' }}</td>
+                                                    <td>{{ transaction.transaction_date|date:'d/m/Y' }}</td>
+                                                    <td>{{ transaction.transaction_type }}</td>
+                                                    <td>{{ transaction.currency.code }} {{ transaction.value|pretify_value }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+                   
+<!--RESULTS TAB--> 
+                   <div class="tab-pane fade in" id="Results">
+                        <div class="profileContent_tab">
+                            
+                            <h4 class="profile_header">{% trans "Activity results" %}
+                                 <a id="results" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Activity Results" data-content="{% trans ' An overview of the results this activity is achieving.' %}" ></a>
+                            </h4>
+                            
+                            {% for result in activity.result_set.all %}
+                                <blockquote>
+                                    <h5><strong>{{ result.result_type|default:'' }} {% if result.title %}- </strong>{{ result.title|default:''|title}}{% endif %}</h5>
+                                     <p>{{ result.description|default:'' }}</p>
+                                </blockquote>
+                            {% endfor %}                     
+                        </div>
+                   </div>
+
+
+
+               </div>
+            </div>      
+        </div>
+    </div>
+    <footer class="footer_credits">
+        <div class="container-fluid">
+            <span class="text-left">{% trans "Software designed & developed by" %} <a href="http://www.catalpa.io">Catalpa International Ltd</a></span> |
+            <span class="text-right">Managed by <a href="https://www.mnped.gov.mm">{% trans "Ministry of National Planning & Economic Development" %}</a> | Funded by the <a href="http://europa.eu/">European Union</a></span>
+        </div><!-- /container -->
+    </footer>
+
+
+  
+<!--Popover-->
+
+<script>  
+    $(function ()  
+    {
+        $("#financing").popover({placement:'right'});
+        $("#general").popover({placement:'right'});
+        $("#sectors").popover({placement:'right'});  
+        $("#cumulative_com_disb").popover({placement:'top'});
+        $("#about").popover({placement:'top'});
+        $("#location").popover({placement:'top'});
+        $("#finances").popover({placement:'top'});
+        $("#results").popover({placement:'top'});
+        $("#financial_summary").popover({placement:'top'});
+        $("#flow_type").popover({placement:'left'});
+        $("#aid_type").popover({placement:'left'});
+        $("#finance_type").popover({placement:'left'});
+        $("#tied_status").popover({placement:'left'});
+        $("#budget_currency").popover({placement:'left'});
+        $("#planned_budget").popover({placement:'left'});
+        $("#USD_equivalent").popover({placement:'left'});
+        $("#cum_disb").popover({placement:'top'}); 
+        $("#participating").popover({placement:'top'});        
+        $("#reporting").popover({placement:'top'});        
+        $("#ministry").popover({placement:'top'}); 
+        $("#transactions").popover({placement:'top'});               
+    });  
+</script>   
+
+
+
+<!--GRAPHS -->
+
+<!--Arc graph expenditure percentage-->
+
+<script type="text/javascript">
+
+    var tabCallbacks = {
+            finances: function()
+            {
+
+                var chart = c3.generate({
+                    bindto: '#arcChart',
+                    data: {
+                        columns: [
+                            ['Disbursed', {{ percent_disbursed|safe|floatformat:2 }}]
+                        ],
+                        type: 'gauge'
+                    },
+                    size: { height: 190 },
+                    padding: { bottom: 0 },
+                    color: {
+                        pattern: ['#95D1C4', '#95D1C4', '#95D1C4', '#95D1C4'], // the three color levels for the percentage values.
+                        threshold: {
+                            values: [30, 60, 90, 100]
+                        }
+                    }
+                });
+
+
+                var transactions_by_month_year = {{ commitment_disbursement_by_month_year|safe }};
+                var chart = c3.generate({
+                    bindto: '#lineChart',
+                    data: {
+                      json: transactions_by_month_year,
+                      keys: {
+                        x: 'month_year',
+                        value: [ "Commitments", "Disbursements" ]
+                      },
+                      type: 'area-spline',
+                    },
+                    tooltip: {
+                        format: {
+                            value: function(value, ratio, id, index )
+                            {
+                                return 'USD $' + transactions_by_month_year[index][id + '_Pretty'];
+                            }
+                        }
+                    },
+                    axis: {
+                      x: {
+                        type: 'categorized'
+                      },
+                      y: {
+                        tick: {
+                            format: d3.format("s")
+                        }
+                      },
+                      size: { height: 280 
+                      },
+                    },
+                    padding: { top: 30 },
+                    color: { pattern: ['#FEBE12', '#2C9AB7' ] },
+                    
+                });
+            },
+            location: function()
+            {
+                var width = parseInt(d3.select('#map').style('width')),
+                mapRatio = 2,
+                height = width * mapRatio,
+                orig_width = width,
+                active;
+
+                var key = {% if st_current %}"townships"{% else %}"states"{% endif %};
+                var current_state = {% if st_current %}"{{st_current}}"{% else %}undefined{% endif %};
+                var current_state_center = {% if st_center %}[{{st_center.y}}, {{st_center.x}}]{% else %}undefined{% endif %};
+
+               if (width <= 690 & width > 570) {
+                    scale = 2.7;
+               }
+               else if (width <= 570 & width > 530) {
+                    scale = 2.6;
+               }
+                else if (width <= 530 & width > 460) {
+                    scale = 2;
+               }
+                else if (width <= 460 & width > 390) {
+                    scale = 1.7;
+               }
+               else if (width <= 390 & width >= 350) {
+                    scale = 1.59;
+               }
+               else if (width < 350 & width > 260) {
+                    scale = 1.37
+               }
+               else if (width <= 260){
+                   scale = 1.1
+               }
+
+                var projection = d3.geo.albers()
+                    .center([0, 19.4])
+                    .rotate([-96, 0])
+                    .parallels([10, 30])
+                    .translate([width / 2.2, height / 2.1])
+                    .scale(( width / orig_width) * 1360* scale);
+
+
+                var path = d3.geo.path()
+                    .projection(projection);
+
+                var svg = d3.select("div#map").append("svg")
+                        .style('width', width + 'px')
+                        .style('height', height + 'px');
+
+                svg.append("rect")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                var g = svg.append("g");
+
+                var tooltip = d3.select("#map").append("div")
+                    .attr("style", "display:none");
+
+                d3.json("/static/geo/{{ json_borders }}", function(error, areas) {
+                  g.selectAll("path")
+                //      .data(topojson.feature(us, us.objects[key]).features)
+                        .data(topojson.feature(areas, areas.objects[key]).features)
+
+                    .enter().append("path")
+                      .attr("d", path)
+                      .attr("class", function(d){
+                            var class_name = "feature";
+                            if (key == "states"){
+                                class_name += " state " + d.properties.pcode;
+                            } else {
+                                class_name += " state "+ d.properties.state + " township" + d.properties.name;
+                                if (current_state){
+
+                                    if ( isCurrentState( d.properties.state ) ) {
+                                        class_name+=" current"
+                                    } else {
+                                        class_name = " noshow";
+                                    }
+                                }
+
+                            }
+
+                            var currentAmount = window.all_states[d.properties.pcode + '_natural'];
+
+                            if ( currentAmount == 0 ) {
+                                    chloroClass = 'chloro_0';
+                            } else {
+
+                                var chloroClass = '';
+                                for ( cClass in classRanges ) {
+                                    if ( currentAmount >= classRanges[cClass].ini && currentAmount < classRanges[cClass].fin ) {
+                                        chloroClass = cClass;
+                                    }
+                                }
+                            }
+
+                            class_name += ' ' + chloroClass;
+
+                            return class_name;
+                          })
+                      .on("mouseenter", enter)
+                      .on("mouseleave", leave);
+
+                  g.append("path")
+                      .datum(topojson.mesh(areas, areas.objects[key], function(a, b) { return a !== b; }))
+                      .attr("class", "mesh")
+                      .attr("d", path);
+
+                //
+                d3.select(window).on('resize', resize);
+
+                function resize() {
+                    resize_window()
+                    // adjust things when the window size changes
+                    width = parseInt(d3.select('#map').style('width'));
+                    //width = width - margin.left - margin.right;
+                    height = width * mapRatio;
+
+                    // update projection
+                    projection
+                        .translate([width / 2.2, height / 2.1])
+                        .scale(( width / orig_width) * (1360 * scale));
+
+                    // resize the map container
+                    svg
+                        .style('width', width + 'px')
+                        .style('height', height + 'px');
+
+                    // resize the map
+                    svg.select('rect')
+                        .attr('width', width + 'px')
+                        .attr('height', height + 'px');
+
+                    svg.selectAll('path').attr('d', path);
+                }
+                });
+
+                function enter(d,i) {
+
+                    var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
+                    var country_name = d.properties.name + "<br>$"+ window.all_states[d.properties.pcode];
+                    tooltip
+                      .attr("class", "tipsy tipsy-inner tipsy-s")
+                      .attr("style", "left:"+(mouse[0]+30)+"px;top:"+mouse[1]+"px;position:absolute;visibility:visible;display:block;opacity:0.8")
+                      .html(country_name)
+                }
+
+                function isCurrentState( state )
+                {
+                    return state == current_state
+                    || (state == "MMR015"  && "MMR014" == current_state)
+                    || (state == "MMR016"  && "MMR014" == current_state)
+                    || (state == "MMR008"  && "MMR007" == current_state)
+                }
+
+                function leave(d,i) {
+                    tooltip.attr("style", "display:none")
+                }
+            }
+        };
+
+        function createClassesRange()
+        {
+            var values = [];
+            for ( i in window.all_states ) {
+
+                if ( ( /_natural/).exec( i ) && $.inArray( window.all_states[i], values ) ) 
+                    values.push( window.all_states[i] );
+            }
+
+            values = values.sort(function(a, b){return a-b});
+
+            var max = Math.max.apply(Math, values);
+            var min = Math.min.apply(Math, values);
+
+            if ( values.length > 1 )
+                var rangeValues = ( ( max - min ) / 9 );
+            else {
+                var rangeValues = values[0];
+                max = rangeValues;
+                min = 0;
+            }
+
+            var rangeClasses = {};
+            var classCount = 1;
+
+            if ( rangeValues > 0 ) {
+                for ( x = min; x <= max; x += rangeValues ) {
+                      rangeClasses['chloro_' + classCount++] = {
+                        ini: x,
+                        fin: x + rangeValues
+                      };
+                }
+            }
+
+            return rangeClasses;
+        }
+
+        window.all_states = {{ commitments_by_location|safe}};
+        var classRanges = createClassesRange();
+   
+</script>
+
+{% endblock %}

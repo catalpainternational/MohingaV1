@@ -1,0 +1,563 @@
+{% extends 'aims/aid_by.html' %}
+{% load i18n %}
+{% load humanize %}
+{% load tag_library %}
+
+{% block extrahead %}
+<style>
+/*    path:hover {
+        fill: #1f77b4;
+        fill-opacity: .4;
+    }
+    .state {
+        fill: none;
+        stroke: #555;
+        stroke-linejoin: round;
+    }
+    .current {
+        fill: #00ff00;
+        stroke: 1px, #blue;
+    }*/
+    rect {
+        fill: none;
+        pointer-events: all;
+    }
+
+    .feature {
+        fill: #9fa9ad;
+        cursor: pointer;
+    }
+    .feature.active {
+        fill: #ff9500;
+    }
+    .mesh {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 1px;
+        stroke-linejoin: round;
+    }
+    .noshow{
+        fill: #ebebee;
+    }
+
+    /*
+    .feature.chloro_1{fill:rgb(247,251,255)}
+    .feature.chloro_2{fill:rgb(222,235,247)}
+    .feature.chloro_3{fill:rgb(198,219,239)}
+    .feature.chloro_4{fill:rgb(158,202,225)}
+    .feature.chloro_5{fill:rgb(107,174,214)}
+    .feature.chloro_6{fill:rgb(66,146,198)}
+    .feature.chloro_7{fill:rgb(33,113,181)}
+    .feature.chloro_8{fill:rgb(8,81,156)}
+    .feature.chloro_9{fill:rgb(8,48,107)}
+    .feature.chloro_10{fill:rgb(4, 28,61)}
+    */
+
+    .feature.chloro_0{fill:#e1e8ef}
+    .feature.chloro_1{fill:#d6dfe9}
+    .feature.chloro_2{fill:#aabdd0}
+    .feature.chloro_3{fill:#94acc4}
+    .feature.chloro_4{fill:#7e9bb8}
+    .feature.chloro_5{fill:#698aac}
+    .feature.chloro_6{fill:#56799d}
+    .feature.chloro_7{fill:#4a6887}
+    .feature.chloro_8{fill:#44607c}
+    .feature.chloro_9{fill:#384f66}
+    .feature.chloro_10{fill:#2c3e50}
+    .feature.chloro_11{fill:#263645}
+</style>
+{% endblock %}
+
+
+{% block nav_pulldown %}
+    <button type="button" class="btn btn-default dropdown-toggle dash_subnav" data-toggle="dropdown">
+        {% if current_state %}{{ current_state.st_short }}{%else%}{% trans 'Myanmar' %}{%endif%} </button><span class="ion-arrow-down-b dash_subnav"></span>
+        
+    <ul class="dropdown-menu dash_subnav" role="menu">
+        {% if current_state %}
+        <li><a href="{% url 'aid_by' section='location' subset=subset %}">{% trans "Myanmar" %}</a></li>{% endif%}
+        {% for state in states %}
+        <li><a href="{% url 'aid_by' section='location' which=state.st_pcode subset=subset %}">{{ state.st_short }}</a></li>{% endfor %}
+    </ul>
+{% endblock %}
+
+
+{% block local_content %}
+<div class="container-fluid" id="location-dashboard">
+    <div class="col-sm-4 col-md-4 map_row_1" id="map_container">
+        <h3 class="stats align-center">{% trans "Commitment by Location" %}
+         <a id="commitLocation" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Commitment by location' %}" data-content="{% trans 'The map below shows the amount of development assistance committed by location for activities currently being implemented. The map corresponds to the date filter above. Click on the map to zoom in' %}" ></a>
+        </h3>
+        <br />
+        <div id="map"></div>
+    </div>
+    <div class="col-sm-8 col-md-8">
+        <div class="row location_row_1">
+            <div class="col-sm-4 col-md-4 dots_right stats_block">
+                <h3 class="stats align-center">{% trans "Total Commitments" %}
+                    <a id="tot_comm" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Total Commitments' %}" data-content="{% trans 'This is the total amount of development assistance committed to Myanmar across all activities currently being implemented. This number corresponds to the date filter above.' %}" ></a>
+                </h3>
+                <div class="count_block">
+                    <p class="big_count"><span class="big_bucks">$</span>{{total_commitments.0 | floatformat:"2"}}<p class="count_suffix">{{total_commitments.1}}</p></p>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4 dots_right stats_block">
+                <h3 class="stats align-center">{% trans "Total Disbursements" %}
+                    <a id="tot_disb" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Total Disbursements' %}" data-content="{% trans 'This is the total amount of development assistance disbursed across all activities currently being implemented. This number corresponds to the date filter above.' %}" ></a>
+                </h3>
+                <div class="count_block">
+                    <p class="big_count"><span class="big_bucks">$</span>{{total_disbursements.0 | floatformat:"2"}}<p class="count_suffix">{{total_disbursements.1}}</p></p>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4 stats_block">
+                <h3 class="stats align-center">{% trans "Percent Disbursed" %}
+                    <a id="per_exe" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Percent Disbursed' %}" data-content="{% trans 'This is the percentage total of committed development assistance disbursed across all activities currently being implemented. This percentage corresponds to the date filter above.' %}" ></a>
+                </h3>
+                <div class="count_block">
+                    <p class="big_count{%if executed == 0 %} zero{%endif%}">{{ executed|floatformat:"1" }}%</p>
+                    <!--<p class="count_suffix">{% trans "percent" %}</p>-->
+                </div>     
+            </div>
+        </div>
+        <div class="border_btm"></div>
+        <div class="row location_row_2">
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                <h5 class="stats align-center">{% trans "Commitment by Status" %}
+                    <a id="comit_stat" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Commitment by status' %}" data-content="{% trans 'This chart shows the total volume of funds committed to activities by the activity status i.e pipeline, implementation, completed, post-completed. The chart also corresponds to the date filter above.' %}"></a>
+                </h5>
+                <div id="donut_commitment_region"></div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                <h5 class="stats align-center">{% trans "Activities by Ministry" %}
+                    <a id="comm_min" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Activities by Ministry' %}" data-content="{% trans 'This chart shows the total number of activities associated with each relevant Ministry. These are activities currently being implemented. This chart corresponds to the date filter above.' %}" ></a>
+                </h5>
+                <div id="donut_commitment_ministry"></div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 ">
+                <h5 class="stats align-center">{% trans "Activities by Status" %}
+                    <a id="tot_proj" title="{% trans 'Activities by status' %}" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" data-content="{% trans 'This chart shows the total number of activities by status (i.e. pipeline, implementation, completed, post-completion). This chart corresponds to the date filter above.' %}" ></a>
+                </h5>
+                <div id="donut_activities_status" class="location-donut"></div>
+            </div>
+        </div>
+        <div class="border_btm"></div>
+        <div class="row location_row_3">
+            <div class="col-xs-12 col-sm-6 col-md-6 hori_bar_mobile">
+                <h4 class="stats align-center">{% trans "Commitment by donor" %}
+                    <a id="don_comit" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Donor commitment' %}" data-content="{% trans 'The bar chart below shows the total value of commitments by development partner for activities that are currently being implemented. The chart also corresponds to the date filter above.' %}" ></a>
+                </h4>
+                <div id="barchart_horizontal_donors_commitments"></div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 no-padding hori_bar_mobile">
+                <h4 class="stats align-center">{% trans "Commitment by aid sector" %}
+                    <a id="sec_comit" class="ion-information-circled dash-info" rel="popover" data-trigger="hover"  title="{% trans 'Commitment by sector' %}" data-content="{% trans 'This chart shows the total amount of commitments from development partners by sector for activities currently being implemented.' %}" ></a>
+                </h4>
+                <div id="sector_commitments"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block local_scripts %}
+<!--// Date Picker -->
+
+<script>
+$('.input-daterange').datepicker({
+    format: "M yyyy",
+    startView: 1,
+    minViewMode: 1,
+    orientation: "top left"
+});
+</script>
+
+<!--Popover-->
+
+<script>  
+$(function ()  
+{
+  $("#commitLocation").popover({placement:'right'});    
+  $("#tot_comm").popover({placement:'right'});
+  $("#tot_disb").popover({placement:'right'}); 
+  $("#per_exe").popover({placement:'left'}); 
+  $("#comit_stat").popover({placement:'top'}); 
+  $("#comm_min").popover({placement:'top'}); 
+  $("#tot_proj").popover({placement:'left'});
+  $("#don_comit").popover({placement:'top'}); 
+  $("#sec_comit").popover({placement:'left'});    
+});  
+</script>
+
+<!--// Smooth Scroll-->
+
+<!--<script>
+    $(function() {
+        $('a[href*=#]:not([href=#])').click(function() {
+            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top - 50
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+    });
+
+</script>-->
+
+<!--// Main Map    -->
+
+<script>
+var width = parseInt(d3.select('#map').style('width')),
+    mapRatio = 2,
+    height = width * mapRatio,
+    orig_width = width,
+    active;
+
+        var key = {% if st_current %}"townships"{% else %}"states"{% endif %};
+        var current_state = {% if st_current %}"{{st_current}}"{% else %}undefined{% endif %};
+        var current_state_center = {% if st_center %}[{{st_center.y}}, {{st_center.x}}]{% else %}undefined{% endif %};
+
+       if (width <= 690 & width > 570) {
+            scale = 2.7;
+       }
+       else if (width <= 570 & width > 530) {
+            scale = 2.6;
+       }
+        else if (width <= 530 & width > 460) {
+            scale = 2;
+       }
+        else if (width <= 460 & width > 390) {
+            scale = 1.7;
+       }
+       else if (width <= 390 & width >= 350) {
+            scale = 1.59;
+       }
+       else if (width < 350 & width > 260) {
+            scale = 1.37
+       }
+       else if (width <= 260){
+           scale = 1.1
+       }
+
+        window.all_states = {{ commitments_by_location|safe}}
+        // window.all_states =
+        //     {
+        //         {# for state, value in all_commitments #}
+        //              "{{ state }}":'{{value.0| floatformat:"2"}} {{value.1}}',
+        //         {# endfor #}
+        //     };
+
+        var projection = d3.geo.albers()
+            .center([0, 19.4])
+            .rotate([-96, 0])
+            .parallels([10, 30])
+            .translate([width / 2.2, height / 2.1])
+            .scale(( width / orig_width) * 1360 * scale);
+
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var svg = d3.select("div#map").append("svg")
+        .style('width', width + 'px')
+        .style('height', height + 'px');
+
+svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", reset);
+
+var g = svg.append("g");
+
+var tooltip = d3.select("#map").append("div")
+    .attr("style", "display:none");
+
+var classRanges = [];
+d3.json("/static/geo/{{ json_borders }}", function(error, areas) {
+  g.selectAll("path")
+//      .data(topojson.feature(us, us.objects[key]).features)
+        .data(topojson.feature(areas, areas.objects[key]).features)
+
+    .enter().append("path")
+      .attr("d", path)
+      .attr("class", function(d){
+            var class_name = "feature";
+            if (key == "states"){
+                class_name += " state " + d.properties.pcode;
+            } else {
+                class_name += " state "+ d.properties.state + " township" + d.properties.name;
+                if (current_state){
+
+                    if ( isCurrentState( d.properties.state ) ) {
+                        class_name+=" current"
+                    } else {
+                        class_name = " noshow";
+                    }
+                }
+
+            }
+
+            var currentAmount = window.all_states[d.properties.pcode + '_natural'];
+
+            if ( currentAmount == 0 ) {
+                chloroClass = 'chloro_0';
+            } else {
+
+                var chloroClass = '';
+                for ( cClass in classRanges ) {
+                    if ( currentAmount >= classRanges[cClass].ini && currentAmount < classRanges[cClass].fin ) {
+                        chloroClass = cClass;
+                    }
+                }
+
+            }
+
+            class_name += ' ' + chloroClass;
+
+            return class_name;
+          })
+    {% if current_extent %}
+      .on("click", reset)
+      .on("mouseenter", enter)
+      .on("mouseleave", leave);
+    {% else %}
+      .on("click", click)
+      .on("mouseenter", enter)
+      .on("mouseleave", leave);
+    {% endif %}
+
+  g.append("path")
+      .datum(topojson.mesh(areas, areas.objects[key], function(a, b) { return a !== b; }))
+      .attr("class", "mesh")
+      .attr("d", path);
+
+//
+d3.select(window).on('resize', resize);
+
+function resize() {
+    resize_window()
+    // adjust things when the window size changes
+    width = parseInt(d3.select('#map').style('width'));
+    //width = width - margin.left - margin.right;
+    height = width * mapRatio;
+
+    // update projection
+    projection
+        .translate([width / 2.2, height / 2.1])
+        .scale(( width / orig_width) * (1360 * scale));
+
+    // resize the map container
+    svg
+        .style('width', width + 'px')
+        .style('height', height + 'px');
+
+    // resize the map
+    svg.select('rect')
+        .attr('width', width + 'px')
+        .attr('height', height + 'px');
+
+    svg.selectAll('path').attr('d', path);
+}
+//
+{% if current_extent %}
+    zoom_state();
+{% endif %}
+
+});
+
+{% if current_extent %}
+function zoom_state(){
+    project_0 = projection([{{current_extent.0}}, {{current_extent.3}}]);
+    project_1 = projection([{{current_extent.2}}, {{current_extent.1}}]);
+    var b = [project_0,project_1];
+    var transform = "translate(" + projection.translate() + ")"
+      + "scale(" + scale + ")"
+      + "translate(" + -(b[1][0] + b[0][0]) / 2 + "," + -(b[1][1] + b[0][1]) / 2 + ")"
+    g.transition().duration(10).attr("transform", transform);
+}
+{% endif %}
+
+
+function click(d) {
+  if (active === d) return reset();
+  g.selectAll(".active").classed("active", false);
+  d3.select(this).classed("active", active = d);
+  var b = path.bounds(d);
+  var transform = "translate(" + projection.translate() + ")"
+      + "scale(" + scale + ")"
+      + "translate(" + -(b[1][0] + b[0][0]) / 2 + "," + -(b[1][1] + b[0][1]) / 2 + ")"
+  console.log(transform);
+  g.transition().duration(750).attr("transform", transform);
+  var base_url = "{% url 'aid_by' section='location' subset=subset %}";
+  if (key == "states"){
+    console.log(path.bounds(d));
+    if (d.properties.pcode != current_state){
+        document.location = base_url + d.properties.pcode;
+    }else{
+        document.location = base_url;
+    }
+  }else{
+    document.location = base_url + d.properties.state;
+  }
+}
+
+function reset() {
+  g.selectAll(".active").classed("active", active = false);
+  g.transition().duration(750).attr("transform", "");
+  var base_url = "{% url 'aid_by' section='location' subset=subset %}";
+  document.location = base_url;
+}
+
+function enter(d,i) {
+    var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
+
+    if ( key == "states" ) {
+        var country_name = d.properties.name + "<br>$"+ window.all_states[d.properties.pcode];
+    } else {
+
+        if ( current_state )
+            if ( !isCurrentState( d.properties.state ) )
+                return false;
+
+        var country_name = 'Township: '+d.properties.name + "<br>$"+ window.all_states[d.properties.pcode];
+    }
+
+    tooltip
+      .attr("class", "tipsy tipsy-inner tipsy-s")
+      .attr("style", "left:"+(mouse[0]+30)+"px;top:"+mouse[1]+"px;position:absolute;visibility:visible;display:block;opacity:0.8")
+      .html(country_name)
+}
+
+function isCurrentState( state )
+{
+    return state == current_state
+    || (state == "MMR015"  && "MMR014" == current_state)
+    || (state == "MMR016"  && "MMR014" == current_state)
+    || (state == "MMR008"  && "MMR007" == current_state)
+}
+
+function leave(d,i) {
+    tooltip.attr("style", "display:none")
+}
+</script>
+
+    
+<!--Donut Graph for Commitment by Status-->
+
+    <script>
+
+    var width = 140,
+        height = 140;
+    var data = {{ commitment_by_status|safe }}
+    draw_donut_into_div("#donut_commitment_region", data, width, height);
+
+    </script>
+
+    
+<!--Donut Graph for Commitment by Ministry-->
+
+    <script>
+    
+    var width = 140,
+        height = 140;
+    // var data = [{# for donor, value, code ,bla, pretty, bla in donut_ministries %}
+    //                 {'name': "{{ donor }}", 'code':'{{ code }}', 'value': '{{ value | floatformat:2 }}' },
+    //             {% endfor #}];
+
+    var data = {{ activities_by_ministry|safe }}
+    draw_donut_into_div("#donut_commitment_ministry", data, width, height);
+
+    </script>
+    
+    
+<!--Donut Graph for Projects By Status-->
+
+    <script>
+
+    // var data = [{# for status,value in activity_status.items %}
+    //             {'name': "{{ status }}", 'code':{{value.0}}, 'value': {{value.1}} },
+    //     {% endfor #}];
+
+    var data = {{ activity_statuses|safe }}
+    var width = 140,
+        height = 140;
+
+        draw_donut_into_div("#donut_activities_status", data, width, height, '{% trans "TOTAL" %}');
+    </script>
+    
+<!--// Bar Graph -- Donor Commitment -->
+
+<script language="javascript">
+
+    // var data = [{# for donor,value, bla,bla,pretty in donors %}
+    // {'name': "{{ donor }}", 'value':{{value}}, 'pretty':'{{pretty}}' },
+    // {% endfor #}];
+
+    var data = {{ donor_commitments|safe }}
+    var margins = {top: 10, right: 0, bottom: 170, left: 70};
+    var width = 300 ;//- margin.left - margin.right,
+    var bar_height = 20;
+    //    var height = 330;// - margin.top - margin.bottom;
+    //    draw_bar_chart_into_div("#barchart_donors_commitments", data, width, height, margins);
+    window.horizontal_chart_data_1 = data
+    draw_horizontal_bar_chart_into_div("#barchart_horizontal_donors_commitments", data, width, bar_height);
+</script>
+
+<!--// Horizontal Bar Graph -- Sector Commitment -->
+
+<script language="javascript">
+
+    // var data = [{# for category,value, pretty in categories %}
+    // {'name': "{{ category }}", 'value':{{value}},'pretty':"{{pretty}}" },
+    // {% endfor #}];
+
+    var data = {{ commitment_by_category|safe }}
+
+    var width = 300;
+    var bar_height = 20;
+    window.horizontal_chart_data_2 = data
+    draw_horizontal_bar_chart_into_div("#sector_commitments", data, width, bar_height);
+
+
+    function createClassesRange()
+    {
+        var values = [];
+        for ( i in window.all_states ) {
+
+            if ( ( /_natural/).exec( i ) && $.inArray( window.all_states[i], values ) ) 
+                values.push( window.all_states[i] );
+        }
+
+        values = values.sort(function(a, b){return a-b});
+
+        var max = Math.max.apply(Math, values);
+        var min = Math.min.apply(Math, values);
+
+        var rangeValues = ( ( max - min ) / 9 );
+
+        var rangeClasses = {};
+        var classCount = 2;
+
+        if ( rangeValues > 0 ) {
+            for ( x = min; x <= max; x += rangeValues ) {
+                  rangeClasses['chloro_' + classCount++] = {
+                    ini: x,
+                    fin: x + rangeValues
+                  };
+            }
+        }
+
+        console.log(rangeClasses);
+
+        return rangeClasses;
+    }
+
+    var classRanges = createClassesRange();
+</script>
+
+{% endblock %}

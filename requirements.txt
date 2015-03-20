@@ -1,0 +1,20 @@
+Django==1.6
+Pillow==2.5.1
+django-crispy-forms
+django-localeurl
+django-registration
+fabric
+fabtools
+django-haystack==2.1.0
+django-rosetta==0.7.2
+Whoosh==2.5.5
+unicodecsv
+django-select2
+django-extensions==1.2.5
+django-parsley
+django-debug-toolbar
+python-memcached
+django-cache-machine
+-e git://github.com/catalpainternational/django-endless-pagination.git#egg=django_endless_pagination
+xlwt==0.7.5
+django-jenkins==0.14.1

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+<style> body { background: #f7f8f4} </style>
+
+{% block content %}
+
+    <div class="container">   
+
+        <section id="login animation-target">
+                <form class="form-signin" action="." method="POST">
+                    <input type="hidden" name="next" value="{{ next }}" />
+                    <h2 class="form-signin-heading">{% trans "Please sign in" %}</h2>
+                    <input id="id_username" maxlength="254" name="username" type="text" class="form-control" placeholder="Username" autofocus>
+                    <input id="id_password" maxlength="4096" name="password" type="password" class="form-control" placeholder="Password">
+                    {% if form.errors %}
+                        <p class="error animated bounce">{% trans "Your username and password didn't match. Please try again." %}</p>
+                    {% endif %}
+                    <!--<label class="checkbox">
+                        <input type="checkbox" value="remember-me"> {% trans 'Remember me' %}
+                    </label>-->
+                    <button class="btn btn-large btn-primary pull-right" type="submit">{% trans 'Sign in' %}</button>
+    
+                    {% csrf_token %}
+    
+    
+                    {% url "auth_password_reset" as reset_url %}
+    
+                 <!--   <p>{% trans "Can't access your account?" %} <a href="{{ reset_url }}">{% trans 'Reset your password.' %}</a></p>-->
+    
+                    {% url "registration_register" as registration_url %}
+                </form>
+
+                <br />
+                <p class="credits">Software designed and developed by <a href="http://www.catalpa.io">Catalpa International Ltd</a></p>
+        </section>
+        
+    </div>
+    
+{% endblock %}

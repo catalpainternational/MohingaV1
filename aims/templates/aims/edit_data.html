@@ -1,0 +1,705 @@
+{% extends 'aims/base_site.html' %}
+{% load i18n %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<style>
+.parsley-errors-list.filled{
+    color: darkred;
+    padding-left: 0px;
+    list-style-type: none;
+}
+.datepicker-dropdown {
+    z-index: 1040 !important;
+}
+</style>
+
+    {% if not objective %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3 org_form">
+        <h5 class="align-center search_title">{% trans 'Organisation Details' %}</h5> 
+            <form method="POST" action='.'>
+                {% csrf_token %}
+                {% crispy form form_helper %}
+                <input class="btn btn-primary pull-right btn-org" type='submit' value="Save" {% if not editor %} disabled {% endif %} />
+            </form>
+        </div>
+    </div>       
+</div>
+
+{% else %}
+<script type="text/javascript" src="/static/js/form_helper.js"></script>
+
+<div class="col-md-4 side_panel pull-right hidden-xs"> 
+    <div class="affix">
+        <h1 class="data_entry">{% trans "Transactions" %}</h1>  
+    </div>
+    {% if activity.pk %}
+    <div class="transactions affix" data-offset-top="10" data-offset-bottom="300">
+        <table class="table transactions">
+            <thead>
+                <tr>
+                    <th>{% trans "Date" %}</th>
+                    <th>{% trans "Funded by" %}</th>
+                    <th>{% trans "Type" %}</th>
+                    <th>{% trans "Amount" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.transaction_date|date:"M `y" }}</td>
+                {% if transaction.provider_organisation %}
+                    <td>{{ transaction.provider_organisation.code }}</td>
+                {% else %}
+                    <td>{% trans 'Not Identified' %}</td>
+                {% endif %}
+                    <td>{{ transaction.transaction_type.code }}</td>
+                    <td>
+                        <nowrap>
+                        {{ transaction.value|floatformat:"0"|intcomma }} ({{ transaction.currency.code }})
+                        </nowrap>
+                    </td>
+                    <td class="trans_edit_tools">
+                        <a data-toggle="modal" data-target="#transaction_form_{{ transaction.pk }}"><i class="ion-ios7-compose-outline"></i></a>
+                    </td>
+                    {% if editor %}
+                    <td class="trans_edit_tools">
+                        <a class="confirm-delete"
+                            data-type="transaction"
+                            data-id="{{ transaction.pk }}"><i class="ion-ios7-close-outline"></i></a>
+                    </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>    
+    </div>
+    <div class="affix">
+        <button class="btn btn-default btn-transaction btn-block" data-toggle="modal" data-target="#transaction_form" {% if not editor %} disabled {% endif %}><span class="right-align"></span>{% trans "Add a new transaction" %}
+        </button>
+    </div> 
+    {% else %}
+    <div class="affix blank_transaction">
+        <i class="ion-card"></i>
+        <p class="contextual_help_header"> {% trans "Adding Financial Transactions" %}</p>
+        <p class="contextual_help_body">{% trans "To add a financial transaction to an activity. First add and save your activity. Then you can add a financial transaction."%}</p>
+    </div>    
+    {% endif %}
+</div> <!--/col-4  -->   
+<div class="container scroll_by">
+
+    <div class="row">
+        <div class="col-md-8 data_form">
+        
+            <!--Mobile Data Entry Menu-->
+            
+            <div class="row visible-xs ">
+                <div class="col-xs-9">
+                    <h1 class="data_entry_title">{% trans "Project Information" %}</h1>
+                </div>
+                
+                <div class="col-xs-3">
+                    <span class="btn-group pull-right data_tools visible-xs">
+                        <button type="button" class="btn btn-default top_tools dropdown-toggle" data-toggle="dropdown"><i class="ion-navicon-round"></i></button>
+                        <ul class="dropdown-menu mobile-data-list" role="menu">
+                            <li><a href="#one">{% trans "Description" %}</a></li>
+                            <li><a href="#two">{% trans "Objective" %}</a></li>
+                            <li><a href="#three">{% trans "Target Groups" %}</a></li>
+                            <li><a href="#four">{% trans "General Info" %}</a></li>
+                            <li><a href="#five">{% trans "Ministry" %}</a></li>
+                            <li><a href="#six">{% trans "Financing" %}</a></li>
+                            <li><a href="#seven">{% trans "Results" %}</a></li>
+                            <li><a href="#eight">{% trans "Contacts" %}</a></li>
+                        </ul>
+                    </span>
+                
+                </div>
+            </div>
+            
+            <!--Desktop & Tablet Data Entry Menu-->         
+        
+            <div class="cbp-af-header hidden-xs">
+                <div class="cbp-af-inner">
+                    <h1>
+                        {% trans "Project Information" %}
+                    </h1>
+                    {% if activity.is_draft %}
+                        <span class="label label-default label-draft">{% trans "draft" %}</span>
+                    {% endif %}
+                    
+                    <ul class="nav nav-pills form_stages ">
+                        <li><a href="#one">{% trans "Description" %}</a></li>
+                        <li><a href="#two">{% trans "Objective" %}</a></li>
+                        <li><a href="#three">{% trans "Target Groups" %}</a></li>
+                        <li><a href="#four">{% trans "General Info" %}</a></li>
+                        <li><a href="#five">{% trans "Ministry" %}</a></li>
+                        <li><a href="#six">{% trans "Financing" %}</a></li>
+                        <li><a href="#seven">{% trans "Results" %}</a></li>
+                        <li><a href="#eight">{% trans "Contacts" %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="data-entry">
+                <form name="data_entry_form" id="data_entry_form" data-parsley-validate method="post" action='.'>
+                    {% csrf_token %}
+                    <fieldset class="module aligned">
+                        <div id="one">
+                            <div class="page-header">
+                                <h3>
+                                    {% trans "Description" %}
+                                </h3>
+                            </div>
+                            {% crispy title form_helper %}
+                            {% crispy description form_helper %}
+                        </div>
+                        <div id="two">
+                            <div class="page-header">
+                                <h3>
+                                    {% trans "Objective" %}
+                                </h3>
+                            </div>
+                            {% crispy objective form_helper %}
+                        </div>
+                        <div id="three">
+                            <div class="page-header">
+                                <h3>
+                                    {% trans "Target Groups" %}
+                                </h3>
+                            </div>
+                            {% crispy target_groups form_helper %}
+                        </div>
+                    </fieldset>
+                    <fieldset class="module aligned">
+                        <div id="four">
+                            <div class="page-header">
+                                <h3>
+                                    {% trans "General Information" %}
+                                </h3>
+                            </div>
+                            {% crispy form form_helper%}
+                        </div>
+                    </fieldset>
+                    <fieldset class="module aligned">
+                        <div id="five">
+                            <div class="page-header">
+                                <h3>
+                                    {% trans "Ministry" %}
+                                </h3>
+                            </div>
+                            {% crispy ministry form_helper %}
+                            <input type="button" value="Add More" id="add_more_ministry" class="add_more">
+                            <script>
+                                hide_extras(['#div_id_ministry-0-organisation',
+                                        '#div_id_ministry-0-DELETE'], "#id_ministry-0-organisation", "");
+
+                                $('#add_more_ministry').click(function() {
+                                    reveal(['#div_id_ministry-0-organisation',
+                                        '#div_id_ministry-0-DELETE'], "#add_more_ministry");
+                                });
+                            </script>
+                        </div>
+                        <div id="six">
+                            <div class="page-header">
+                                <h3>
+                                    {% trans "Financing, Extending and Implementing" %}
+                                </h3>
+                            </div>
+                            {% crispy participating_organisation form_helper %}
+                            <input type="button" value="Add More" id="add_more_participating_organisation" class="add_more">
+                            <script>
+                                hide_extras(['#div_id_participating_organisation-0-organisation',
+                                             '#div_id_participating_organisation-0-role',
+                                             '#div_id_participating_organisation-0-DELETE'], "#id_participating_organisation-0-organisation", "");
+
+                                $('#add_more_participating_organisation').click(function() {
+                                    reveal(['#div_id_participating_organisation-0-organisation',
+                                            '#div_id_participating_organisation-0-role',
+                                            '#div_id_participating_organisation-0-DELETE'], "#add_more_participating_organisation");
+                                });
+                            </script>
+                        </div>
+                    </fieldset>
+                    <fieldset class="module aligned">
+                        <div id="six.1">
+                            <div class="page-header">
+                                <h3>
+                                    {% trans "Sector (OECD - DAC)" %}
+                                </h3>
+                            </div>
+                            {% crispy activity_sector form_helper %}
+                            <input type="button" value="Add More" id="add_more_dac_sector" class="add_more">
+                            <script>
+                                hide_extras(['#div_id_sector-0-percentage',
+                                             '#div_id_sector-0-sector',
+                                             '#div_id_sector-0-DELETE'], "#id_sector-0-sector", "");
+
+                                $('#add_more_dac_sector').click(function() {
+                                    reveal(['#div_id_sector-0-percentage',
+                                            '#div_id_sector-0-sector',
+                                            '#div_id_sector-0-DELETE'], "#add_more_dac_sector");
+                                });
+                            </script>
+                        </div>
+                    </fieldset>
+                    <fieldset class="module aligned">
+                        <div id="six.2">
+                            <div class="page-header">
+                                <h3>
+                                    {% trans "Sector Working Group" %}
+                                </h3>
+                            </div>
+                            {% crispy activity_national_sector form_helper %}
+                            <input type="button" value="Add More" id="add_more_swg" class="add_more">
+                            <script>
+                                hide_extras(['#div_id_national_sector-0-percentage',
+                                             '#div_id_national_sector-0-sector', 
+                                             '#div_id_national_sector-0-DELETE'], "#id_national_sector-0-percentage", "");
+
+                                $('#add_more_swg').click(function() {
+                                    reveal(['#div_id_national_sector-0-percentage',
+                                            '#div_id_national_sector-0-sector',
+                                            '#div_id_national_sector-0-DELETE'], "#add_more_swg");
+                                });
+                            </script>
+
+                        </div>
+                    </fieldset>
+                    <fieldset class="module aligned">
+                        <div id="six.3">
+                            <div class="page-header">
+                                <h3>
+                                    {% trans "Location" %}
+                                </h3>
+                            </div>
+                            {% crispy location form_helper %}
+                            <input type="button" value="Add More" id="add_more_location" class="add_more">
+                            <script>
+                                hide_extras(['#div_id_location-0-percentage',
+                                             '#div_id_location-0-place',
+                                             '#div_id_location-0-DELETE'], "#id_location-0-place", "");
+
+                                $('#add_more_location').click(function() {
+                                    reveal(['#div_id_location-0-percentage',
+                                            '#div_id_location-0-place',
+                                            '#div_id_location-0-DELETE'], "#add_more_location");
+                                });
+                            </script>
+                        </div>
+                    </fieldset>
+                    <fieldset class="module aligned">
+                        <div id="seven">
+                            <div class="page-header">
+                                <h3>
+                                    {% trans "Result" %}
+                                </h3>
+                            </div>
+                            {% crispy result form_helper %}
+                        </div>
+                    </fieldset>
+                    <fieldset class="module aligned">
+                        <div id="eight">
+                            <div class="page-header">
+                                <h3>
+                                    {% trans "Contact Info" %}
+                                </h3>
+                            </div>
+                            {% crispy contact_info form_helper %}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>      
+    </div> <!--end of row-->
+</div> <!--end of container-->
+<footer class="footer data_entry">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="pull-left">
+                    {% if activity.pk %}
+                     <button class="confirm-delete btn btn-danger"
+                        {% if not editor %} disabled {% endif %}
+                        data-type="activity"
+                        data-id="{{ activity.pk }}">{% trans "Delete" %}</button>
+                    {% endif %}
+                </div>
+                <div class="pull-right">
+                    <a href="/dashboard/CPU/location/" id="cancel" class="btn btn-sm btn-default">{% trans "Cancel" %}</a>
+                    <button id="save_draft" type="button" class="btn btn-sm btn-grey" {% if not editor %} disabled {% endif %}>{% trans "Save as Draft" %}</button>
+                    <button id="save_btn" type="button" class="btn btn-sm btn-primary " {% if not editor %} disabled {% endif %}>{% trans "Publish" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Delete confirmation modal-->
+
+<div class="modal fade" id="delete_confirm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header trans-header ">
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+                <h4 class="modal-title">{% trans "Are you sure?" %}</h4>
+            </div>
+            <div class="modal-body">
+                <p class="delete_warning_txt">{% trans "You are about to delete something from the Mohinga site, existing submissions will be deleted." %}</p>
+                <p class="delete_warning_txt">Do you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <p class="text-center">
+                    <a href="#" id="btnYes" class="btn btn-danger btn-lg">{% trans "Delete" %}</a>
+                    <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-default btn-lg">{% trans "Cancel" %}</a>
+                </p>  
+            </div>
+        </div>
+    </div> 
+</div>
+
+
+<!-- Transactions Modal -->
+
+    <div class="modal fade" id="transaction_form" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog trans-dialog">
+            <div class="modal-content trans-content">
+                <div class="modal-header trans-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans "Add a transaction" %}</h4>
+                </div>
+                <form method="POST" name="transaction_form_new" id="transaction_form_new" data-parsley-validate action="{% url 'create_transaction' %}"  >
+                    <div class="modal-body trans-body">
+                        {% csrf_token %}
+                        {% crispy blank_transaction_form form_helper %}
+                        <input id="id_activity" name="activity" value="{{ activity.pk }}" type="hidden">
+                    </div>
+                </form>
+                <div class="modal-footer trans-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                    <button type="button" class="btn btn-primary" id='save_transaction' {% if not editor %} disabled {% endif %} >{% trans 'Save changes' %}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    {% for transaction in transactions %}
+        <div class="modal fade" id="transaction_form_{{ transaction.pk }}" tabindex="-1" role="dialog" aria-hidden="true">
+            <form method="POST" name="transaction_form_{{ transaction.pk }}" id="transaction_form_edit_{{ transaction.pk }}" data-parsley-validate action="{% url 'edit_transaction' transaction.pk %}">
+                {% csrf_token %}
+                <div class="modal-dialog trans-dialog">
+                  <div class="modal-content trans-content">
+                    <div class="modal-header trans-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">{% trans "Edit Transactions" %}</h4>
+                    </div>
+                    <div class="modal-body trans-body">
+                        {% crispy transaction.modal_form form_helper%}
+                    </div>
+                    <div class="modal-footer trans-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                      <button type="button" class="btn btn-primary" id='save_transaction_{{ transaction.pk }}' {% if not editor %} disabled {% endif %}>{% trans 'Save changes' %}</button>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </form>
+        </div><!-- /.modal -->
+        <script>
+        $('#save_transaction_{{ transaction.pk }}').on('click', function () {
+            $('#transaction_form_edit_{{ transaction.pk }}').parsley().validate();
+            if (true === $('#transaction_form_edit_{{ transaction.pk }}').parsley().isValid()){
+                document.transaction_form_{{ transaction.pk }}.submit()
+            }
+        });
+        </script>
+    {% endfor %}
+{% endif %}
+
+
+<script>
+    $('.input-date').datepicker({
+        format: "yyyy-mm-dd",
+        orientation: "top left",
+        startView: 1,
+        autoclose: true
+    }).on( 'changeDate', 
+        function( event )
+        {
+            var id = $(event.target).attr('id');
+            if ( (/start|end/g).exec(id) ) {
+                var plannedOrActual = id.replace( /(start|end)_/g, '');
+                var start_date = $('#start_' + plannedOrActual ).datepicker('getDate');
+                var end_date = $('#end_' + plannedOrActual ).datepicker('getDate');
+
+                if ( $('#start_' + plannedOrActual ).val() && $('#end_' + plannedOrActual ).val() && start_date > end_date ) {
+                    $(event.target).val('').trigger('change').closest('.form-group').addClass('has-error');
+                } else
+                    $(event.target).closest('.form-group').removeClass('has-error');
+
+            }
+        }
+    );
+
+    $('.modal').on('shown.bs.modal', 
+     function()
+     { 
+        $( this ).on('scroll',
+            function()
+            {
+                $('.input-date', this).datepicker('hide');
+            }
+        );
+     }
+    );
+    /*var timerModal;
+    $( document ).on(
+        'DOMMouseScroll mousewheel scroll',
+        '.modal', 
+        function(){       
+          window.clearTimeout( timerModal );
+            timerModal = window.setTimeout( function(){            
+                $('.input-date').datepicker('place');  
+            }, 150 );    
+        }
+    );*/
+</script>
+
+<script>
+
+$('#save_transaction').on('click', function () {
+    $('#transaction_form_new').parsley().validate();
+
+    if (true === $('#transaction_form_new').parsley().isValid()){
+        document.transaction_form_new.submit()
+    }
+});
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+    $('.numberinput').attr('type', 'text')
+    $('.numberinput').attr('pattern', '^-?[0-9]+(\.[0-9]{1,2})?$')
+    $('.numberinput').removeAttr('data-parsley-type')
+
+    $('#div_id_title_set-1-title').find('.textinput').removeAttr('data-parsley-required');
+    $('#div_id_title_set-1-title').find('.textinput').removeData('parsleyRequired');
+
+    $('#div_id_description_set-1-description').find('.textarea').removeAttr('data-parsley-required');
+    $('#div_id_description_set-1-description').find('.textarea').removeData('parsleyRequired');
+
+    $('#div_id_objectives-1-description').find('.textarea').removeAttr('data-parsley-required');
+    $('#div_id_objectives-1-description').find('.textarea').removeData('parsleyRequired');
+
+    $('#div_id_target_groups-1-description').find('.textarea').removeAttr('data-parsley-required');
+    $('#div_id_target_groups-1-description').find('.textarea').removeData('parsleyRequired');
+
+        $('#contact-form').validate({
+            rules: {
+                name: {
+                    minlength: 2,
+                    required: true
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                subject: {
+                    minlength: 2,
+                    required: true
+                },
+                message: {
+                    minlength: 2,
+                    required: true
+                }
+            },
+            highlight: function(element) {
+                $(element).closest('.control-group').removeClass('success').addClass('error');
+            },
+            success: function(element) {
+                element
+                        .text('').addClass('valid')
+                        .closest('.control-group').removeClass('error').addClass('success');
+            }
+        });
+
+    }); // end document.ready
+
+</script>
+
+<!--      100% Height for Side Bar -->
+
+<script>
+
+    $(function(){
+        var H = $("html").height();
+        $(".side_panel").height(H);
+    });
+
+</script>
+
+<!--      Smooth Scroll-->
+<script>
+    $(function() {
+        $('a[href*=#]:not([href=#])').click(function() {
+            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top - 80
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+    });
+
+</script>
+
+<script>
+    $('body').scrollspy({ offset:125, target: '.scroll_by'});
+    $.fn.modal.Constructor.prototype.enforceFocus = function () {};
+</script>
+
+<script type="text/javascript">
+var cbpAnimatedHeader = (function() {
+ 
+    var docElem = document.documentElement,
+        header = document.querySelector( '.cbp-af-header' ),
+        didScroll = false,
+        changeHeaderOn = 300;
+ 
+    function init() {
+        window.addEventListener( 'scroll', function( event ) {
+            if( !didScroll ) {
+                didScroll = true;
+                setTimeout( scrollPage, 150 );
+            }
+        }, false );
+    }
+ 
+    function scrollPage() {
+        var sy = scrollY();
+        if ( sy >= changeHeaderOn ) {
+            classie.add( header, 'cbp-af-header-shrink' );
+        }
+        else {
+            classie.remove( header, 'cbp-af-header-shrink' );
+        }
+        didScroll = false;
+    }
+ 
+    function scrollY() {
+        return window.pageYOffset || docElem.scrollTop;
+    }
+ 
+    init();
+ 
+})();
+</script>     
+
+
+<!--delete modal confirmation-->
+<script>
+
+    function scrollTo( seletor, time )
+    {
+        if ( !$( seletor ).length )
+            return false;
+
+        el = $( seletor );
+        time = time || 1000;
+
+        if (  el.closest( '.modal-body' ).length ) {
+            
+            scroller = el.closest( '.modal-body' );
+            scroll = el.position().top;
+            
+        } else {
+            
+            scroller = 'html,body';
+            scroll = el.offset().top - 80;
+        }
+
+        $( scroller ).animate({scrollTop : scroll}, time );
+        return true;
+    }
+
+    $('#delete_confirm').on('show', function() {
+        var id = $(this).data('id'),
+            removeBtn = $(this).find('.danger');
+    })
+    
+    $('.confirm-delete').on('click', function(e) {
+        e.preventDefault();
+    
+        var id = $(this).data('id');
+        var type = $(this).data('type');
+        $('#delete_confirm').data('type', type);
+        $('#delete_confirm').data('id', id).modal('show');
+    });
+    
+    $('#btnYes').click(function() {
+        // handle deletion here
+      	var id = $('#delete_confirm').data('id');
+        var type = $('#delete_confirm').data('type');
+        $.ajax({
+            type: 'POST',
+            url: 'delete/',
+            data: {'csrfmiddlewaretoken': "{{ csrf_token }}", 'object_type': type, 'pk': id, },
+            success: function(){ 
+                                    if (type == 'activity'){
+                                        location.href="/dashboard/CPU/location/";}
+                                    else {
+                                        location.reload();}
+                                }, 
+        });
+      	//$('[data-id='+id+']').remove();
+      	$('#delete_confirm').modal('hide');
+    });
+
+    $( '#save_draft' ).on( 'click', 
+        function()
+        {
+            if ( $( 'form#data_entry_form' ).parsley().validate() ) {
+                $( '#is_draft' ).val( 1 );
+                $( 'form#data_entry_form' ).submit();
+            } else {
+                scrollTo( $( '.parsley-errors-list.filled' ).eq( 0 ).closest( '.controls' ), 2000 );
+            }
+        }
+    );
+
+    $( '#save_btn' ).on( 'click', 
+        function()
+        {
+            if ( $( 'form#data_entry_form' ).parsley().validate() ) {
+
+                $( '#is_draft' ).val( 0 );
+                $( 'form#data_entry_form' ).submit();
+
+            } else {
+                scrollTo( $( '.parsley-errors-list.filled' ).eq( 0 ).closest( '.controls' ), 2000 );
+            }
+        }
+    );
+
+    $( document ).ready(
+        function()
+        {
+            if ( $( '.alert-danger').length ) {
+
+                scrollTo( $( '.alert-danger' ).eq( 0 ), 2000 );
+            }
+        }
+    );
+
+</script>
+      
+
+{% endblock %}
+

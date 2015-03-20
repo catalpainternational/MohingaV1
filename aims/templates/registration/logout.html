@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+
+{% block content %}
+
+	<section id="logout">
+  		<div class="row">
+  		    <div class="col-md-6 col-md-offset-3">
+      			<div id="logout">
+      				<img id="login-logo" src="/static/img/mohinga_logo.png" alt="">
+    				<div class="signout_header">
+    					<h1>{% trans "You have logged out." %}</h1>
+    				</div>
+    				<p>
+    					{% trans "See you next time!" %}
+    				</p>
+    				<br />
+    				<a href="/accounts/login/">Oops ... log me back in</a>
+    			</div>
+    		</div>
+		</div>		
+	</section>
+	
+{% endblock %}

@@ -1,0 +1,855 @@
+{% extends 'aims/aid_by.html' %}
+{% load i18n %}
+{% load localeurl_tags %}
+{% load humanize %}
+{% load profiles_filters %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<link href="{{ STATIC_URL }}css/bootstrap-editable.css" rel="stylesheet">
+<script src="{{ STATIC_URL }}js/bootstrap-editable.min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/jquery.form.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.form.message.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.sortable.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.avatar.js"></script>
+<!--<script src="{{ STATIC_URL }}js/icheck.min.js"></script>-->
+<script src="{{ STATIC_URL }}js/readmore.min.js"></script>
+<script src="{{ STATIC_URL }}js/donor.js"></script> 
+
+<!--<link href="{ STATIC_URL }}css/square/blue.css" rel="stylesheet">-->
+<link href="{{ STATIC_URL }}css/profile.css" rel="stylesheet" />
+    
+	<div id="user" class="container-fluid main_block">
+	    <div class="row">
+	        <div class="col-md-12 ProfileHead">
+	        
+	            <div class="ProfileBanner" 
+                    style="{% if organisation_profile.banner_image %}background-image: url('{{ organisation_profile.banner_image.url }}'){% endif %}">
+	            
+                    <!--if correct logged in donor then show edit button-->
+		            {% if editor %}
+		            <div class="banner-tools-wrapper hidden-xs">
+	                    <button id="edit_objective" class="btn btn-default btn-xs pull-right btn-profile"><i class="ion-edit btn_icon"></i>{% trans "Edit Banner Text" %}</button>
+	                    <button class="btn btn-default btn-xs pull-right btn-profile" data-toggle="modal" data-target="#banner-image"><i class="ion-image btn_icon"></i>{% trans "Change Banner Image" %}</button>
+                    </div>
+		            {% endif %}
+
+                    <!--donor objective-->
+                    <h1 class="DP_objective">
+                        <a href="#" id="DPobjective" data-type="textarea" maxlength="120" data-type="textarea" data-pk="{{ organisation_profile.pk }}" data-params="{csrfmiddlewaretoken:'{{csrf_token}}', class: 'OrganisationProfile'}">{{ organisation_profile.banner_text|default:'' }}</a>
+                    </h1>
+
+                    <!--donor logo/avatar-->
+	                <div class="ProfileBanner-avatar">
+	                    <div class="ProfileAvatar" id="profile-avatar-logo">
+			
+			                <form method="POST" id="form-logo" enctype="multipart/form-data" action="{% url 'upload' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="class" value="OrganisationProfile">
+                                <input type="hidden" name="pk" value="{{ organisation_profile.pk }}">
+                                <input type="hidden" name="name" value="logo">
+
+    	                        <a class="ProfileAvatar-container u-block js-tooltip profile-picture media-thumbnail" href="#" data-resolved-url-large="#" data-url="#">
+                                    {% if organisation_profile.logo %}
+                                        <img class="ProfileAvatar-image profile-avatar" src="{{ organisation_profile.logo.url }}" alt="{{ current_donor.name }}">
+                                    {% else %}
+    	                               <img class="ProfileAvatar-image profile-avatar" src="{{ STATIC_URL }}img/blank_dp_logo.jpg" alt="{{ current_donor.name }}">
+                                    {% endif %}
+    	                        </a>
+                                {% if editor %}
+        	                        <div class="DPlogo-wrapper">
+        	                            <button type="button" id="choose-logo" class="btn btn-default btn-profile btn-xs hidden-xs"><i class="ion-image btn_icon"></i>{% trans "Choose logo" %}</button>
+        	                        </div>
+                                    <input type="file" name="image" id="donor-logo" class="upload-drag">
+                                {% endif %}
+                            </form>
+			               
+		    	        </div>
+	                </div>
+
+	            </div>
+	        </div>
+	    </div>
+	    
+	
+<!--SIDE BAR-->	    
+	    <div class="row ProfileBody">
+	        <div class="col-md-3 profile_sidebar">	
+	            <h4 class="profile_org"> {{ organisation }}</h4>
+                <!--<div class="web_address_wrapper">
+                    <div class="user-edit-tools">
+                        <button class="btn btn-default btn-profile btn-xs pull-right hidden-xs" data-toggle="collapse" data-target="#DP-web-adress"><i class="ion-edit btn_icon"></i>Edit</button>
+                    </div>
+                    <p id="web_address"><a href="http://{{ organisation_profile.url }}"> {{ organisation_profile.url }}</a></p>
+                    
+                </div>-->
+                <!-- Web Address collapsing form -->
+                <div id="DP-web-adress" class="collapse out">   
+                    <br />
+                    <div class="row collapse-border-btm web_address">
+                        <form data-parsley-validate class="form-horizontal" method="POST" action='#'>
+                        <!--<div class="alert alert-danger animated bounce"><button type="button" class="close" data-dismiss="alert"></button>Some message here..</div>-->
+                            <div id="div_web_address" class="form-group">
+                                <label for="id_address" class="control-label col-lg-3 col-md-3">Website</label>
+                                <div class="controls col-lg-7 col-md-7">
+                                    <input class="textinput textInput form-control" id="id_web_address" maxlength="30" name="address" parsley-maxlength="30" type="text">
+                                    <ul class="parsley-errors-list" id="parsley-id-2832"></ul> 
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <div class="pull-right">
+                                        <button type="reset" data-toggle="collapse" data-target="#DP-web-adress" class="btn btn-default">{% trans "Cancel" %}</button>
+                                        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>    
+                </div>
+                
+
+	        <!--         <p><small>Reporting since 2010</p> -->
+	            <span class="stats_divider"></span>
+	            
+	            	   
+	            	        
+                <h5 class="sidebarSubtitle">{% trans "statistics since " %}  {{ first_statistics_year }}
+                    <a id="statistics" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="General statistics" data-content="{% trans 'These statistics provide a quick overview of the assistance provided by this development partner.' %}" ></a>
+                </h5>
+                <ul class="list-unstyled">
+                    <li>{% trans "Committed" %} <strong>${{total_commitments}}</strong> {% trans " to Myanmar" %}</li>
+                    <li>{% trans "Disbursed" %} <strong>${{total_disbursements}} </strong>({{ executed|floatformat:2 }}%)</li>
+                    <!--<li>{% trans "Disbursed" %} <strong>$80M</strong> {% trans "last calendar year" %}</li>-->
+                    <!--<li>{% trans "Disbursed" %} <strong>${{total_spent_current_year}}</strong> {% trans "this calendar year" %}</li>-->
+                    
+                    <li>{% trans "Associated with" %}<strong> {{ activities_organisation|length }} </strong>{% trans "activities" %}</li>
+                </ul>
+
+                {% if commitment_by_category %}
+                    <span class="stats_divider"></span>
+                    <h5 class="sidebarSubtitle">{% trans "Commitment by Sector" %}
+                        <a id="sectors" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Commitment by sector" data-content="{% trans 'These are the sectors that this development partner is supporting along with the total value committed.' %}"></a>
+                    </h5>
+               <!--     example tags-->
+                        <div id="sector_container">
+                            {% for sector in commitment_by_category %}
+                                <span class="sector_tag" title="{{ sector.name|title }}">
+                                    <span class="sector_name">{{ sector.name|title }}</span>
+                                    <span class="sector_value">${{ sector.pretty }}</span>
+                                </span>
+                            {% endfor %}
+                        </div>
+                {% endif %}
+                
+                <span class="stats_divider"></span>
+                
+                <h5 class="sidebarSubtitle edit_button">{% trans "Contact Details" %}</h5>
+		        {% if editor %}
+                <button class="btn btn-default btn-profile btn-xs pull-right hidden-xs" data-toggle="collapse" data-target="#DP-address"><i class="ion-edit btn_icon"></i>Edit</button>
+                {% endif %}
+		<!-- Address collapsing form -->
+               
+                <div id="DP-address" class="collapse out">   
+                    <br />
+                    <div class="row collapse-border-btm">
+                        <form data-parsley-validate class="form-horizontal" method="POST" action='{% url "save_contact" contact.pk %}'>
+                            {% crispy contact_form form_helper %}
+                             <div class="form-group">
+                                <div class="col-sm-11">
+                                    <div class="pull-right">
+                                        <button type="reset" data-toggle="collapse" data-target="#DP-address" class="btn btn-default">{% trans "Cancel" %}</button>
+                                        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>    
+                </div>
+
+                <div id="contact-container">
+                    {{ contact|contact_render:token }}
+                </div>
+    
+	        </div>
+	        <div class="col-md-9 profileContent">
+                <ul id="ProfileTabs" class="nav nav-tabs nav-justified">
+                    <li class="active"><a href="#About" data-toggle="tab">{% trans "About" %}</a></li>
+                    <li><a href="#People" data-toggle="tab">{% trans "People" %}</a></li>
+                    <li><a href="#Finances" data-toggle="tab">{% trans "Finances" %}</a></li>
+                    <li><a href="#Projects" data-toggle="tab">{% trans "Activities" %}</a></li>
+                    <li><a href="#Results" data-toggle="tab">{% trans "Results" %}</a></li>
+                </ul>
+                
+<!--ABOUT TAB-->
+                <div id="TabContent" class="tab-content">
+                    <div class="tab-pane fade active in" id="About">
+                        <div class="profileContent_tab">
+			                {% if editor %}
+                            <button id="edit_background" class="btn btn-default edit-button pull-right btn-profile hidden-xs"><i class="ion-edit btn_icon"></i>{% trans "Edit About" %}</button>
+			                {% endif %}
+			                <h4 class="profile_header">{% trans "About" %}
+			                    <a id="about" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="A general overview" data-content="{% trans 'The information below generally contains information about development partner key activities, goals and development priorities.' %}" ></a>
+			                </h4>
+                            <p href="#" id="DP_background"  class="profile_txt" data-type="textarea" data-pk="{{ organisation_profile.pk }}" data-params="{csrfmiddlewaretoken:'{{csrf_token}}', class: 'OrganisationProfile'}">{{ organisation_profile.background|default:''|linebreaksbr }}</p>
+                        </div>
+                    </div> 
+                    
+<!--PEOPLE TAB-->
+                    <div class="tab-pane fade in" id="People">
+                        <div class="profileContent_tab">
+			            {% if editor %}
+                            <button type="button" class="btn btn-default pull-right btn-profile hidden-xs" data-toggle="collapse" data-target="#new_person">
+                                <i class="ion-person-add btn_icon"></i>{% trans "Add a New Person" %}                            </button>
+			            {% endif %}
+                            <h4 class="profile_header">{% trans "People" %}
+                            <a id="people" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Development partner focal points" data-content="{% trans 'The list below contains contact information for some of the development partner key focal points.' %}" ></a>
+                            </h4>
+                            <br /> <!--this stops the collapse div stuttering -->
+                            <div id="new_person" class="collapse out">
+			                    {% if editor %}
+                                <form data-parsley-validate enctype="multipart/form-data" class="form-horizontal" method="POST" action='{% url "create_person" %}' data-default-action="{% url "create_person" %}" role="form">
+                                    {% csrf_token %}
+                                    <div class="row collapse-border-btm">
+                                        <div class="col-md-4"> 
+                                            <div class="page-wrap add_user_avatar">
+                                                <div class="profile" id="profile-avatar">
+                                                    <p class="drag_instructions">{% trans "Upload persons photo" %}</p>
+                                                    <div class="profile-avatar-wrap">
+                                                        <img class="media-object img-circle" id="image-avatar" src="{{ STATIC_URL }}img/user_noprofile.jpg"  alt="Image for Profile">
+                                                         <div class="upload-drag">
+                                                            {{ person_form.photo }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button id="uploader" type="button" class="btn btn-xs btn-default pull-left">{% trans "Choose file" %}</button>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="add_new_person_form">
+                                                             {{ person_form.organisation_profile }}
+                                                            <div class="form-group profile-form">
+                                                                <div class="col-md-12">
+                                                                    {{ person_form.name }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group profile-form">
+                                                                <div class="col-md-12">
+                                                                    {{ person_form.position }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group profile-form">
+                                                                <div class="col-md-12">
+                                                                    {{ person_form.background }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group profile-form">
+                                                                <div class="col-md-6">
+                                                                    {{ person_form.phone_number }}
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    {{ person_form.email }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group profile-form pull-right">
+                                                                <div class="col-md-12">
+                                                                    <button type="reset" data-toggle="collapse" data-target="#new_person" class="btn btn-default">{% trans "Cancel" %}</button>
+                                                                    <button type="button" id="delete-person" class="btn btn-danger hide" onclick="removePerson()">Delete</button>
+                                                                    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                                                                </div>
+                                                            </div>  
+                                                </div>                          
+                                            </div>
+                                        </div>
+                                    </div> <!--end of row-->
+                                </form>  
+			                    {% endif %}
+                            </div><!--end of collapse-->
+                            
+                            <ul class="sortable sortable-dragging sortable-placeholder" id="person-container">
+                                {% for person in people %}
+                                    {{ person|person_render:token }}
+                                {% endfor %}
+                            </ul>     
+                        </div>
+                   </div>
+                   
+<!--FINANCES TAB-->                   
+                   <div class="tab-pane fade in" id="Finances">
+                        <div class="profileContent_tab">
+                        
+<!--                            <button type="button" class="btn btn-default pull-right btn-profile">
+                                    <i class="ion-clipboard btn_icon"></i>Download Financial Data
+                                </button>-->
+                                
+                            <h4 class="profile_header">{% trans 'Finances' %}
+                                <a id="finances" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Financial information" data-content="{% trans 'The charts below present a financial overview of the assistance provided by the development partner.' %}" ></a>
+                            </h4>
+                            
+                           <!-- <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="profile_subheader text-center">{% trans 'Commitments & Disbursements over time' %}
+                                    <a id="disb_time" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="How is this calculated?" data-content="{% trans 'This chart shows the number and total value of all activities the development partner is associated with based on the activity’s status.' %}" ></a>
+                                    </h4>
+                                    <br />
+                                    <div id="chart1"></div>
+                                </div>
+                            </div>
+                            <br />
+                            <hr /><br /><br />-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="profile_subheader">{% trans 'Activities by status & value' %}
+                                    <a id="status_value" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="How is this calculated?" data-content="{% trans 'This chart shows the number and total value of all activities the development partner is associated with based on the activity status.' %}" ></a>
+                                    </h4>
+                                    <div id="activities_by_status"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="profile_subheader text-center">{% trans 'Activities status & percentage' %} 
+                                    <a id="status_percent" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="How is this calculated?" data-content="{% trans 'This chart shows the percentage of all funds allocated by activity status.' %}" ></a>
+                                    </h4>
+                                    <div id="activities_status_percentage"></div>
+                                </div>
+                            </div>
+                            <hr />
+                            <br /><br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="profile_subheader text-center">{% trans 'Commitments, Disbursements & Expenditures' %}
+                                    <a id="cumulative_com_disb" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="How is this calculated?" data-content="{% trans 'This chart shows the total assistance for all activities the development partner is associated with.' %}" ></a>
+                                    </h4>
+                                    <br />
+                                    <div id="activities_by_year"></div>
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+                   
+<!--ACTIVITIES TAB--> 
+                   <div class="tab-pane fade in" id="Projects">
+                        <div class="profileContent_tab">
+                            
+                    <!--new project filter-->
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-default btn-profile dropdown-toggle" type="button" data-toggle="dropdown" id="dropdownResources"> {% trans "Filter " %} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu resource_menu" aria-labelledby="dropdownResources">
+                                    <li role="presentation" class="dropdown-header">{% trans "FILTER BY ACTIVITY STATUS" %}</li>
+                                    <ul class="list-inline filter_checkboxes">
+                                        {% for status in activity_statuses %}
+                                            <li class="filter_list">
+                                                <label class="checkbox_label" for="status-{{ status.name|lower }}">
+                                                    <input type="checkbox" data-filter='{ "status": "{{status.code}}" }' id="status-{{ status.name|lower }}"> 
+                                                    {% trans status.name %}
+                                                </label>
+                                            </li>  
+                                        {% endfor %}
+                                    
+                                        <li class="divider"></li>
+                                        
+                                        <li role="presentation" class="dropdown-header">{% trans "FILTER BY ORGANISATION ROLE" %}</li>
+
+                                        {% for role in organisation_roles %}
+                                            <li class="filter_list">
+                                                <label class="checkbox_label" id="role-{{ role.name|lower }}">
+                                                    <input type="checkbox" data-filter='{ "role": "{{role.code|lower}}" }' for="role-{{ role.name|lower }}">
+                                                    {% trans role.name %}
+                                                </label>
+                                            </li>
+                                        {% endfor %}
+
+                                        <li class="filter_list">
+                                            <label class="checkbox_label" id="role-reporting">
+                                                <input type="checkbox" data-filter='{ "role": "reporting" }' for="role-reporting">
+                                                {% trans 'Reporting' %}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </ul>
+                            </div>
+                  
+                            <h4 class="profile_header">{% trans "Activities" %}
+                                <a id="projects" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="What is shown in the activities list?" data-content="{% trans 'The list below contains all projects in which the development partner is either a financing, extending, implementing or reporting organisation.' %}" ></a>
+                            </h4>
+
+                            
+                            {% for activity in activities_organisation %}
+                                <!--Project Block-->
+                                <div class="projectBlock activity-block" 
+                                    data-activity="{status: '{{ activity.object.activity_status.code }}', role: ['{{ activity.roles|join:'\', \'' }}']}">
+                                    
+                                    <h5 class="project-header">
+                                        <a href="{% url 'activity_profile' activity.object.iati_identifier %}" title="{% trans 'Project profile page' %}">
+                                            {{ activity.object.title }}
+                                        </a>
+
+                                        {% if activity.object.activity_status.code == 1 %}
+                                            <span class="label label-default label-planned no_padding_label">Pipeline</span>
+                                        {% endif %}
+
+                                        {% if activity.object.activity_status.code == 2 %}
+                                            <span class="label label-default label-implementing no_padding_label">Implementing</span>
+                                        {% endif %}
+
+                                        {% if activity.object.activity_status.code == 3 %}
+                                            <span class="label label-default label-completed no_padding_label">Completed</span>
+                                        {% endif %}
+
+                                        {% if activity.object.activity_status.code == 4 %}
+                                            <span class="label label-default label-completed">{% trans "Post-completed" %}</span>
+                                        {% endif %}
+
+                                        {% if activity.object.activity_status.code == 5 %}
+                                            <span class="label label-default label-completed">{% trans "Cancelled" %}</span>
+                                        {% endif %}
+
+                                        {% if activity.object.is_draft %}
+                                            <span class="label label-default label-draft">{% trans "draft" %}</span>
+                                        {% endif %}
+                                     </h5>
+                                    
+                                    <!--  if reporting agency show this -->
+                                    {% if activity.editor %}
+                                        <a href="{% url 'edit_activity' activity.object.iati_identifier %}" class="edit-button-profile btn btn-default btn-profile btn-xs pull-right hidden-xs">
+                                            <i class="ion-edit btn_icon"></i>
+                                            Edit
+                                        </a> 
+                                    <!--edit project details-->
+                                    {% endif %}
+
+
+                                    <p class="sector-list-wrapper">
+                                        {% for sector in activity.object.sector_set %}
+                                            <span class="sector-list-item">{{ sector.name|title }}</span>
+                                        {% endfor %}
+                                    </p>
+
+                                    {% if activity.location.count %}
+                                        <h6>
+                                            {{ activity.location|join:", "|default:'' }}
+                                        </h6>
+                                    {% endif %}
+
+                                    <p class="projectText">{{ activity.object.general_description }}</p>
+                                    <ul class="list-inline projectDetails">
+                                        <li><strong>{% trans "Duration:" %}</strong> {{ activity.object.start_planned|date:'M Y' }} - {{ activity.end_planned|date:'M Y' }}</span></li>
+                                        <li><strong>{% trans "Total planned budget:" %}</strong> {{ activity.budget }}</li>
+                                        <li><strong>{% trans "Total disbursed:" %}</strong> {{ activity.spent|default:"0" }} or {{ activity.percent|floatformat:"1"|default:"0" }}%</li>
+                                        <br />  
+                                        <li>
+                                            <strong>{% trans "Reporting on this activity:" %}</strong> 
+                                            {{ activity.object.reporting_organisation }}
+                                        </li>
+                                        
+                                        {% if activity.partners %}
+                                            <li>
+                                                <strong>{% trans "Implementing partner:" %}</strong> 
+                                                {{ activity.partners|join:", " }}
+                                            </li>
+                                        {% endif %}
+                                    
+                                    </ul>                  
+                                </div>
+                            {% endfor %}
+                            
+                        </div>
+                   </div>
+<!--RESULTS TAB-->
+                   <div class="tab-pane fade in" id="Results">
+                        <div class="profileContent_tab">
+                            <h4 class="profile_header">{% trans "Results" %}
+                            <a id="results" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="Results from development activities" data-content="{% trans 'The results tab provides an overview of the results being achieved by the development partner. Each result is linked to an activity the development partner is either financing, extending or implementing.' %}" ></a>
+                            </h4>
+                            {% for row in activities_organisation %}
+                                {% for result in row.object.result_set.all %}
+                                    {% if result.description %}
+                                        <blockquote>
+                                            <h5>{{ result.title|default:''|title}}</h5>
+                                            <p>{{ result.description }}</p>
+                                            <small>
+                                                <a href="{% url 'activity_profile' row.object.iati_identifier %}">
+                                                    {{ row.object.title }}
+                                                </a>
+                                            </small>
+                                           <!-- <small><strong>Reported by:</strong> Double Infinity Enterprises</small>-->
+                                        </blockquote>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                   </div>
+               </div>
+	        </div>	    
+	    </div>
+    </div>
+    
+    
+    <!--   Banner image modal -->
+    <div class="modal fade" id="banner-image" tabindex="-1" role="dialog" aria-labelledby="Banner-Image" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h3 class="modal-title" id="myModalLabel">{% trans 'Upload banner image' %}</h3>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="form-banner" enctype="multipart/form-data" action="{% url 'upload' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="class" value="OrganisationProfile">
+                            <input type="hidden" name="pk" value="{{ organisation_profile.pk }}">
+                            <input type="hidden" name="name" value="banner_image">
+
+                            <p class="profileText">
+                                {% trans 'Since your cover photo goes across the entire width of your profile, the image you pick has to be at least 1500 pixels wide.' %}
+                            </p>
+                            <br />
+                            <p class="text-center" id="profile-banner">
+                                <img class="banner-image-preview" src="{{ STATIC_URL }}img/banner_image_instructions.jpg" alt="" />
+                                <!-- If successful image show-->
+                                <div class="banner-success hide text-center">
+                                    <img src="{{ STATIC_URL }}img/check_box_yes.jpg" alt="" />
+                                    <h5 class="text-center">{% trans "Great! -- that will work nicely" %}</h5>
+                                </div>
+                                 <!-- If not successful image show-->
+                                <div class="banner-error hide text-center">
+                                    <img src="{{ STATIC_URL }}img/check_box_no.jpg" alt="" />
+                                    <h5 class="text-center">{% trans "Oh no! - that image won't work." %} <br />{% trans "Please check your image is 800 by 400 pixels and a jpeg" %}</h5>
+                                </div>
+                            </p>
+                            <p class="text-center">
+                                <button id="choose-banner" type="button" class="btn btn-default btn-profile btn-no-margin">{% trans 'choose banner image' %}</button>
+                            </p>
+                            <div style="position: absolute; top: -9999px">
+                                <input type="file" name="image" id="donor-banner">
+                            </div>
+                    </form>
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                    <button type="button" id="save-donor-banner" class="btn btn-primary">{% trans 'Save changes' %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer_credits">
+        <div class="container-fluid">
+            <span class="text-left">{% trans "Software designed & developed by" %} <a href="http://www.catalpa.io">Catalpa International Ltd</a></span> |
+            <span class="text-right">Managed by <a href="https://www.mnped.gov.mm">Ministry of National Planning and Economic Development</a> | Funded by the <a href="http://europa.eu/">European Union</a></span>
+        </div><!-- /container -->
+    </footer>
+    <div class="modal" id="confirm-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        {% trans 'Delete item' %}
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>{% trans 'Do you really want to delete this item?' %}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                    <input type="button" id="button-delete" class="btn btn-danger" 
+                    value='{% trans 'Delete' %}'>
+                </div>
+            </div>
+        </div> 
+    </div><!--// -- end of modal  -->    
+      
+    <!--Popover-->
+    
+    <script type="text/javascript">  
+        $(function ()  
+        {
+          $("#status_value").popover({placement:'top'});
+          $("#disb_time").popover({placement:'top'});
+          $("#status_percent").popover({placement:'left'});  
+          $("#cumulative_com_disb").popover({placement:'top'});
+          $("#people").popover({placement:'top'});
+          $("#about").popover({placement:'top'});
+          $("#projects").popover({placement:'top'});
+          $("#results").popover({placement:'top'});
+          $("#finances").popover({placement:'top'});
+          $("#statistics").popover({placement:'right'});
+          $("#sectors").popover({placement:'right'});        
+        });  
+
+        $('[data-toggle="tooltip"]').tooltip({'placement': 'top'});
+
+        $(document).ready(function(){
+          $('.filter_list input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+          });
+        });
+
+        var global_for_print = false;
+        var tabCallbacks = {
+            projects: function()
+            {
+                $('#Projects .projectText').readmore(
+                    {
+                        maxHeight: 78,
+                        moreLink: '<a href="#">' + translations.see_more + '</a>'
+                    }
+                );
+            },
+            finances: function()
+            {
+                function statusColor( status )
+                {
+                    var color = '';
+                    switch( status.toLowerCase() ) {
+                        case 'pipeline/identification':
+                            color = '#3bafda';
+                            break;
+                        case 'implementation':
+                            color = '#37bc9b';
+                            break;
+                        case 'completion':
+                            color = '#ccd1d9';
+                            break;
+                        case 'post-completion':
+                            color = '#A8D9EA';
+                            break;
+                    }
+
+                    return color;
+                }
+
+                var data_activity_by_status = {{ activity_by_status|safe }};
+
+                c3.generate({
+                    bindto: '#activities_by_status',
+                    data: {
+                      json: data_activity_by_status,
+                      type: 'bar',
+                      keys: {
+                        x: 'name',
+                        value: ['value']
+                      },
+                      colors: {
+                        value: function( d )
+                        {
+                            if ( d.index === undefined ) 
+                                return false;
+
+                            var d = data_activity_by_status[d.index];
+                            var color = statusColor( d.code );
+                            return color;
+                        }
+                      }
+                    },
+                    legend: {
+                        show: false
+                    },
+                    tooltip: {
+                        format: {
+                            value: function(value, ratio, id, index )
+                            {
+                                var d = data_activity_by_status[index];
+                                
+                                return "<b>" + d.activities 
+                                    + "</b> {% trans 'Activities'%} - " 
+                                    + "<b>USD $" + d.pretty;
+                            }
+                        }
+                    },
+                    axis: {
+                      x: {
+                        type: 'categorized',
+                        tick: {
+                        rotate: 40,
+                        multiline: false
+                            }
+                      },
+                      y: {
+                        tick: {
+                            format: d3.format("s"),
+                        }
+                      }
+                    },
+                    bar: {
+                      width: {
+                        ratio: 0.25,
+                      },
+                    },
+                    size: { height: 260 
+                    },
+                    padding: { 
+                        top: 8,
+                        bottom: 30,
+                        right: 60,
+                        left: 35
+                    }
+                  });
+
+                 /*
+                
+
+               var margins = {top: 10, right: 0, bottom: 30, left: 40};
+                var width = $('#activities_by_status').width();
+                var height = 270;
+                var text_above_x = true;
+                draw_bar_chart_into_div("#activities_by_status", data_activity_by_status, width, height, margins,
+                                        null, null, activitiy_by_status_tooltip, text_above_x);
+
+                var width = $('#activities_status_percentage').width() - 100;
+                var height = 150;
+                draw_donut_into_div("#activities_status_percentage", data, width, height);
+
+                */
+
+                //var data_status_percentage = {{ percentage_statuses|safe }};
+
+                var data_status_percentage = [];
+                for ( indx in data_activity_by_status ) {
+
+                    data_status_percentage.push([
+                                                data_activity_by_status[indx].name, 
+                                                data_activity_by_status[indx].value
+                                                ]);
+                }
+                
+
+                c3.generate({
+                    bindto: '#activities_status_percentage',
+                    data: {
+                      columns: data_status_percentage,
+                      type : 'donut',
+                      color: function( color, code )
+                        {
+                            var code = typeof code == 'string' ? code : code.id;
+                            return statusColor( code );
+                        }
+                    },
+                    donut: {
+                      width: 35
+                    },
+                    size: { height: 210 
+                    },
+                    padding: { top: 20 
+                    }
+                });
+
+                var transactions_by_year = {{ transactions_by_year|safe }};
+
+                c3.generate({
+                    bindto: '#activities_by_year',
+                    data: {
+                      json: transactions_by_year,
+                      keys: {
+                        x: 'year',
+                        value: [ "Commitments", "Disbursements", "Expenditures", "Others" ]
+                      },
+                      type: 'area-spline',
+                    },
+                    tooltip: {
+                        format: {
+                            value: function(value, ratio, id, index )
+                            {
+                                return 'USD $' + transactions_by_year[index][id + '_Pretty'];
+                            }
+                        }
+                    },
+                    axis: {
+                      x: {
+                        type: 'categorized'
+                      },
+                      y: {
+                        tick: {
+                            format: d3.format("s")
+                        }
+                      }
+                    },
+                    size: { height: 280 }
+                  });
+            },
+        };
+          
+        var translations = {
+            required: '{% trans 'Required' %}', 
+            required_fields: '{% trans 'You have to fill all of the following fields' %}',
+            loading: '{% trans 'Loading' %}',
+            success: '{% trans 'Operation successfull' %}',
+            confirm_delete: '{% trans 'Do you really want to delete this item?' %}',
+            see_more: '{% trans 'See more' %}'
+        };
+
+        var djangoUrls = {
+            person_html: '{% url "fetch_person" "0000" %}',
+            contact_html: '{% url "fetch_contact" "0000" %}',
+            person_data: '{% url "person_data" "0000" %}',
+            update_person: '{% url "update_person" "0000" %}',
+            delete_person: '{% url "delete_person" "0000" %}',
+            reorder_people: '{% url "reorder_people" %}',
+            media_url: '{{ MEDIA_URL }}',
+            update: '{% url "update" %}'
+        };
+
+      var chart1 = c3.generate({
+        bindto: '#chart1',
+        data: {
+          x : 'x',
+          columns: [
+            ['x', '2013-01-01', '2013-02-01', '2013-03-01', '2013-04-01', '2013-05-01'],
+            ['sample', 30, 200, 100, 400, 150],
+            ['sample2', 130, 300, 200, 450, 250]
+          ],
+          type: 'bar',
+          colors: {
+             sample: '#2C9AB7',
+             sample2: '#FEBE12'
+         },
+        },
+        axis : {
+          x : {
+            type : 'timeseries',
+            tick : {
+              format : "%Y-%m-%d"
+            }
+          },
+        },
+        bar: {
+          width: {
+            ratio: 0.25,
+          },
+        },
+        subchart: {
+          show: true,
+          onbrush: function (domain) {
+            console.log(this, domain);
+          }
+        }
+      });
+
+      var chart2 = c3.generate({
+        bindto: '#chart2',
+        data: {
+          columns: [
+            ['sample', 30, 200, 100, 400, 150],
+            ['sample2', 130, 300, 200, 450, 250]
+          ]
+        },
+        subchart: {
+          show: true,
+          onbrush: function (domain) {
+            console.log(this, domain);
+          }
+        }
+      });
+    
+        </script>
+    
+    
+{% endblock %}

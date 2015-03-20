@@ -1,0 +1,1504 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-17 16:28-0500\n"
+"PO-Revision-Date: 2014-08-15 00:33-0500\n"
+"Last-Translator: Hein Zaw  <heinzawcupku@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.7.2\n"
+
+#: base_utils.py:5 base_utils.py:6 base_utils.py:7
+msgid "Unknown"
+msgstr "အမည်မသိ"
+
+#: base_utils.py:8
+msgid "?"
+msgstr "  "
+
+#: base_utils.py:11
+msgid "Unnamed"
+msgstr "အမည်မသိ"
+
+#: base_utils.py:16
+msgid "trillion"
+msgstr "ထရီလီယံ"
+
+#: base_utils.py:18
+msgid "billion"
+msgstr "ဘီလီယံ"
+
+#: base_utils.py:20
+msgid "million"
+msgstr "မီလီယံ"
+
+#: base_utils.py:22
+msgid "thousand"
+msgstr "ထောင်ပေါင်း"
+
+#: exports.py:42
+msgid "no title"
+msgstr "ခေါင်းစဉ်မရှိ"
+
+#: exports.py:61
+msgid "no description"
+msgstr "ဖော်ပြချက်မရှိ"
+
+#: exports.py:103
+msgid "id"
+msgstr "ကုဒ်နံပါတ်"
+
+#: exports.py:104 templates/aims/aid_by.html:122
+msgid "Title"
+msgstr "စီမံကိန်းအမည်"
+
+#: exports.py:105 templates/aims/edit_data.html:103
+#: templates/aims/edit_data.html.py:125 templates/aims/edit_data.html:143
+msgid "Description"
+msgstr "ဖော်ပြချက်"
+
+#: exports.py:106 templates/aims/edit_data.html:104
+#: templates/aims/edit_data.html.py:126 templates/aims/edit_data.html:152
+msgid "Objective"
+msgstr "ရည်ရွယ်ချက်"
+
+#: exports.py:107 templates/aims/aid_by.html:123
+#: templates/search/search.html:30
+msgid "Sector"
+msgstr "ကဏ္ဍ"
+
+#: exports.py:108
+#, fuzzy
+msgid "Sector Working Group"
+msgstr "လုပ်ငန်းကဏ္ဍအဖွဲ့များ"
+
+#: exports.py:109 templates/aims/aid_by.html:124
+msgid "Status"
+msgstr "စီမံကိန်းဆောင်ရွက်မှုအခြေအနေ"
+
+#: exports.py:110 templates/aims/aid_by.html:125
+msgid "Total Budget"
+msgstr "ငွေပမာဏ"
+
+#: exports.py:111
+msgid "Default Currency"
+msgstr "မူရင်းငွေကြေး"
+
+#: exports.py:112
+#, fuzzy
+msgid "Total Budget USD"
+msgstr "ငွေပမာဏ(အမေရိကန်ဒေါ်လာ)"
+
+#: exports.py:113
+#, fuzzy
+msgid "Total Disbursement USD"
+msgstr "ရရှိမှု ပမာဏ စုစုပေါင်း"
+
+#: exports.py:114 templates/search/search.html:23
+msgid "Reporting Organisation"
+msgstr "သက္ဆိုင္ရာအဖြဲ့အစည္း"
+
+#: exports.py:115 templates/aims/aid_by.html:126
+#: templates/aims/edit_data.html:107 templates/aims/edit_data.html.py:129
+msgid "Financing"
+msgstr "ငွေကြေးထောက်ပံ့သူ"
+
+#: exports.py:116
+msgid "Extending"
+msgstr "ဆက်သွယ်ဆောင်ရွက်သူ"
+
+#: exports.py:117 templates/aims/aid_by.html:64
+msgid "Implementing"
+msgstr "လုပ်ငန်းဆောင်ရွက်သူ"
+
+#: exports.py:118 templates/aims/edit_data.html:108
+#: templates/aims/edit_data.html.py:130 templates/aims/edit_data.html:180
+msgid "Ministry"
+msgstr "၀န်ကြီးဌာန"
+
+#: exports.py:119
+msgid "State/Region"
+msgstr "ဒေသ"
+
+#: exports.py:120
+msgid "Township"
+msgstr "မြို့နယ်"
+
+#: exports.py:121
+#, fuzzy
+msgid "Planned Start date"
+msgstr "စတင်သည့်နေ့"
+
+#: exports.py:122
+#, fuzzy
+msgid "Planned End date"
+msgstr "ပြီးဆုံးသည့်နေ့"
+
+#: exports.py:123
+#, fuzzy
+msgid "Actual Start date"
+msgstr "စတင်သည့်နေ့"
+
+#: exports.py:124
+#, fuzzy
+msgid "Actual End date"
+msgstr "ပြီးဆုံးသည့်နေ့"
+
+#: exports.py:125
+msgid "Contact Name"
+msgstr "ဆက်သွယ်ရန်အမည်"
+
+#: exports.py:126
+msgid "Contact Phone"
+msgstr "ဖုန်းနံပါတ်"
+
+#: exports.py:127
+msgid "Contact Email"
+msgstr "ဆက်သွယ်ရန် အီးမေးလ်လိပ်စာ"
+
+#: forms.py:75
+msgid ""
+"The title of the activity is the name of the activity. This is preferably "
+"the formal name of the activity, but does not have to be. The title needs to "
+"be complete with any abbreviations or acronyms spelled out."
+msgstr ""
+
+#: forms.py:85
+msgid ""
+"The description of the activity is a descriptive text, longer than the "
+"title, explaining what the activity is. Sometimes it is just a short "
+"sentence but could also be more detailed."
+msgstr ""
+
+#: forms.py:95
+msgid ""
+"The objectives or purposes of the activity are those that the activity "
+"intends to achieve. The objectives need to include a detailed description of "
+"the activity and expected outcomes."
+msgstr ""
+
+#: forms.py:105
+msgid ""
+"Target groups describe the groups/entities that will be directly positively "
+"affected by the activity. This section may also be used to describe "
+"organisations/persons who will benefit from the activity in the long term."
+msgstr ""
+
+#: forms.py:110
+msgid ""
+"Extending: The government entity or development partner agency receiving "
+"funds from financing partner(s) for channeling to implementing partner(s). "
+"Implementing: The implementer of the activity is the organisation(s) which "
+"is/are principally responsible for delivering this activity. Also known as "
+"the executing agency, this is the intermediary between the extending agency "
+"and the ultimate beneficiary. It can be a private firm, a non-governmental "
+"organisation, an educational institution, an association, an institute, a "
+"government Ministry, or any other individual or organisation selected to "
+"implement the activity. Funding:  organisations contributing financing to "
+"the activity"
+msgstr ""
+
+#: forms.py:111
+msgid ""
+"Development partners extending or implementing funds to achieve activity "
+"objectives."
+msgstr ""
+
+#: forms.py:115 forms.py:135
+msgid "#"
+msgstr ""
+
+#: forms.py:121
+msgid ""
+"Government Ministries who are partnering with development partners but not "
+"necessarily implementing the activity directly."
+msgstr ""
+
+#: forms.py:125
+msgid ""
+"Extending: The government entity or development partner agency receiving "
+"funds from financing partner(s) for channeling to implementing partner(s). "
+"Implementing: The implementer of the activity is the organisation(s) which "
+"is/are principally responsible for delivering this activity. Also known as "
+"the executing agency, this is the intermediary between the extending agency "
+"and the ultimate beneficiary. It can be a private firm, a non-governmental "
+"organisation, an educational institution, an association, an institute, a "
+"government Ministry, or any other individual or organisation selected to "
+"implement the activity."
+msgstr ""
+
+#: forms.py:131
+msgid "All organisations contributing financing to the activity."
+msgstr ""
+
+#: forms.py:140
+msgid ""
+"The sectors of the activity explain whether this is, for example, a health "
+"or education project. It does not count if it is just mentioned incidentally "
+"within the title, description, etc. It needs to be stated separately and "
+"explicitly. If projects are presented by sector on an organisation's "
+"website, it must be clearly stated whether the organisation works only in "
+"those sectors that are listed."
+msgstr ""
+
+#: forms.py:153
+msgid "The percentage breakdown for each sector/sub-sector."
+msgstr ""
+
+#: forms.py:159 forms.py:172
+msgid ""
+"The sectors of the activity explain whether this is, for example, a health "
+"or education activity. The use of specific sub-sectors is strongly "
+"encouraged."
+msgstr ""
+
+#: forms.py:200
+msgid "The percentage of the activity taking place in this location."
+msgstr ""
+
+#: forms.py:253
+msgid "A measurable result of aid work."
+msgstr ""
+
+#: forms.py:254
+msgid "A short, human-readable title."
+msgstr ""
+
+#: forms.py:255
+msgid "A longer, human-readable description."
+msgstr ""
+
+#: forms.py:270
+msgid "The name of the contact person at the organisation."
+msgstr ""
+
+#: forms.py:271
+msgid "The organisation to contact for more information about the activity."
+msgstr ""
+
+#: forms.py:272
+msgid "The contact telephone number, if available."
+msgstr ""
+
+#: forms.py:273
+msgid "The contact email address, if available."
+msgstr ""
+
+#: forms.py:274
+msgid "The contact mailing address, if available."
+msgstr ""
+
+#: forms.py:300
+msgid "Project"
+msgstr "စီမံကိန်းအမည်"
+
+#: forms.py:301
+msgid "Program"
+msgstr "လုပ်ငန်းအစီအစဉ်"
+
+#: forms.py:306
+msgid ""
+"The organisation reporting on the activity. This could be a development "
+"partner reporting on activities being financed/implemented directly, or an "
+"extending partner reporting on behalf of implementing partners."
+msgstr ""
+
+#: forms.py:307
+msgid ""
+"Identifies whether the activity is part of a broader programme or standalone."
+msgstr ""
+
+#: forms.py:308
+msgid ""
+"Policy Markers help monitor aid targeting key environmental, gender and "
+"other policy objectives. Multiple markers can be selected if needed."
+msgstr ""
+
+#: forms.py:309
+msgid ""
+"The type of collaboration involved in the project's disbursements, e.g. "
+"bilateral or multilateral. The collaboration type shows how the activity is "
+"funded - whether directly from one government to another (bilaterally), "
+"through institutions such as the World Bank or UN (multilaterally), or "
+"otherwise."
+msgstr ""
+
+#: forms.py:310
+#, fuzzy
+msgid "Sector Working Groups"
+msgstr "လုပ်ငန်းကဏ္ဍအဖွဲ့များ"
+
+#: forms.py:310
+msgid ""
+"Identifies which Myanmar Sector Working Group this activity falls within. "
+"Multiple Sector Working Groups can be identified if the activity is cross-"
+"sectoral in nature."
+msgstr ""
+
+#: forms.py:311 forms.py:312
+msgid ""
+"The planned start date and end dates of the activity. If there are one set "
+"of dates but they are not explicitly stated as planned or actual dates, it "
+"is assumed that they are planned dates."
+msgstr ""
+
+#: forms.py:313
+msgid ""
+"The actual start date reflects the commencement of funding or the date the "
+"project/programme agreement is signed."
+msgstr ""
+
+#: forms.py:314
+msgid ""
+"The actual end date reflects, wherever possible, the ending of physical "
+"activity."
+msgstr ""
+
+#: forms.py:329
+msgid ""
+"A globally unique identifier for the activity. This should be in the form of "
+"the IATI Organisation Identifier (for the reporting organisation) "
+"concatenated to that organisation activity identifier."
+msgstr ""
+
+#: forms.py:330
+msgid ""
+"This shows whether the activity is currently being planned/negotiated or "
+"under design (pipeline/identification), being implemented (implementation), "
+"has finished (completed), has been cancelled (cancelled) or has undergone a "
+"final post-completion review/evaulation (post-completion)."
+msgstr ""
+
+#: forms.py:331
+msgid ""
+"The type of assistance provided, e.g. Official Development Assistance (ODA)."
+msgstr ""
+
+#: forms.py:332
+msgid ""
+"The type of aid being supplied (budget support, debt relief, etc.). This "
+"element specifies a default for all the activity's financial transactions. "
+"This can be overridden at the individual transaction level."
+msgstr ""
+
+#: forms.py:333
+msgid ""
+"The type of finance shows whether the activity is a grant, loan, export "
+"credit or otherwise. This is the default value for all the activities "
+"transactions. This can be overridden by individual transactions."
+msgstr ""
+
+#: forms.py:334
+msgid ""
+"Specify whether the aid is untied, tied, or partially tied. Tied aid could "
+"be where procurement is restricted to the donor organisation/country whereas "
+"untied aid is where more open procurement is used."
+msgstr ""
+
+#: forms.py:335
+msgid ""
+"The default ISO 4217 currency code for all financial values related to this "
+"activity. This can be overridden at the individual transaction level."
+msgstr ""
+
+#: forms.py:336
+msgid ""
+"This refers to the total financial commitment for the activity as a whole "
+"for the lifetime of the activity. This is a high level commitment rather "
+"than a detailed breakdown of the activity budget. Total estimated commitment "
+"is accepted."
+msgstr ""
+
+#: models.py:18
+msgid "original"
+msgstr "မူရင်း"
+
+#: models.py:19
+msgid "pending"
+msgstr "ဆိုင်းငံ"
+
+#: models.py:64
+msgid "Base Currency"
+msgstr "မူလငွေကြေး"
+
+#: models.py:65
+msgid "Exchange Currency"
+msgstr "ပြောင်းလဲမည့်ငွေကြေး"
+
+#: models.py:66
+msgid "Exchange Rate"
+msgstr "ငွေလဲလှယ်နှုန်း"
+
+#: models.py:135
+msgid "Date Created"
+msgstr "ပြင်ဆင်သည့်နေ့"
+
+#: models.py:136
+msgid "Last Modified"
+msgstr "နောက်ဆုံးပြင်ဆင်သည့်နေ့"
+
+#: models.py:164 models.py:169 models.py:174 models.py:179 models.py:184
+#: models.py:189 models.py:194 models.py:199 models.py:204 models.py:209
+#: models.py:214 models.py:219 models.py:224 models.py:229 models.py:234
+#: models.py:239 models.py:244 models.py:249 models.py:254 models.py:259
+#: models.py:264 models.py:269 models.py:274 models.py:279 models.py:284
+#: models.py:289 models.py:294 models.py:299 models.py:304 models.py:309
+#: models.py:314 models.py:319 models.py:324 models.py:329 models.py:334
+#: models.py:339 models.py:344 models.py:349 models.py:359 models.py:364
+#: models.py:369 models.py:374 models.py:379 models.py:384 models.py:389
+#: models.py:394 models.py:404 models.py:409 models.py:414 models.py:419
+#: models.py:424 models.py:429 models.py:434 models.py:439 models.py:444
+msgid "Remote Data"
+msgstr "အချက်အလက်များ"
+
+#: views.py:34 views.py:42 templates/aims/base_site.html:88
+msgid "Aid By Location"
+msgstr "ဒေသအလိုက် အကူအညီရရှိမှု"
+
+#: views.py:35 views.py:43 templates/aims/base_site.html:89
+msgid "Aid By Ministry"
+msgstr "ဝန်ကြီးဌာနအလိုက် အကူအညီရရှိမှု"
+
+#: views.py:36 views.py:44 templates/aims/base_site.html:90
+msgid "Aid By Sector"
+msgstr "ကဏ္ဍအလိုက် အကူအညီရရှိမှု"
+
+#: views.py:37 views.py:45 templates/aims/base_site.html:91
+msgid "Aid By Donor"
+msgstr "နိုင်ငံ/အဖွဲ့အစည်း အလိုက် အကူအညီရရှိမှု"
+
+#: views.py:94
+#, python-format
+msgid "Empty list and ``%(class_name)s.allow_empty`` is False."
+msgstr ""
+
+#: views.py:498 views.py:607
+msgid "Activity was saved successfully"
+msgstr "သိမ်းဆည်းပြီး"
+
+#: views.py:518 views.py:644
+msgid "Myanmar language translation"
+msgstr "မြန်မာဘာသာ"
+
+#: views.py:755
+#, fuzzy
+msgid "Item was deleted successfully"
+msgstr "ပယ်ဖျက်ပြီး"
+
+#: views.py:768
+msgid "Organisation was saved successfully"
+msgstr "အဖွဲ့အစည်း၏ အချက်အလက် သိမ်းဆည်းပြီး"
+
+#: views.py:804 views.py:825
+msgid "Transaction was saved successfully"
+msgstr "ငွေကြေးသုံးဆွဲမှု သိမ်းဆည်းပြီး"
+
+#: templates/aims/aid_by.html:27
+msgid "No Information Available"
+msgstr "အချက်အလက်မရှိပါ"
+
+#: templates/aims/aid_by.html:28
+#, fuzzy
+msgid "No Information"
+msgstr "အချက်အလက်မရှိပါ"
+
+#: templates/aims/aid_by.html:29
+msgid "Available"
+msgstr "ရရှိနိုင်သည်"
+
+#: templates/aims/aid_by.html:46
+msgid "to"
+msgstr "သို့"
+
+#: templates/aims/aid_by.html:56
+msgid "FILTER BY DONOR"
+msgstr ""
+
+#: templates/aims/aid_by.html:59
+msgid "FILTER BY SECTOR"
+msgstr ""
+
+#: templates/aims/aid_by.html:62
+msgid "FILTER BY STATUS"
+msgstr ""
+
+#: templates/aims/aid_by.html:65
+msgid "Planned"
+msgstr ""
+
+#: templates/aims/aid_by.html:66
+msgid "Completed"
+msgstr ""
+
+#: templates/aims/aid_by.html:68 templates/aims/aid_by.html.py:94
+#: templates/search/search.html:45
+#, fuzzy
+msgid "Set Filter"
+msgstr "စစ်ထုတ်ပါ"
+
+#: templates/aims/aid_by.html:92
+msgid "Print Page"
+msgstr ""
+
+#: templates/aims/aid_by.html:93
+#, fuzzy
+msgid "Export Data"
+msgstr "အချက်အလက်များ"
+
+#: templates/aims/aid_by.html:97
+msgid "Clear current date filters, and sorts"
+msgstr ""
+
+#: templates/aims/aid_by.html:113
+#, fuzzy
+msgid "Activities List"
+msgstr "လုပ်ငန်း စီမံကိန်းများ"
+
+#: templates/aims/aid_by.html:121
+#, fuzzy
+msgid "Activity"
+msgstr "နံပါတ်စဉ်"
+
+#: templates/aims/aid_by.html:127
+#, fuzzy
+msgid "Start"
+msgstr "စတင်သည့်နေ့"
+
+#: templates/aims/aid_by.html:128
+msgid "End"
+msgstr ""
+
+#: templates/aims/aid_by_donor.html:8 templates/aims/aid_by_donor.html:12
+msgid "All Donors"
+msgstr "နိုင်ငံ/အဖွဲ့အစည်းအားလုံး"
+
+#: templates/aims/aid_by_donor.html:27
+#, fuzzy
+msgid "Commitment by Aid Category"
+msgstr "အမျိုးအစားအလိုက် အကူအညီရရှိမှု"
+
+#: templates/aims/aid_by_donor.html:28
+#, fuzzy
+msgid "Total commitments by aid type."
+msgstr "လျာထားမှုစုစုပေါင်း"
+
+#: templates/aims/aid_by_donor.html:36
+msgid "Total Donors"
+msgstr "အလှူ ရှင် စုစုပေါင်း"
+
+#: templates/aims/aid_by_donor.html:37
+#, fuzzy
+msgid "Total number of development partners."
+msgstr "အလှူ ရှင် အရေအတွက်"
+
+#: templates/aims/aid_by_donor.html:44 templates/aims/aid_by_ministry.html:39
+#: templates/aims/aid_by_sector.html:30
+msgid "Total Commitment"
+msgstr "လျာထားမှုစုစုပေါင်း"
+
+#: templates/aims/aid_by_donor.html:45 templates/aims/aid_by_location.html:71
+#: templates/aims/aid_by_ministry.html:40 templates/aims/aid_by_sector.html:31
+msgid ""
+"Total volume of development assistance committed to Myanmar across all "
+"activities currently being implemented."
+msgstr ""
+
+#: templates/aims/aid_by_donor.html:56 templates/aims/aid_by_location.html:78
+#: templates/aims/aid_by_sector.html:38
+msgid "Total Disbursements"
+msgstr "ရရှိမှု ပမာဏ စုစုပေါင်း"
+
+#: templates/aims/aid_by_donor.html:57 templates/aims/aid_by_location.html:79
+#: templates/aims/aid_by_ministry.html:60 templates/aims/aid_by_sector.html:39
+msgid ""
+"Total volume of development assistance disbursed by extending agencies "
+"across all activities currently being implemented."
+msgstr ""
+
+#: templates/aims/aid_by_donor.html:64 templates/aims/aid_by_location.html:86
+#: templates/aims/aid_by_sector.html:46
+#, fuzzy
+msgid "Percent Disbursed"
+msgstr "ဆောင်ရွက်မှုရာခိုင်နှုန်း"
+
+#: templates/aims/aid_by_donor.html:65 templates/aims/aid_by_location.html:87
+#: templates/aims/aid_by_sector.html:47
+msgid ""
+"Total percent of committed development assistance disbursed by extending "
+"agencies across all activities currently being implemented."
+msgstr ""
+
+#: templates/aims/aid_by_donor.html:75 templates/aims/aid_by_location.html:104
+#: templates/aims/aid_by_sector.html:57
+msgid "Commitment by Ministry"
+msgstr "ဝန်ကြီးဌာနအလိုက် လျာထားမှုစုစုပေါင်း"
+
+#: templates/aims/aid_by_donor.html:76
+#, fuzzy
+msgid "Total commitments by partner Ministry."
+msgstr "ဝန်ကြီးဌာနအလိုက် လျာထားမှုစုစုပေါင်း"
+
+#: templates/aims/aid_by_donor.html:81
+msgid "Loans Vs Grants"
+msgstr "ချေးငွေ နှင့် အကူအညီ"
+
+#: templates/aims/aid_by_donor.html:87 templates/aims/aid_by_sector.html:63
+msgid "Total Projects & Status"
+msgstr "စီမံကိန်းစုစုပေါင်း နှင့် ဆောင်ရွက်မှုအခြေအနေ"
+
+#: templates/aims/aid_by_donor.html:88 templates/aims/aid_by_location.html:111
+#: templates/aims/aid_by_sector.html:64
+#, fuzzy
+msgid "Total number of activities by status."
+msgstr "စီမံကိန်းစုစုပေါင်း နှင့် ဆောင်ရွက်မှု အခြေအနေ"
+
+#: templates/aims/aid_by_donor.html:237
+#: templates/aims/aid_by_location.html:431
+#: templates/aims/aid_by_ministry.html:125
+#: templates/aims/aid_by_ministry.html:168
+#: templates/aims/aid_by_sector.html:330
+msgid "Projects"
+msgstr "စီမံကိန်း"
+
+#: templates/aims/aid_by_location.html:51
+#: templates/aims/aid_by_location.html:55
+msgid "Myanmar"
+msgstr "မြန်မာ"
+
+#: templates/aims/aid_by_location.html:70
+#, fuzzy
+msgid "Active Commitments"
+msgstr "လျာထားမှုစုစုပေါင်း"
+
+#: templates/aims/aid_by_location.html:91
+msgid "percent"
+msgstr "ရာခိုင်နှုန်း"
+
+#: templates/aims/aid_by_location.html:98
+msgid "Commitment by Status"
+msgstr "ဆောင်ရွက်မှု အခြေအနေအလိုက် လျာထားငွေ"
+
+#: templates/aims/aid_by_location.html:99
+msgid ""
+"Total volume of activities currently being implemented by commitment status."
+msgstr ""
+
+#: templates/aims/aid_by_location.html:105
+msgid "Total number of activities by partner Ministry."
+msgstr ""
+
+#: templates/aims/aid_by_location.html:110
+#, fuzzy
+msgid "Total Active & Status"
+msgstr "စီမံကိန်းစုစုပေါင်း နှင့် ဆောင်ရွက်မှု အခြေအနေ"
+
+#: templates/aims/aid_by_location.html:119
+#: templates/aims/aid_by_sector.html:72
+msgid "Donor Commitment"
+msgstr "အလှူ ရှင်နိုင်ငံမှ ထည့်၀င်ငွေ"
+
+#: templates/aims/aid_by_location.html:120
+msgid "Total commitments by development partner."
+msgstr ""
+
+#: templates/aims/aid_by_location.html:125
+msgid "Commitment by sector"
+msgstr "ကဏ္ဍအလိုက် လျာထားငွေ"
+
+#: templates/aims/aid_by_location.html:126
+#, fuzzy
+msgid "Total commitments by sector."
+msgstr "ကဏ္ဍအလိုက် လျာထားငွေ"
+
+#: templates/aims/aid_by_ministry.html:19
+#: templates/aims/aid_by_ministry.html:22
+#, fuzzy
+msgid "All Ministries"
+msgstr "ဝန်ကြီးဌာနများ"
+
+#: templates/aims/aid_by_ministry.html:47
+msgid "Total Donors & Type"
+msgstr "အလှူ ရှင် စုစုပေါင်းနှင့် အလှူ ရှင် အမျိုးအစား"
+
+#: templates/aims/aid_by_ministry.html:48
+msgid ""
+"Total volume of development assistance committed to Myanmar across all "
+"activities currently being implemented by collaboration type."
+msgstr ""
+
+#: templates/aims/aid_by_ministry.html:53
+#, fuzzy
+msgid "Largest Donor & projects"
+msgstr "ပမာဏအများဆုံး အလှူ ရှင် နှင့် ငွေပမာဏ"
+
+#: templates/aims/aid_by_ministry.html:54 templates/aims/aid_by_sector.html:73
+#, fuzzy
+msgid "Commitments by development partner."
+msgstr "အမျိုးအစားအလိုက် အကူအညီရရှိမှု"
+
+#: templates/aims/aid_by_ministry.html:59
+#, fuzzy
+msgid "Total Disbursed"
+msgstr "ရရှိမှု ပမာဏ စုစုပေါင်း"
+
+#: templates/aims/aid_by_ministry.html:125
+#: templates/aims/aid_by_ministry.html:168
+msgid "Value"
+msgstr "တန်ဖိုး"
+
+#: templates/aims/aid_by_sector.html:7 templates/aims/aid_by_sector.html:11
+msgid "All categories"
+msgstr "အမျိုးအစားအာလုံး"
+
+#: templates/aims/aid_by_sector.html:22
+msgid "Commitment by Category"
+msgstr "အမျိုးအစားအလိုက် အကူအညီရရှိမှု"
+
+#: templates/aims/aid_by_sector.html:58
+msgid "Total number of activities reported to Mohinga by partner Ministry."
+msgstr ""
+
+#: templates/aims/base_site.html:11
+msgid "MOHINGA"
+msgstr "မုန့်ဟင်းခါး"
+
+#: templates/aims/base_site.html:24
+msgid "Aid Dashboard"
+msgstr ""
+
+#: templates/aims/base_site.html:26
+msgid "Aid by Location"
+msgstr "ဒေသအလိုက် အကူအညီရရှိမှု"
+
+#: templates/aims/base_site.html:27
+msgid "Aid by Ministry"
+msgstr "ဝန်ကြီးဌာနအလိုက် အကူအညီရရှိမှု"
+
+#: templates/aims/base_site.html:28
+msgid "Aid by Sector"
+msgstr "ကဏ္ဍအလိုက် အကူအညီ"
+
+#: templates/aims/base_site.html:29
+msgid "Aid by Donor"
+msgstr "အလှူရှင် အကူအညီ"
+
+#: templates/aims/base_site.html:34
+#, fuzzy
+msgid "Edit Activities"
+msgstr "ပြင်ဆင်ပါ"
+
+#: templates/aims/base_site.html:36 templates/aims/base_site.html.py:98
+msgid "Create a new activity"
+msgstr "အသစ်ထည့်သွင်းရန်"
+
+#: templates/aims/base_site.html:38 templates/aims/base_site.html.py:100
+#, fuzzy
+msgid "Edit your activities"
+msgstr "ပြင်ဆင်ပါ"
+
+#: templates/aims/base_site.html:47
+msgid "Hello"
+msgstr "မင်္ဂလာပါ"
+
+#: templates/aims/base_site.html:55
+msgid "Settings"
+msgstr "ပြင်ဆင်ရန်"
+
+#: templates/aims/base_site.html:65
+msgid "Sign out"
+msgstr "ထွက်ပါ"
+
+#: templates/aims/base_site.html:84
+msgid "Explore"
+msgstr "ကြည့်ရှုရန်"
+
+#: templates/aims/base_site.html:95
+msgid "Edit"
+msgstr "ပြင်ဆင်ရန်"
+
+#: templates/aims/base_site.html:97
+msgid "Search for an activity"
+msgstr "ရှာဖွေရန်"
+
+#: templates/aims/edit_data.html:20
+msgid "Organisation Details"
+msgstr "အဖွဲ့အစည်း၏ အသေးစိတ် အချက်အလက်များ"
+
+#: templates/aims/edit_data.html:35
+msgid "Transactions"
+msgstr "ငွေကြေးသုံးစွဲမှုများ"
+
+#: templates/aims/edit_data.html:42
+msgid "Date"
+msgstr "နေ့စွဲ"
+
+#: templates/aims/edit_data.html:43 templates/aims/index.html:535
+#: templates/aims/index.html.py:539
+msgid "Funded by"
+msgstr "ငွေကြေးထောက်ပံ့သူ"
+
+#: templates/aims/edit_data.html:44
+msgid "Amount"
+msgstr "ပမာဏ"
+
+#: templates/aims/edit_data.html:54
+msgid "Not Identified"
+msgstr "မသတ်မှတ်"
+
+#: templates/aims/edit_data.html:77
+msgid "Add a new transaction"
+msgstr "အသစ်ထည့်သွင်းရန်"
+
+#: templates/aims/edit_data.html:83
+#, fuzzy
+msgid "Adding Financial Transactions"
+msgstr "ငွေကြေးသုံးစွဲမှု ထည့်သွင်းရန်"
+
+#: templates/aims/edit_data.html:84
+msgid ""
+"To add a financial transaction to an activity. First add and save your "
+"activity. Then you can add a financial transaction."
+msgstr "ငွေကြေးသုံးစွဲမှု ထည့်သွင်းရန် လုပ်ငန်းဆောင်ရွက်မှုအား အရင်ထည့်သွင်းပြီး သိမ်းဆည်းပါ။"
+
+#: templates/aims/edit_data.html:96 templates/aims/edit_data.html.py:122
+msgid "Project Information"
+msgstr "စီမံကိန်း အချက်အလက်များ"
+
+#: templates/aims/edit_data.html:105 templates/aims/edit_data.html.py:127
+#: templates/aims/edit_data.html:160
+msgid "Target Groups"
+msgstr "ဦးတည်သည့်အဖွဲ့များ"
+
+#: templates/aims/edit_data.html:106 templates/aims/edit_data.html.py:128
+msgid "General Info"
+msgstr "အချက်အလက်များ"
+
+#: templates/aims/edit_data.html:109 templates/aims/edit_data.html.py:131
+msgid "Results"
+msgstr "ရလဒ်"
+
+#: templates/aims/edit_data.html:110 templates/aims/edit_data.html.py:132
+msgid "Contacts"
+msgstr "ဆက်သွယ်ရန်"
+
+#: templates/aims/edit_data.html:170
+msgid "General Information"
+msgstr "အချက်အလက်များ"
+
+#: templates/aims/edit_data.html:196
+msgid "Financing, Extending and Implementing"
+msgstr ""
+
+#: templates/aims/edit_data.html:216
+msgid "Sector (OECD - DAC)"
+msgstr "အိုအီးစီဒီ ကဏ္ဍများ"
+
+#: templates/aims/edit_data.html:236
+msgid "Sector (National)"
+msgstr "အမျိုးသား ဦးစားပေး ကဏ္ဍများ"
+
+#: templates/aims/edit_data.html:257
+msgid "Location"
+msgstr "ဒေသ"
+
+#: templates/aims/edit_data.html:277
+msgid "Result"
+msgstr "ရလဒ်"
+
+#: templates/aims/edit_data.html:287
+msgid "Contact Info"
+msgstr "ဆက်သွယ်ရန်"
+
+#: templates/aims/edit_data.html:307 templates/aims/edit_data.html.py:334
+msgid "Delete"
+msgstr "ပယ်ဖျက်ပါ"
+
+#: templates/aims/edit_data.html:311 templates/aims/edit_data.html.py:335
+msgid "Cancel"
+msgstr "မလုပ်ဆောင်ပါ"
+
+#: templates/aims/edit_data.html:312
+msgid "Save Form"
+msgstr "သိမ်းဆည်းသည့် ပုံစံ"
+
+#: templates/aims/edit_data.html:326
+msgid "Are you sure?"
+msgstr "သေချာပါသလား"
+
+#: templates/aims/edit_data.html:329
+msgid ""
+"You are about to delete something from the Mohinga site, existing "
+"submissions will be deleted."
+msgstr "သင်သည် အချက်အလက်အချို့အား ပယ်ဖျက်မည်ဖြစ်သည်"
+
+#: templates/aims/edit_data.html:350
+#, fuzzy
+msgid "Add a transaction"
+msgstr "ငွေကြေးသုံးစွဲမှုအား ထည့်သွင်းရန်"
+
+#: templates/aims/edit_data.html:360 templates/aims/edit_data.html.py:381
+msgid "Close"
+msgstr "ပိတ်ပါ"
+
+#: templates/aims/edit_data.html:361 templates/aims/edit_data.html.py:382
+msgid "Save changes"
+msgstr "သိမ်းဆည်းပါ"
+
+#: templates/aims/edit_data.html:375
+msgid "Edit Transactions"
+msgstr "ငွေကြေးသုံးစွဲမှုအား ပြု ပြင်ရန်"
+
+#: templates/aims/index.html:25
+msgid "Login"
+msgstr "ဝင်ရောက်ရန်"
+
+#: templates/aims/index.html:40 templates/aims/index.html.py:94
+msgid "About"
+msgstr "ဤစနစ်အကြောင်း"
+
+#: templates/aims/index.html:41 templates/aims/index.html.py:96
+msgid "Our Vision"
+msgstr "မိမိတို့၏ ရှုမြင်ချက်"
+
+#: templates/aims/index.html:42 templates/aims/index.html.py:98
+msgid "Calendar"
+msgstr "ပြက္ခဒိန်"
+
+#: templates/aims/index.html:43 templates/aims/index.html.py:100
+msgid "Resources"
+msgstr "အရင်းအမြစ်များ"
+
+#: templates/aims/index.html:44 templates/aims/index.html.py:102
+msgid "Contact us"
+msgstr "ဆက်သွယ်ရန်"
+
+#: templates/aims/index.html:61
+msgid "aid transparency portal"
+msgstr "အကူအညီများ ပွင့်လင်းမြင်သာမှု  ဝဘ်ဆိုဒ်"
+
+#: templates/aims/index.html:63
+msgid "tracking international assistance to Myanmar"
+msgstr "နိုင်ငံတကာမှ မြန်မာနိုင်ငံသို့ အကူအညီပေးမှုများ"
+
+#: templates/aims/index.html:69
+msgid "Number of Donor Partners"
+msgstr "အလှူ ရှင် အရေအတွက်"
+
+#: templates/aims/index.html:73
+msgid "Disclaimer"
+msgstr ""
+
+#: templates/aims/index.html:73
+msgid ""
+"Data contained within the AIMS has not yet been validated by development "
+"partners and should be treated as such."
+msgstr ""
+
+#: templates/aims/index.html:75
+msgid "billion activities reported"
+msgstr "ဘီလီယံ လုပ်ငန်းများ"
+
+#: templates/aims/index.html:81
+msgid "Activities being implemented"
+msgstr "ဆောင်ရွက်နေဆဲ လုပ်ငန်းများ"
+
+#: templates/aims/index.html:84
+msgid "visit the aid transparency platform"
+msgstr "အကူအညီများ ပွင့်လင်းမြင်သာမှု စနစ်သို့ သွားရောက်ရန်"
+
+#: templates/aims/index.html:84
+msgid "Login to the AIMS"
+msgstr "AIMS သို့ ဝင်ရောက်ရန်"
+
+#: templates/aims/index.html:117
+msgid "Let's start a conversation about aid transparency"
+msgstr "အကူအညီများ ပွင့်လင်းမြင်သာမှုနှင့် ပတ်သက်၍ ဆွေးနွေးရန်"
+
+#: templates/aims/index.html:119
+msgid "Open information about international assistance to Myanmar"
+msgstr "မြန်မာနိုင်ငံသို့ နိုင်ငံတကာမှ အကူအညီများ"
+
+#: templates/aims/index.html:127
+msgid "how is aid being used in Myanmar?"
+msgstr "အကူအညီများကို မြန်မာနိုင်ငံတွင် မည်သို့ အသုံးပြု နေသနည်း"
+
+#: templates/aims/index.html:129
+msgid "International assistance plays a vital role in supporting"
+msgstr "ကူညီပံ့ပိုးရာတွင် အရေးပါသည့် အခန်းကဏ္ဍမှ ပါဝင်သည်။"
+
+#: templates/aims/index.html:129
+msgid "Myanmar’s historic transformation."
+msgstr "မြန်မာနိုင်ငံ၏ သမိုင်းတွင်လောက်သည့် ပြု ပြင်ပြောင်းလဲမှု"
+
+#: templates/aims/index.html:129
+msgid ""
+"As Myanmar continues to move forward, it is important that we all know how "
+"aid is being used and what results are being achieved."
+msgstr ""
+"မြန်မာနိုင်ငံအနေနှင့် ရှေ့သို့ ဆက်လက် ဆောင်ရွက်ရာတွင် အကူအညီများကို မည်သို့ အသုံးပြု နေသည်နှင့် မည်သည့် "
+"အကျိုးရလာဒ်များ ရရှိနေသည်ကို အားလုံးသိရှိရန် အရေးကြီးပါသည်။"
+
+#: templates/aims/index.html:135
+msgid "Why is open aid important?"
+msgstr "အကူအညီများ ပွင့်လင်းမြင်သာမှုရှိရေးသည် အဘယ်ကြောင့် အရေးကြီးသနည်း"
+
+#: templates/aims/index.html:137
+msgid ""
+"Making aid transparent helps to ensure aid goes where it is most needed."
+msgstr ""
+"အကူအညီများ ပွင့်လင်းမြင်သာမှုရှိရန် ဆောင်ရွက်ခြင်းဖြင့် အလိုအပ်ဆုံးနေရာများသို့ အကူအညီများ ရောက်ရှိစေမည် "
+"ဖြစ်သည်။"
+
+#: templates/aims/index.html:137
+msgid "By ensuring open access to aid information"
+msgstr "နိုင်ငံခြားအကူအညီ ဆိုင်ရာ သတင်းအချက်အလက်များကို လွတ်လပ်စွာ ရယူသိရှိစေရန် ဆောင်ရွက်ခြင်းဖြင့်"
+
+#: templates/aims/index.html:137
+msgid ""
+"a wider group of stakeholders are able to clearly see who is doing what and "
+"where? Access to better quality aid information also supports the equitable "
+"allocation of resources, both sectorally and geographically, ensuring that "
+"all Myanmar people can benefit."
+msgstr ""
+"မည်သူက မည်သည့်နေရာတွင် မည့်သည့်လုပ်ငန်းများ ဆောင်ရွက်နေသည်ကို သက်ဆိုင်သူအားလုံး ရှင်းလင်းစွာ သိရှိနိုင်မည်ဖြစ်သည်။ "
+"ပြည့်စုံတိကျသည့် အကူအညီဆိုင်ရာ သတင်းအချက်အလက်များကို သိရှိနိုင်ခြင်းဖြင့် ကဏ္ဍနှင့် ဒေသများအကြား "
+"အရင်းအမြစ်များ ညီမျှစွာ ခွဲဝေအသုံးပြုရေးကို အထောက်အကူပြုစေမည် ဖြစ်ပြီး မြန်မာနိုင်ငံသားအားလုံး "
+"အကျိုးကျေးဇူး ခံစားနိုင်စေမည် ဖြစ်သည်။"
+
+#: templates/aims/index.html:143
+msgid "What are the results?"
+msgstr "မည့်သည့် အကျိုးရလာဒ်များ ရရှိမည်နည်း"
+
+#: templates/aims/index.html:145
+msgid "Aid transparency isn't just about numbers."
+msgstr "အကူအညီများ ပွင့်လင်းမြင်သာမှုဆိုသည်မှာ ကိန်းဂဏန်းများကို ဖော်ပြရန် သက်သက်မျှ မဟုတ်ပါ။"
+
+#: templates/aims/index.html:145
+msgid "Results matter too."
+msgstr "အကျိုးရလာဒ်များ ရရှိရေးကလည်း အရေးကြီးပါသည်။"
+
+#: templates/aims/index.html:145
+msgid ""
+"Open access to aid information means that the people of Myanmar are better "
+"able to see the impact that aid activities have in their communities. This "
+"also helps other countries learn what may work, or not work, in their "
+"country."
+msgstr ""
+"အကူအညီဆိုင်ရာ သတင်းအချက်အလက်များကို လွတ်လပ်စွာ သိရှိခွင့်ရခြင်းဖြင့် ပြည်သူများအနေနှင့် ၎င်းတို့၏ လူမှုအသိုက်အဝန်းရှိ "
+"အကူအညီဖြင့် ဆောင်ရွက်နေသည့် လုပ်ငန်းများ၏ အကျိုးသက်ရောက်မှုကို ပိုမို တွေ့မြင်နိုင်မည် ဖြစ်ပြီး၊ "
+"အခြားနိုင်ငံများကိုလည်း ၎င်းတို့ နိုင်ငံအတွက် လေ့လာနိုင်စေမည် ဖြစ်ပါသည်။"
+
+#: templates/aims/index.html:154
+msgid "A Shared Vision for effective aid"
+msgstr "ထိရောက်သည့် အကူအညီဖြစ်စေရေးအတွက် တူညီသည့် ရှုမြင်ချက်"
+
+#: templates/aims/index.html:165
+msgid "A framework for development effectiveness in Myanmar"
+msgstr "မြန်မာနိုင်ငံတွင် ဖွံ့ဖြိုးမှုအကူအညီများကို ထိရောက်မှု ရှိစေရန်အတွက် သဘောတူညီချက်"
+
+#: templates/aims/index.html:172
+msgid "A shared vision for effective aid"
+msgstr "ထိရောက်သည့် အကူအညီဖြစ်စေရေးအတွက် တူညီသည့် ရှုမြင်ချက်"
+
+#: templates/aims/index.html:174
+msgid ""
+"Endorsed by the Government of Myanmar and development partners at the first "
+"Myanmar Development Cooperation Forum in January 2013, the "
+msgstr ""
+"၂၀၁၃ ခုနှစ်၊ ဇန်နဝါရီလတွင် ကျင်းပသည့် ပထမအကြိမ် မြန်မာနိုင်ငံ ဖွံ့ဖြိုးမှု ပူးပေါင်းဆောင်ရွက်ရေးဖိုရမ်၌ "
+"မြန်မာနိုင်ငံအစိုးရနှင့် ဖွံ့ဖြိုးမှုမိတ်ဖက်များအကြား သဘောတူ အတည်ပြု ခဲ့သည့်"
+
+#: templates/aims/index.html:174
+msgid "Nay Pyi Taw Accord"
+msgstr "\" နေပြည်တော် သဘောတူညီချက် \""
+
+#: templates/aims/index.html:174
+msgid "sets out a vision for effective development cooperation in Myanmar."
+msgstr "တွင် ထိရောက်သည့် ဖွံ့ဖြိုးမှုပူးပေါင်းဆောင်ရွက်ရေးအတွက် ရှုမြင်ချက်ကို ချမှတ်ခဲ့ပါသည်။"
+
+#: templates/aims/index.html:176
+msgid ""
+"To support the implementation of the Nay Pyi Taw Accord, an Action Plan is "
+"in the final stages of preparation. The Action Plan focuses on translating "
+"Accord commitments into concrete joint actions with tangible, time bound "
+"results."
+msgstr ""
+"\" နေပြည်တော် သဘောတူညီချက် \" ကို အကောင်အထည်ဖော်ရန် လုပ်ငန်းအစီအစဉ် ရေးဆွဲအတည်ပြု ပြီး ဖြစ်ပါသည်။ "
+"လုပ်ငန်းအစီအစဉ်တွင် \" နေပြည်တော် သဘောတူညီချက် \" ပါ ကတိကဝတ်များကို အမှန်တကယ် ထိတွေ့ခံစားနိုင်သည့် "
+"ရလာဒ်များ ရရှိစေမည့် ခိုင်မာသည့် ပူးတွဲလုပ်ရပ်များအဖြစ် အချိန်ကာလ သတ်မှတ်ချက်များဖြင့် ရေးဆွဲထားပါသည်။"
+
+#: templates/aims/index.html:180
+msgid "The Nay Pyi Taw Accord for"
+msgstr "ဖွံ့ဖြိုးမှု ပူးပေါင်းဆောင်ရွက်ရေးတွင် ထိရောက်မှုရှိစေမည့် "
+
+#: templates/aims/index.html:180
+msgid "Effective Development Cooperation"
+msgstr "နေပြည်တော် သဘောတူညီချက်"
+
+#: templates/aims/index.html:198
+msgid "A shared agenda and calendar"
+msgstr "ဆောင်ရွက်မည့် အစီအစဉ်နှင့် ရက်စွဲများ"
+
+#: templates/aims/index.html:204
+msgid "Access to shared online resources."
+msgstr "ရယူနိုင်သည့် အရင်းအမြစ်များ"
+
+#: templates/aims/index.html:205
+msgid ""
+"With so much happening in Myanmar today, it can be hard to keep track of "
+"what's going on. Our online calendar helps keep you up-to-date with"
+msgstr "အလှူ ရှင်များ၏ ဆောင်ရွက်မှုများ၊"
+
+#: templates/aims/index.html:205
+msgid "key meetings, workshops and other events."
+msgstr "အစည်းအဝေးမှတ်တမ်းများ စသည်များကို  ရယူနိုင်ပါသည်။"
+
+#: templates/aims/index.html:205
+msgid "The calendar can also be integrated into"
+msgstr "ယခု ပြက္ခဒိန်ကို "
+
+#: templates/aims/index.html:205
+msgid "or"
+msgstr "သို့မဟုတ်"
+
+#: templates/aims/index.html:205
+msgid ", or accessed online."
+msgstr "သို့မဟုတ် အင်တာနက်ဖြင့် အသုံးပြု နိုင်ပါသည်။"
+
+#: templates/aims/index.html:207
+msgid ""
+"Do you have an event you'd like to see included? Please click the ‘submit an "
+"event” button"
+msgstr "သင့်ထံမှ ထည့်သွင်းဖော်ပြရန် ရှိပါက ထည့်သွင်းပါ"
+
+#: templates/aims/index.html:212
+msgid "Visit shared calendar"
+msgstr "ပြက္ခဒိန်အား ကြည့်ရှုရန်"
+
+#: templates/aims/index.html:213
+msgid "OR"
+msgstr "သို့မဟုတ်"
+
+#: templates/aims/index.html:214
+msgid "Submit an event"
+msgstr "ထည့်သွင်းဖော်ပြပါ"
+
+#: templates/aims/index.html:223
+msgid "aid works better when we work together"
+msgstr "ပူးပေါင်းဆောင်ရွက်ခြင်းဖြင့် အကူအညီများကို ပိုမိုကောင်းမွန်အောင် ဆောင်ရွက်မည်"
+
+#: templates/aims/index.html:234
+msgid "Shared resources for better planning"
+msgstr "အချက်အလက်များ မျှဝေခြင်း"
+
+#: templates/aims/index.html:241
+msgid "Shared Resources"
+msgstr "အချက်အလက်များ မျှဝေခြင်း"
+
+#: templates/aims/index.html:244
+msgid "Coordination Structures"
+msgstr "ဖွဲ့စည်းပုံ"
+
+#: templates/aims/index.html:245
+msgid "Development Partners’ Strategies"
+msgstr "ဖွံ့ဖြိုးမှုမိတ်ဖက်များ၏ အစီအစဉ်"
+
+#: templates/aims/index.html:246
+msgid "Global Development Effectiveness Agreements"
+msgstr "ကမ္ဘာတစ်ဝှမ်းတွင် ထိရောက်သော ဖွံ့ဖြိုးမှုများအတွက် သဘောတူညီချက်"
+
+#: templates/aims/index.html:247
+msgid "Government Strategies"
+msgstr "မိမိတို့အစိုးရ၏ အစီအစဉ်"
+
+#: templates/aims/index.html:248
+msgid "The Nay Pyi Taw Accord for Effective Development Cooperation"
+msgstr "ဖွံ့ဖြိုးမှု ပူးပေါင်းဆောင်ရွက်ရေးတွင် ထိရောက်မှုရှိစေမည့် \"နေပြည်တော် သဘောတူညီချက်\""
+
+#: templates/aims/index.html:249
+msgid "Studies"
+msgstr "လေ့လာမှုများ"
+
+#: templates/aims/index.html:259
+msgid ""
+"An online knowledge-base where government, development partners, civil "
+"society and others can find a"
+msgstr "အားလုံးကြည့်ရှုနိုင်မည့် "
+
+#: templates/aims/index.html:259
+msgid "wide variety of documents,"
+msgstr "အချက်"
+
+#: templates/aims/index.html:259
+msgid "from donors strategies to meeting minutes."
+msgstr "အလက်များ"
+
+#: templates/aims/index.html:260
+msgid "Feel free to contribute to this ever-growing resource by emailing the"
+msgstr "ပါဝင်ဆောင်ရွက်ရန် အီးမေးလ်ပေးပို့ပါ"
+
+#: templates/aims/index.html:260
+msgid "FERD-DPWC Secretariat"
+msgstr "FERD-DPWC အတွင်းရေးမှူးရုံး"
+
+#: templates/aims/index.html:273
+msgid "Keep up to date with our progress"
+msgstr "လက်ရှိဆောင်ရွက်နေမှု အခြေအနေများကို အသစ်ရရှိရန်"
+
+#: templates/aims/index.html:274
+msgid ""
+"Subscribe to our mailing list or contact us directly if you have a question!"
+msgstr "အီးမေးလ်စာရင်းသို့ ပေးပို့ပါ (သို့မဟုတ်) မေးမြန်းစရာရှိပါကလည်း တိုက်ရိုက် ဆက်သွယ်နိုင်ပါသည်။"
+
+#: templates/aims/index.html:280
+msgid ""
+"This resource is provided through a joint effort by the Foreign Economic "
+"Relations Department (FERD) and the Development Partners Working Committee "
+"(DPWC)."
+msgstr ""
+"ယခု အချက်အလက်များကို နိုင်ငံခြားစီးပွား ဆက်သွယ်ရေးဦးစီးဌာန(FERD) နှင့်  ဖွံ့ဖြိုးမှုမိတ်ဖက်များ၏ "
+"လုပ်ငန်းကော်မတီ (DPWC) တို့ ပူးပေါင်းဆောင်ရွက်မှုဖြင့် ရရှိပါသည်။"
+
+#: templates/aims/index.html:281
+msgid ""
+"For more information please contact us or subscribe to our mailing list."
+msgstr "သတင်း အချက်အလက်များကို ပိုမိုသိရှိလိုပါက တိုက်ရိုက် ဆက်သွယ်ပါ (သို့မဟုတ်) အီးမေးလ်စာရင်းသို့ ပေးပို့ပါ။"
+
+#: templates/aims/index.html:283
+msgid "FERD-DWPC Secretariat"
+msgstr "FERD-DPWC အတွင်းရေးမှူးရုံး"
+
+#: templates/aims/index.html:284
+msgid "Phone:"
+msgstr "ဖုန်း"
+
+#: templates/aims/index.html:285
+msgid "Fax:"
+msgstr "ဖက်(စ်)"
+
+#: templates/aims/index.html:286
+#, fuzzy
+msgid "Email:"
+msgstr "အီးမေးလ်"
+
+#: templates/aims/index.html:299
+msgid "Subscribe to our mailing list"
+msgstr "အီးမေးလ်စာရင်းသို့ ပေးပို့ပါ"
+
+#: templates/aims/index.html:300
+msgid "indicates required"
+msgstr "ညွှန်ပြမှုလိုအပ်ပါသည်"
+
+#: templates/aims/index.html:302
+#, fuzzy
+msgid "Email Address"
+msgstr "အီးမေးလ် လိပ်စာ"
+
+#: templates/aims/index.html:307
+msgid "First Name"
+msgstr "နာမည် ပထမစာလုံး"
+
+#: templates/aims/index.html:311
+#, fuzzy
+msgid "Last Name"
+msgstr "နာမည် ဒုတိယစာလုံး"
+
+#: templates/aims/index.html:315
+#, fuzzy
+msgid "Organisation"
+msgstr "အဖွဲ့အစည်း"
+
+#: templates/aims/index.html:527
+msgid "Managed by"
+msgstr "ဆောင်ရွက်သည့် အဖွဲ့အစည်း"
+
+#: templates/aims/index.html:531
+msgid "Developed by"
+msgstr "ရေးဆွဲဆောင်ရွက်သူ"
+
+#: templates/aims/index.html:547
+msgid "Software designed and developed by"
+msgstr "ရေးဆွဲဆောင်ရွက်သည်သူ"
+
+#: templates/registration/login.html:15
+msgid "Please sign in"
+msgstr "ကျေးဇူးပြု၍ ဝင်ရောက်ပါ"
+
+#: templates/registration/login.html:19
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+
+#: templates/registration/login.html:22
+msgid "Remember me"
+msgstr "မှတ်ထားမည်။"
+
+#: templates/registration/login.html:24
+msgid "Sign in"
+msgstr "၀င်ရောက်ရန်"
+
+#: templates/registration/login.html:31
+msgid "Can't access your account?"
+msgstr "ဝင်၍ မရပါ။"
+
+#: templates/registration/login.html:31
+msgid "Reset your password."
+msgstr "လျှို့ ဝှက်ကုတ်ဒ် ပြင်ဆင်ရန်"
+
+#: templates/registration/logout.html:13
+msgid "You have logged out."
+msgstr "ထွက်ရန်လိုအပ်သည်"
+
+#: templates/registration/logout.html:16
+msgid "See you next time!"
+msgstr "ကျေးဇူးတင်ပါသည်။"
+
+#: templates/registration/password_change_done.html:12
+msgid "Password changed"
+msgstr "လျှို့ဝှက်ကုတ်ဒ် ပြောင်းလဲသည်"
+
+#: templates/registration/password_change_form.html:11
+#: templates/registration/password_change_form.html:19
+msgid "Change Password"
+msgstr "လျှို့ဝှက်ကုတ်ဒ် ပြောင်းရန်"
+
+#: templates/registration/password_reset_complete.html:5
+msgid "Log In"
+msgstr "၀င်ရန်"
+
+#: templates/registration/password_reset_complete.html:10
+msgid "Password reset successfully"
+msgstr "လျှို့ဝှက်ကုတ်ဒ် ပြောင်းခြင်း အောင်မြင်သည်"
+
+#: templates/registration/password_reset_complete.html:12
+msgid "Log in"
+msgstr "ဝင်ရန်"
+
+#: templates/registration/password_reset_confirm.html:12
+msgid "Submit"
+msgstr "သိမ်းဆည်းသည်"
+
+#: templates/registration/password_reset_confirm.html:15
+msgid "Password reset failed"
+msgstr "လျှို့ဝှက်ကုတ်ဒ် ပြောင်းခြင်း မအောင်မြင်ပါ"
+
+#: templates/registration/password_reset_done.html:9
+msgid "Email Sent"
+msgstr "အီးမေးလ် ပို့သည်"
+
+#: templates/registration/password_reset_done.html:12
+msgid "An email with password reset instructions has been sent."
+msgstr "လျှို့ဝှက်ကုတ်ဒ်ပြောင်းရန် ညွှန်ကြားချက်ကို သင့် အီးမေးသို့ ပို့လိုက်ပါသည်။"
+
+#: templates/registration/password_reset_email.html:4
+#, python-format
+msgid ""
+"\n"
+"    Hi %(user)s,\n"
+"\n"
+"    You recently requested a link to reset your %(site_name)s password for "
+"the username %(user)s.\n"
+"    Please set a new password by following the link below:\n"
+msgstr ""
+
+#: templates/registration/password_reset_email.html:17
+#, python-format
+msgid ""
+"\n"
+"    Thanks,\n"
+"    - The %(site_name)s Team.\n"
+msgstr ""
+
+#: templates/registration/password_reset_form.html:12
+msgid "Password Reset"
+msgstr "လျှို့ ဝှက်ကုတ်ဒ် ပြောင်းသည်။"
+
+#: templates/registration/password_reset_form.html:15
+msgid ""
+"To reset your password please enter your email address below. We will send "
+"you an email with some instructions."
+msgstr "လျှို့ ဝှက်ကုတ်ဒ်ပြောင်းရန် အတွက် အီးမေးလ်လိပ်စာ ထည့်ပါ။ အီးမေးလ်သို့ ညွှန်ကြားချက် ပေးပို့ပါမည်။"
+
+#: templates/registration/password_reset_form.html:25
+msgid "Submit Request"
+msgstr "တောင်းဆိုမှုအတိုင်း ဆောင်ရွက်ပြီး"
+
+#: templates/search/search.html:37
+#, fuzzy
+msgid "Participating Organisation"
+msgstr "ပါဝင်ဆောင်ရွက်သည့် အဖွဲ့အစည်း"
+
+#: templates/search/search.html:56
+msgid "Organisations"
+msgstr "အဖွဲ့အစည်းများ"
+
+#: templates/search/search.html:71
+msgid "Activities"
+msgstr "လုပ်ငန်း စီမံကိန်းများ"
+
+#: templates/search/search.html:96
+msgid "No results found."
+msgstr "ရှာဖွေ မတွေ့ပါ"
+
+#: templates/search/search.html:101
+msgid "Previous"
+msgstr "နောက်သို့"
+
+#: templates/search/search.html:103
+msgid "Next"
+msgstr "ရှေ့သို့"
+
+#~ msgid "Others"
+#~ msgstr "အခြား"
+
+#, fuzzy
+#~ msgid "All other ministries together"
+#~ msgstr "ဝန်ကြီးဌာနများ အားလုံး ပူးပေါင်း၍"
+
+#~ msgid "Start Date"
+#~ msgstr "စီမံကိန်း စတင်သည့်နေ့"
+
+#~ msgid "End Date"
+#~ msgstr "စီမံကိန်း ပြီးဆုံးသည့်နေ့"
+
+#~ msgid "Total Executed"
+#~ msgstr "ဆောင်ရွက်မှုစုစုပေါင်း"
+
+#~ msgid "Disbursements"
+#~ msgstr "ပေးအပ်မှုစုစုပေါင်း"
+
+#~ msgid "Menu"
+#~ msgstr "စာရင်း"
+
+#~ msgid "Search for an Activity"
+#~ msgstr "ရှာဖွေပါ"
+
+#~ msgid "Reporting"
+#~ msgstr "Report ထုတ်ရန်"
+
+#~ msgid "Participating Organsation"
+#~ msgstr "ပူပေါင်းပါဝင်လုပ်ဆောင်သည့် အဖွဲ့အစည်း"
+
+#~ msgid "Search"
+#~ msgstr "ရှာဖွေရန်"
+
+#~ msgid "more info"
+#~ msgstr "အချက်အလက် အပြည့်အစုံသို့"
+
+#~ msgid "Sectors"
+#~ msgstr "ကဏ္ဍများ"
+
+#~ msgid "Reporting Organization"
+#~ msgstr "အဖွဲ့အစည်း"
+
+#~ msgid "Table Data"
+#~ msgstr "စုစုပေါင်း"

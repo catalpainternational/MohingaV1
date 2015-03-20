@@ -1,0 +1,30 @@
+{% load i18n %}
+<li id="person-{{ person.pk }}" data-pk="{{ person.pk }}">
+	<div class="media person-profile" >
+        <a class="pull-left" href="#">
+            {% if person.photo %}
+                <img class="media-object img-circle person-profile-image" src="{{ person.photo.url }}" alt="{{ person.name }}">
+            {% else %}
+                <img class="media-object img-circle person-profile-image" src="{{ STATIC_URL }}img/user_noprofile.jpg" alt="{{ person.name }}">
+            {% endif %}
+        </a>
+        <div class="media-body person-info">
+	        {% if person.editor %}
+            <div class="user-edit-tools">
+                <i class="ion-drag pull-right handle hidden-xs"></i> <!--drag handle-->
+                <button data-pk="{{ person.pk }}" class="edit-button-profile btn btn-default btn-profile btn-xs pull-right hidden-xs"><i class="ion-edit btn_icon"></i>Edit</button> <!--edit person details-->
+            </div>
+            {% endif %}
+            <h4 class="media-heading">{{ person.name }}</h4>
+            <p class="officialPosition">{{ person.position }}</p>
+            <p class="officialPosition">{{ person.background }}</p>
+
+        {% if person.phone_number != "" %}<span class="PeopleInfo phone">{{ person.phone_number }}</span>{% endif %}
+         {% if person.email != "" %}
+             <span class="PeopleInfo email">
+             	<a href="mailto:{{ person.email }}">{{ person.email }}</a>
+             </span>
+         {% endif %}
+        </div>
+    </div>
+</li>

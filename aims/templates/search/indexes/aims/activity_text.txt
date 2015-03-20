@@ -1,0 +1,20 @@
+{{ object.id }}
+{{ object.iati_identifier }}
+{{ object.reporting_organistion.pk }}
+{{ object.reporting_organisation.name }}
+{{ object.reporting_organisation.abbreviation }}
+{% for title in object.title_set.all %}
+{{ title.title }} 
+{% endfor %}
+{% for desc in object.description_set.all %}
+{{ desc.description }} 
+{% endfor %}
+{% for org in object.participating_organisation.all %}
+{{ org.name }}
+{{ org.code }}
+{{ org.pk }}
+{{ org.abbreviation }}
+{% endfor %}
+{% for sec in object.sector.all %}
+{{ sec.name }} {{ sec.code }}
+{% endfor %}

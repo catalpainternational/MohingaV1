@@ -1,0 +1,3 @@
+recursive-include aims/static *.js *.css *.png *.jpg *.svg *.json
+recursive-include aims/templates *.html
+recursive-include myanmar/data *.shp *.json

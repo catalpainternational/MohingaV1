@@ -1,0 +1,355 @@
+{% extends 'aims/aid_by.html' %}
+{% load i18n %}
+
+{% block nav_pulldown %}
+    <button type="button" class="btn btn-default dropdown-toggle dash_subnav"
+            data-toggle="dropdown">
+        {% if category %} {{category.name}} {% else %} {% trans "All categories" %} {% endif %}
+    </button>
+    <span class="ion-arrow-down-b  dash_subnav"></span>
+    <ul class="dropdown-menu dash_subnav" role="menu">
+        <li><a href="{% url 'aid_by' section='sector' subset=subset %}">{% trans "All categories" %}</a></li>
+        {% for name, code in categories %}
+        <li><a href="{%url 'aid_by' section='sector' subset=subset which=code%}">{{ name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
+{% block local_content %}
+<div class="row">
+    <div class="col-sm-5 col-md-5 sector_row_1">
+        <h3 class="stats align-center">{% trans "Commitment by Sector" %}
+         <a id="sectorChart" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Commitment by sector' %}" data-content="{% trans 'This chart shows the total amount of commitments from development partners by DAC3 sector for activities currently being implemented.' %}" ></a>
+        </h3>
+        <br />
+<!--        <p class="chart_instructions text-center">{% trans 'click on an individual chart bar below to filter the statistics by specific sector' %}</p>-->
+        <div id="categories_sectors"></div>
+    </div>
+    <div class="col-sm-7 col-md-7 sector" >
+        <div class="row sector_row_1">
+            <div class="col-sm-4 col-md-4 dots_right">
+                <h3 class="stats align-center">{% trans "Total Commitment" %}
+                    <a id="tot_comm" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Total Commitment' %}" data-content="{% trans 'This is the total amount of development assistance committed across all activities currently being implemented. This amount corresponds to the date filter above.' %}" ></a>
+                </h3>
+                <div class="count_block">
+                    <p class="big_count"><span class="big_bucks">$</span>{{total_commitments.0 | floatformat:"2"}} <p class="count_suffix">{{total_commitments.1}}</p>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4 dots_right">
+                <h3 class="stats align-center">{% trans "Total Disbursements" %}
+                    <a id="tot_disb" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Total Disbursements' %}" data-content="{% trans 'This is the total amount of development assistance disbursed across all activities currently being implemented. This amount corresponds to the date filter above.' %}" ></a>
+                </h3>
+                <div class="count_block">
+                    <p class="big_count"><span class="big_bucks">$</span>{{total_disbursements.0 | floatformat:"2"}}<p class="count_suffix">{{total_disbursements.1}}</p>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4">
+                <h3 class="stats align-center">{% trans "Percent Disbursed" %}
+                    <a id="per_exe" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Percent Disbursed' %}" data-content="{% trans 'This is the percentage total of development assistance disbursed across all activities currently being implemented. This percentage corresponds to the date filter above.' %}" ></a>
+                </h3>
+                <div class="count_block">
+                    <p class="big_count{%if executed == 0 %} zero{% else %} lookatme_color{%endif%}">{{ executed|floatformat:"1" }}%</p>
+                </div>     
+            </div>
+        </div>
+        <div class="border_btm"></div>
+        <div class="row sector_row_2">
+            <div class="col-sm-6 col-md-6 dots_right">
+                <h5 class="stats align-center">{% trans "Activities by Ministry" %}
+                    <a id="comm_min" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Activities by Ministry' %}" data-content="{% trans 'This chart shows the total number of activities currently being implemented associated with each relevant partner Ministry. This chart corresponds to the date filter above.' %}" ></a>
+                </h5>
+                <div id="donut_commitment_ministry" class="sector-donut"></div>
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <h5 class="stats align-center">{% trans "Activities by Status" %}
+                    <a id="tot_proj" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Activities by status' %}" data-content="{% trans 'This chart shows the total number of activities by status (i.e. pipeline, implementation, completed, post-completion). This chart corresponds to the date filter above.' %}" ></a>
+                </h5>
+                <div id="donut_activities_status" class="sector-donut"></div>
+            </div>
+        </div>
+        <div class="border_btm"></div>
+        <div class="row sector_row_3">
+            <div class="col-sm-12 col-md-12">
+                <h4 class="stats align-center">{% trans "Commitment by Donor" %}
+                    <a id="don_comit" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'Commitment by Donor' %}"  data-content="{% trans 'This chart shows the total amount of development assistance committed by development partners for activities currently being implemented. This chart corresponds to the date filter above.' %}"></a>
+                </h4>
+                <div id="barchart_donors_commitments"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock local_content %}
+
+{% block local_scripts %}
+<!--Popover-->
+
+<script>
+
+$(function ()
+{
+  $("#sectorChart").popover({placement:'right'});
+  $("#tot_comm").popover({placement:'right'});
+  $("#tot_disb").popover({placement:'right'});
+  $("#per_exe").popover({placement:'left'});
+  $("#comm_min").popover({placement:'top'});
+  $("#tot_proj").popover({placement:'left'});
+  $("#don_comit").popover({placement:'top'});
+  $("#sec_comit").popover({placement:'top'});
+});
+d3.select(window).on('resize', resize_window);
+</script>
+
+<!--// Date Picker -->
+
+<script>
+$('.input-daterange').datepicker({
+    format: "M yyyy",
+    startView: 1,
+    minViewMode: 1,
+    orientation: "top left"
+});
+</script>
+
+
+<!--// Horizontal Bar Graph -- Sector Commitment     -->
+
+<script language="javascript">
+
+    // var data = [{# for name, value, pretty, code in categories_for_horizontal %}
+    // {'name': "{{name}}", 'value': {{value}} , 'pretty': "{{pretty}}", 'code': "{{code}}"},{%endfor#}
+    // ];
+
+    var data = {{ categories_for_horizontal|safe }}
+    var width = $("#categories_sectors").width();
+    var bar_height = 22;
+
+    function click(d){
+        document.location = "{% url 'aid_by' section='sector' subset=subset %}"+d.code;
+    }
+    window.horizontal_chart_data_selectable = data
+    draw_horizontal_bar_chart_into_div_selectable("#categories_sectors", data, width, bar_height,
+            click{% if category %},'{{category.code}}'{%endif%});
+</script>
+
+<!-- Sunburst
+<script>
+
+    var width = 320,
+            height = 700,
+            radius = Math.min(width, height) / 2,
+            color = d3.scale.category20c();
+
+    var svg = d3.select("#categories_sectors").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + radius+ "," + (radius+10) + ")");
+
+    var partition = d3.layout.partition()
+            .sort(null)
+            .size([2 * Math.PI, radius * radius])
+            .value(function (d) {
+                return d.value;
+            });
+
+    var arc = d3.svg.arc()
+            .startAngle(function (d) {
+                return d.x;
+            })
+            .endAngle(function (d) {
+                return d.x + d.dx;
+            })
+            .innerRadius(function (d) {
+                return Math.sqrt(d.y);
+            })
+            .outerRadius(function (d) {
+                return Math.sqrt(d.y + d.dy);
+            });
+
+    var root = {{ categories_to_sectors_json }}
+    ;
+    var div = d3.select("body").append("div")
+            .attr("class", "tooltip sector")
+            .style("opacity", 0);
+
+    //        d3.json("flare.json", function(error, root) {
+    var path = svg.datum(root).selectAll("path")
+            .data(partition.nodes)
+            .enter().append("path")
+            .attr("display", function (d) {
+                return d.depth ? null : "none";
+            }) // hide inner ring
+            .attr("d", arc)
+            .on("mouseover", function (d) {
+                div.transition()
+                        .duration(200)
+                        .style("opacity", 1);
+                if (d.depth == 1){
+                    tooltip_text = "<a href='"+ d.url+"'>"+d.name + "</a><br/>" + "$" + d.pretty;
+                }else{
+                    tooltip_text = d.name + "<br/>" + "$" + d.pretty;
+                }
+                div.html(tooltip_text)
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY - 28) + "px");
+            })
+//            .on("mouseout", function (d) {
+//                div.transition()
+//                        .duration(500)
+//                        .style("opacity", 0);
+//            })
+            .on("click", function (d) {
+                console.log("---", d.url);
+                document.location = d.url;
+            })
+            .style("stroke", "#fff")
+            .style("fill", function (d) {
+                return color((d.children ? d : d.parent).name);
+            })
+            .style("fill-rule", "evenodd")
+            .each(stash);
+
+    d3.selectAll("input").on("change", function change() {
+        var value = this.value === "count"
+                ? function () {
+            return 1;
+        }
+                : function (d) {
+            return d.size;
+        };
+
+        path
+                .data(partition.value(value).nodes)
+                .transition()
+                .duration(1500)
+                .attrTween("d", arcTween);
+    });
+    //      });
+
+    // Stash the old values for transition.
+    function stash(d) {
+        d.x0 = d.x;
+        d.dx0 = d.dx;
+    }
+
+    // Interpolate the arcs in data space.
+    function arcTween(a) {
+        var i = d3.interpolate({x: a.x0, dx: a.dx0}, a);
+        return function (t) {
+            var b = i(t);
+            a.x0 = b.x;
+            a.dx0 = b.dx;
+            return arc(b);
+        };
+    }
+
+    d3.select(self.frameElement).style("height", height + "px");
+
+   var gap = 5;
+    var vOffset = 160;
+    var hOffset = (-width/2) + gap;
+    var box_width = 30;
+    var box_height = 12;
+    var bordercolor = "#444";
+
+    function node_legend(node, hOffset, vOffset, color){
+        /* Legend: box */
+        svg.append("rect")
+            .attr("x", hOffset)
+            .attr("y", vOffset + box_height)
+            .attr("width", box_width)
+            .attr("height", box_height)
+            .style("fill", color)
+            .style("stroke", bordercolor)
+            .style("stroke-width", 1);
+        /* Legend: text */
+        svg.append("text")
+            .attr("x",  hOffset + box_width)
+            .attr("y", vOffset + 2*box_height - gap/2)
+            .attr("dx", ".65em")
+            .attr("text-anchor", "left")
+            .attr('class', 'legend-text')
+            .text(node.name + " ($" + node.pretty+")");
+        console.log(node);
+        vOffset += box_height + gap;
+        return vOffset;
+    }
+
+    for (var i = 0; i < root['children'].length; i++){
+        var node =  root['children'][i];
+        if (node.value>0){
+            var col = color(node.name);
+            vOffset = node_legend(node, hOffset, vOffset, col);
+//            for (var j = 0; j < node['children'].length; j++){
+//                var child =  node['children'][j];
+//                if (child.value>0){
+//                    vOffset = node_legend(child, hOffset + gap , vOffset, col);
+//                }
+//            }
+        }
+    }
+
+
+</script>
+-->
+        <!--Donut Commitments by Ministry -->
+<script>
+
+    var width_ministry_donut = 230;
+    var height_ministry_donut = 140;
+    var id_ministry_donut_div = "#donut_commitment_ministry";
+//    var data_project_status = [{# for status, value in activity_status.items %}
+//    {'name': "{{ status }}", 'code':{{value.0}}, 'value':{{ value.1 }} }, {% endfor #}];
+     // var data_ministry = [
+     //            {'name': "Ministry of Health", 'code':1, 'value': 55 },
+     //            {'name': "Ministry of Infrastructures", 'code':2, 'value': 15 },
+     //            {'name': "Ministry of Education", 'code':3, 'value': 25 },
+     //            ]
+    var data_ministry = {{ activities_by_ministry|safe }}
+    draw_donut_into_div(id_ministry_donut_div,
+            data_ministry,
+            width_ministry_donut,
+            height_ministry_donut);
+
+</script>
+
+<!--Donut Graph for Projects By Status-->
+<script>
+
+    var width_projects_donut = 230;
+    var height_projects_donut = 140;
+    var id_project_donut_div = "#donut_activities_status";
+    //var data_project_status = [{# for status, value in activity_status.items %}
+    //   {'name': "{{ status }}", 'code':{{value.0}}, 'value':{{ value.1 }} }, {% endfor #}];
+
+    var data_project_status =  {{ activity_statuses|safe }};
+
+    draw_donut_into_div(id_project_donut_div,
+            data_project_status,
+            width_projects_donut,
+            height_projects_donut,
+            '{% trans "Total" %}');
+</script>
+
+
+<!--// Bar Graph -- Donor Commitment     -->
+<script language="javascript">
+    //var data = [{# for donor, value, bla, bla, pretty_value in donors %}
+    //    {'name': "{{ donor }}", 'value': {{ value }}, "pretty": "{{pretty_value}}"} , {% endfor #}];
+
+    var data = {{ donor_commitments|safe }}
+    var width = $('#barchart_donors_commitments').width();
+    var height = 320;
+    var margins = {top: 10, right: 0, bottom: 140, left: 65}
+
+    window.bar_chart_data = data
+    window.margin = margins
+    draw_bar_chart_into_div(
+            "#barchart_donors_commitments",
+            data, width, height, margins);
+</script>
+
+
+{% endblock %}

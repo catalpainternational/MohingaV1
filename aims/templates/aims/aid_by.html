@@ -1,0 +1,208 @@
+{% extends 'aims/base_site.html' %}
+{% load i18n %}
+{% load localeurl_tags %}
+
+
+{% block scripts %}
+
+<script src="/static/js/d3.v34.js"></script>
+<script src="/static/js/c3.js"></script>
+<script src="/static/js/topojson.v1.min.js"></script>
+<script src="/static/js/jquery.tipsy.js"></script>
+<script src="/static/js/charts-drawing.js"></script>
+<script src="/static/js/icheck.min.js"></script>
+<link href="/static/css/tipsy.css" rel="stylesheet" type="text/css" />
+
+<link href="/static/css/square/blue.css" rel="stylesheet">
+<link href="/static/css/c3.css" rel="stylesheet">
+
+{% if for_render %}
+<link href="/static/css/for_export.css" rel="stylesheet" type="text/css" />
+{% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+<script>
+    var global_no_data_text ='{% trans "No Information Available" %}';
+    var global_no_data_text_donut_1 ='{% trans "No Information" %}';
+    var global_no_data_text_donut_2 ='{% trans "Available" %}';
+    var global_for_print=false;
+{% if for_render %}
+    global_for_print=true;
+{% else %}
+    global_for_print=false;
+{% endif %}
+{#    console.log("global_for_print", global_for_print);#}
+</script>
+
+<div class="container-fluid main_block dashboard-container">
+    <div class="row dash-header">
+        <div class="col-xs-12 col-sm-8 col-md-7 pull-right">
+            <div class="tool-bar">
+                <form action="{{ request.path }}" method="get" id="date-form">
+                    <span class="input-daterange{% if date_filter_active %} filter-active{% endif %}" id="datepicker">
+                        <input type="text" readonly="readonly" class="input-date dashboard-date" name="start" id = "start" value="{{ start_date }}" />
+                        <span>{% trans "to" %}</span>
+                        <input type="text" readonly="readonly" class="input-date dashboard-date" id="end" name="end" value="{{ end_date }}"/>
+                        <button type="submit" class="btn btn-default btn-filter"><i class="ion-refresh"></i></button>
+                    </span>
+                </form>
+                
+                <span class="btn-group pull-right tools hidden-xs filter_sort{% if top_filter_active %} filter-active{% endif %}">
+                    <span class="new_feature_tooltip" data-toggle="tooltip" data-placement="top" title="{% trans 'Advanced Filter Coming Soon' %}">
+                    <button type="button" class="btn btn-default top_tools dropdown-toggle" disabled="disabled" data-toggle="dropdown"><!--<i class="ion-funnel" data-toggle="tooltip" data-placement="top" title="Filter Data"></i>-->Filter</button>
+                    </span>
+                    <ul class="dropdown-menu filter_dropdown" role="menu">
+                        <li role="presentation" class="dropdown-header">{% trans "FILTER BY DONOR" %}</li>
+                        <li> <input type="text" class="form-control" placeholder="Donors i.e DFID, EU"></li>
+                        <li class="divider"></li>
+                        <li role="presentation" class="dropdown-header">{% trans "FILTER BY SECTOR" %}</li>
+                        <li><input type="text" class="form-control" placeholder="Sectors i.e health, agriculture"></li>
+                        <li class="divider"></li>
+                        <li role="presentation" class="dropdown-header">{% trans "FILTER BY STATUS" %}</li>
+                        <ul class="list-inline filter_checkboxes">
+                          <li><input type="checkbox"><span class="checkbox_label">{% trans "Implementing" %}</span></li>
+                          <li><input type="checkbox"><span class="checkbox_label">{% trans "Planned" %}</span></li>
+                          <li><input type="checkbox"><span class="checkbox_label">{% trans "Completed" %}</span></li>
+                        </ul>
+                        <li><button class="btn btn-primary btn-drop">{% trans "Set Filter" %}</button></li>
+                    </ul>
+                    <span class="horizontal_divider"></span>
+                
+                    {% if filter_name %}
+                        <a href="{% url 'export' method='PDF' subset=subset section=current_section filter_name=filter_name filter_value=filter_value %}">
+                    {% else %}
+                        <a href="{% url 'export' method='PDF' subset=subset section=current_section %}">
+                    {% endif %}
+                            <button type="button" class="btn btn-default top_tools spacer_left"><!--<i class="ion-printer"></i>-->Print</button>
+                        </a>
+                    {% if filter_name %}
+                        <a href="{% url 'export:aid_by' export='CSV' section=current_section subset=subset which=filter_value %}">
+                    {% else %}
+                        <a href="{% url 'export:aid_by' export='CSV' section=current_section subset=subset  %}">
+                    {% endif %}
+                            <button type="button" class="btn btn-default top_tools export-csv"><!--<i class="ion-archive"></i>-->Export</button>
+                        </a>
+                </span>
+                <span class="horizontal_divider_mob"></span>
+                <span class="btn-group pull-right tools visible-xs">
+                    <button type="button" class="btn btn-default top_tools dropdown-toggle" data-toggle="dropdown"><i class="ion-navicon-round"></i></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="drop_toggle"><p><a href="#">{% trans "Print Page" %}</a></p></li>
+                        <li class="drop_toggle"><p><a href="#">{% trans "Export Data" %}</a></p></li>
+                        <li class="hidden-xs"><button class="btn btn-primary btn-drop-mob">{% trans "Set Filter" %}</button></li> <!--this will be a modal filter-->
+                    </ul>
+                </span>
+                <span class="filter-active-toggle hidden-xs{% if not date_filter_active %} hidden{% endif %}"><a href="?date_filter_clear"><i class="ion-close-circled"></i> {% trans "Clear current date filters, and sorts" %}</a></span>
+            </div>
+        </div>
+        
+        <div class="col-xs-12 col-sm-4 col-md-5 dash-title-date">
+            <span class="page-title">{{ current_title }}</span>
+            <div class="btn-group sub-nav_pulldown">
+                {% block nav_pulldown %}
+                {% endblock %}
+            </div>
+        </div>
+    </div><!-- /top row   -->
+
+        {% block local_content %}
+        {% endblock %}
+
+    <a id="activities" name="activities">&nbsp;</a>
+    <div class="table_data_section">
+        <h4 class="activity_table text-center">{% trans "Activities List" %}
+         <a id="activityTable" class="ion-information-circled dash-info" rel="popover" data-trigger="hover" title="{% trans 'The Activity List' %}" data-content="{% trans 'The activities listed below are those used to calculate the above charts and graphics. These activities correspond to the date filter above.' %}" ></a>
+        </h4>
+        <div id="table_data">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="activity" class="sortable table table-striped">
+                        <thead>
+                            <th class="order" data-column="iati_identifier">{% trans 'Activity' %}</th>
+                            <th>{% trans 'Title' %}</th>        
+                            <th>{% trans 'Sector' %}</th>
+                            <th>{% trans 'Status' %}</th>
+                            <th class="no-wrap">{% trans 'Total Budget' %}</th>
+                            <th>{% trans 'Financing' %}</th>
+                            <th class="order" data-column="start_planned">{% trans 'Start' %}</th>
+                            <th class="order" data-column="end_planned">{% trans 'End' %}</th>
+                        </thead>
+                        {% include page_template %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer_credits">
+    <div class="container-fluid">
+        <span class="text-left">{% trans "Software designed & developed by" %} <a href="http://www.catalpa.io">Catalpa International Ltd</a></span> |
+        <span class="text-right">Managed by <a href="https://www.mnped.gov.mm">Ministry of National Planning & Economic Development</a> | Funded by the <a href="http://europa.eu/">European Union</a></span>
+    </div><!-- /container -->
+</footer>
+    <!--<script>
+            $('#start').on("change", function () {
+                 $.ajax({
+                    url: window.location.pathname,
+                    type: 'GET',
+                    data: 'start=' + $(this).val(),
+                    success: function(data){
+                        $('.local').html(data);
+                         }
+                    });
+            });
+     </script>-->
+ 
+ <!--Popover-->
+ 
+ <script>  
+ $(function ()  
+ {
+   $("#activityTable").popover({placement:'top'});       
+ });  
+ </script>   
+     
+     
+{% block js %}
+{{ block.super }}
+    <script src="/static/endless_pagination/js/endless-pagination.js"></script>
+    <script type="text/javascript">
+        $('.dropdown-menu input, .dropdown-menu label').click(function(e) {
+            e.stopPropagation();
+        });
+    </script>
+
+    <script>
+        $.endlessPaginate({
+            paginateOnScroll: true,
+            paginateOnScrollMargin: 600,
+            //endPoint: "/dashboard/CPU/location/",
+            cssSortingClassAsc: 'sorttable_sorted_reverse headerSortUp',
+            cssSortingClassDesc: 'sorttable_sorted headerSortDown',
+        });
+    </script>
+    
+    <script>
+    $(document).ready(function(){
+      $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
+      });
+    });
+    </script>
+    <script>
+    $('[data-toggle="tooltip"]').tooltip({'placement': 'top'});
+     </script>
+     
+
+{% endblock %}
+{% block local_scripts %}
+{% endblock %}
+{% endblock %}
+{% block footer%}
+{% endblock footer %}

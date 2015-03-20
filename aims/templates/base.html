@@ -1,0 +1,85 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+         <script type="text/javascript">
+  	     var BACON = BACON || {};
+             BACON.id = '999999999999999';
+             BACON.starttime = new Date().getTime();
+             (function(d, s) { var js = d.createElement(s);
+                 js.async = true; js.src = "//d2vig74li2resi.cloudfront.net/rum/bacon.min.js";
+                 var s = d.getElementsByTagName(s)[0]; s.parentNode.insertBefore(js, s);
+             })(document, "script");
+        </script>
+        <title>{% block title %}Mohinga{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+ 
+        <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
+        <script src="/static/js/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+        <script src="/static/js/detectmobilebrowser.js"></script>
+        <script type="text/javascript" src="/static/js/classie.js"></script>
+        <script type="text/javascript" src="/static/js/cbpAnimatedHeader.min.js"></script>
+        <script type="text/javascript" src="/static/js/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="/static/js/parsley.min.js"></script>
+        <script type="text/javascript" src="/static/js/intro.min.js"></script>
+        <!--<script type="text/javascript" src="/static/js/shepherd.min.js"></script> -->
+        <script type="text/javascript" src="/static/js/welcome.js"></script>
+        
+        <link href="/static/img/apple-touch-icon.png" rel="apple-touch-icon" />
+        <link href="/static/img/apple-touch-icon-76x76.png" rel="apple-touch-icon" sizes="76x76" />
+        <link href="/static/img/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120" />
+        <link href="/static/img/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152" />
+        
+        <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+        
+        
+        {% block scripts %}
+        {% endblock %}
+      
+        
+        {% block style %}
+        {% endblock %}
+        
+        <link href="/static/css/bootstrap.css" rel="stylesheet" />
+        <link href="/static/css/ionicons.min.css" rel="stylesheet" />
+        <link href="/static/css/select2-bootstrap.css" rel="stylesheet" />
+        <link href="/static/css/animate.min.css" rel="stylesheet" />
+        <link href="/static/css/datepicker.css" rel="stylesheet" />
+        <!--<link href="/static/css/shepherd-theme-arrows.css" rel="stylesheet" />-->
+        <link href="/static/css/introjs.min.css" rel="stylesheet" />
+        <link href="/static/css/aims.css" rel="stylesheet" />
+        
+
+        {% block extrahead %}
+        {% endblock %}
+    </head>
+    <body data-spy="scroll" data-target=".navbar" data-offset="200">
+       
+        {% block header %}
+        {% endblock %} 
+        
+        
+        
+        {% block content %}
+        {% endblock %}
+        
+
+        {% block footer %}
+        {% endblock %}
+    </body>
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-52772675-1', 'auto');
+      ga('send', 'pageview');
+    
+    </script>
+</html>

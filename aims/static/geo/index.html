@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <style>
+
+    .state.Ayeyarwady { fill: #ddc; }
+    .state.Bago { fill: #cdd; }
+    .state.Chin { fill: #cdc; }
+    .state.Kachin { fill: #dcd; }
+
+    </style>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script>
+
+        var width = 400,
+            height = 600;
+
+        var projection = d3.geo.albers()
+            .center([0, 19.4])
+            .rotate([-96, 0])
+            .parallels([10, 30])
+            .scale(1000)
+            .translate([width / 2, height / 2]);
+
+
+        var path = d3.geo.path()
+                     .projection(projection);
+
+        var svg = d3.select("div#map").append("svg")
+                                   .attr("width", width)
+                                   .attr("height", height);
+
+        d3.json("mm_states.json", function(error, mm_states) {
+            console.log(mm_states);
+            svg.selectAll(".states_regions")
+               .data(topojson.feature(mm_states, mm_states.objects.states_regions).features)
+               .enter().append("path")
+               .attr("class", function(d) { return "state " + d.id; })
+               .attr("d", path);
+        });
+
+    </script>
+</body>
+</html>
