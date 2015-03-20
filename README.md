@@ -1,7 +1,7 @@
-Mohinga AIMS
+[Mohinga AIMS](http://mohinga.info)
 ============
 
-This is the repository for Catalpa International’s Aid Transparency portal currently allowing the public and agencies to view registered aid activities in Myanmar.
+This is the repository for [Catalpa International’s](http://mohinga.info) Aid Transparency portal currently allowing the public and agencies to view registered aid activities in Myanmar.
 
 ## What is Mohinga?
 
@@ -26,5 +26,5 @@ Detailed installation instructions can be found in INSTALL.md
 
 ## LICENSE
 
-The Mohinga AIMS is licensed under the AGPL 3.0.
+The [Mohinga AIMS](http://mohinga.info) is licensed under the AGPL 3.0.
 The full license can be found in the LICENSE document.
