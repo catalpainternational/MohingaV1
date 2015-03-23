@@ -39,7 +39,7 @@ Use either MySQL (recommended) or PostreSQL/PostGIS and create a new database na
 
 ## 5. Install AIMS as an environment dependency with local source
 
-    pip install -e git+ssh://git@github.com/catalpainternational/aims.git\#egg\=aims
+    pip install -e git+https://github.com/catalpainternational/MohingaV1.git\#egg\=aims
 
 
 ## 6. Install AIMS requiments
