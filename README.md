@@ -20,7 +20,7 @@ Aid transparency isn't just about numbers. Results matter too. Open access to ai
 
 ## Installation
 
-Mohinga is built upon the [Django](https://www.djangoproject.com/) framework and makes use of the [OIPA](https://github.com/openaid-IATI/OIPA) project.
+Mohinga is built upon the [Django](https://www.djangoproject.com/) framework and makes use of the [OIPA](https://github.com/zimmerman-zimmerman/OIPA) project.
 Detailed installation instructions can be found in INSTALL.md
 
 
